@@ -1,0 +1,104 @@
+% !TEX root = ./main.tex
+
+\sjtusetup{
+	%
+	% Information Entry
+	%
+	info = {%
+		%
+		% Title
+		% Use "\\" to force line breaks
+		title           = {Write Your Chinese Title Here},
+		title* = {Write Your English Title Here},
+		%
+		% Keywords
+		%
+		keywords        = {Keyword1, Keyword2, Keyword3},
+		keywords* = {Keyword1, Keyword2, Keyword3},
+		%
+		% Name
+		%
+		author          = {Your Chinese Name},
+		author* = {Your English Name},
+		%
+		% Supervisor
+		%
+		supervisor      = {Supervisor Name},
+		supervisor* = {Prof. Supervisor Name},
+		%
+		% Student ID
+		%
+		id              = {0000000000},
+		%
+		% Degree
+		%
+		degree          = {工学博士},
+		degree* = {Ph.D. of Engineering},
+		%
+		% Major & Department
+		%
+		major           = {机械工程},
+		major* = {Mechanical Engineering},
+		department      = {机械与动力工程学院},
+		department* = {School of Mechanical Engineering},
+		%
+		% Course Name (MUST BE COMMENTED OUT FOR THESIS)
+		% course          = {Some Course}, 
+		%
+		% Date (Default is today, or use yyyy-mm-dd)
+		date            = {\today},
+	},
+}
+
+% Reference Support Package
+\usepackage[backend=biber,style=gb7714-2015,gbnamefmt=lowercase,gbpub=false,gbpunctin=false]{biblatex}
+
+% IMPORT BIBLIOGRAPHY
+% I changed this to look for "refs.bib" in the same folder.
+\addbibresource{refs.bib}
+
+% Image Directory
+\graphicspath{{figures/}}
+\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,.jpeg}
+
+% Support for tables
+\usepackage{multirow}
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+\usepackage{longtable}
+\usepackage{threeparttable}
+
+% Algorithm package
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+
+% Code blocks
+\usepackage{listings}
+\lstnewenvironment{codeblock}[1][]
+{\lstset{style=lstStyleCode,#1}}{}
+
+% SI Units
+\usepackage{siunitx}
+
+% Theorems
+\usepackage{ntheorem}
+
+% TikZ for drawing
+\usepackage{tikz}
+\renewcommand\figurename{Figure}
+\renewcommand\tablename{Table}
+
+% Logos
+\usepackage{hologo}
+\newcommand{\XeTeX}{\hologo{XeTeX}}
+\newcommand{\BibLaTeX}{\textsc{Bib}\LaTeX}
+
+% Helper commands
+\DeclareRobustCommand\cs[1]{\texttt{\char`\\#1}}
+\providecommand\pkg[1]{{\sffamily#1}}
+\newcommand{\email}[1]{\href{mailto:#1}{\texttt{#1}}}
+
+\usepackage{hanging}
+\usepackage{tablefootnote}
+
+% Hyperref (Must be loaded last)
+\usepackage[hidelinks]{hyperref}

@@ -1,0 +1,366 @@
+% !TEX root = ../main.tex
+
+\chapter{IMU-Driven Kinematics Estimation for Knee Load Assessment}
+The modification of FPA has been associated with the reduction of peak KAM, and thus estimation of FPA could indirectly facilitate the assessment of knee load. Previous magneto-IMU-based FPA estimation algorithms are prone to magnetic distortion and inaccuracies after walking starts and turns. This chapter presents a foot-worn IMU-based FPA estimation algorithm comprised of three key components: orientation estimation, acceleration transformation, and FPA estimation via peak foot deceleration. Twelve healthy subjects performed two walking experiments to evaluate IMU algorithm performance in continuous straight walking tasks and in walking starts and turns. Results showed that FPA estimations from the IMU-based algorithm closely followed marker-based system measurements with an overall mean absolute error (MAE) of $3.1 \pm 1.3$ deg, and the estimation results were valid for all steps immediately after walking starts and turns. This work could enable FPA estimation in environments where magnetic field distortion is present and in walking conditions when walking starts, stops, and turns commonly occur.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=12cm]{figures/chapter4/c3_fpa_kam.jpg}
+    \caption[Reduction of FPA reduces KAM.]
+    {KAM for baseline and toe-in gait patterns. Vertical lines indicate the average location of the first and second peak KAM \cite{Shull2013Toe-in}. The first peak KAM significantly (*) decreased with reduced FPAs (toe-in gait).}
+    \label{fig:c3_fpa_kam}
+\end{figure}
+
+\section{Introduction}
+The external KAM has been associated with the presence \cite{hurwitz2002knee}, severity \cite{sharma1998knee} and progression \cite{miyazaki2002dynamic} of medial compartment knee osteoarthritis. FPA modification is a potential gait rehabilitation alternative for knee osteoarthritis patients because it can reduce the peak knee adduction moment for most individuals (Figure \ref{fig:c3_fpa_kam}) \cite{Shull2013Toe-in, Simic2013Altering, Bennour2017Effects} and thus reduce knee pain \cite{Shull2013Six-week, Hunt2014Effects}. 
+
+Measurement of FPA is traditionally performed with OMC, which is expensive and confines the gait analysis within specialized laboratories. Some clinical applications such as long-term gait retraining may require continuous FPA monitoring and modification throughout the day to enhance adherence to the prescribed gait pattern \cite{Xia2017Validation}. Compared with OMC, the small size and lightweight of IMUs make them a convenient and practical choice for wearable body kinematics monitoring in real-life scenarios \cite{shull2014quantified}. 
+
+One major problem with the previous magneto-IMU-based FPA algorithm is that it relies on magnetometer outputs to estimate the foot orientation with respect to the earth \cite{Huang2016Novel, Madgwick2011Estimation}, so neither the foot heading direction nor the foot orientation during stance phase can be accurately estimated under distorted magnetic fields. Inaccuracies caused by magnetic distortion are quite common in orientation estimation studies when the experiments were performed inside of a movement analysis lab \cite{Palermo2014Experimental} or in the vicinity of ferrous materials such as mobility aid devices \cite{Kendell2009Effect}, speakers \cite{Yadav2014Accurate}, and steel cases \cite{Roetenberg2007Estimating}. Magnetometers are particularly prone to magnetic distortion when placed on foot because of ferrous metal structures in the floor that are often in construction for reinforcement \cite{Vries2009Magnetic}. Thus, a magnetometer-free FPA estimation algorithm could significantly improve the practical implementation of IMU-based FPA estimation in real-life scenarios involving magnetic distortion.
+
+Another problem with previous magneto-IMU-based FPA algorithms is that the foot heading direction is estimated by double integrating noisy accelerometer data, so a complementary filter is required to increase the accuracy \cite{Huang2016Novel}. Due to such a filter, the foot heading direction can only slowly converge to the walking direction after each walking start or turn, making the estimation results of the first roughly 7 steps invalid. Therefore, previous magneto-IMU-based algorithm approaches may be limited in real-life walking conditions, which would typically involve many walking starts/stops and turns. Walking starts are quite common because 75\% of all walking bouts are relatively short (less than 40 steps) \cite{Orendurff2008How}. Also, walking turns are quite common in real-life walking activities \cite{Glaister2007Video}. Despite the importance of walking starts and turns, an algorithm that could quickly provide valid FPA estimates after walking starts and turns has not yet been proposed. 
+
+The purpose of this work was to present a magnetometer-free, IMU-based FPA estimation algorithm for real-life walking conditions. It was hypothesized that the proposed algorithm would enable accurate estimation of the FPA for normal, toe-in, and toe-out gait patterns in continuous straight walking tasks. It was also hypothesized that the proposed algorithm can more quickly provide valid FPA estimates than a magneto-IMU-based FPA algorithm for steps after walking starts and turns.
+
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=14.5cm]{figures/chapter4/c3_block_diagram.png}
+  \caption[Flow chart of the proposed FPA estimation algorithm.]
+    {Flow chart of the proposed FPA estimation algorithm. The algorithm consists of three key components: 1) orientation estimation via gyroscope integration and accelerometer correction, 2) acceleration transformation via estimated roll and pitch, and 3) FPA estimation via peak foot deceleration.}
+ \label{fig:c3_block_diagram}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=13cm]{figures/chapter4/c3_pseudocode.png}
+  \caption{Pseudo code of the FPA algorithm.}
+ \label{fig:c3_pseudocode}
+\end{figure}
+
+\section{IMU-Based FPA Estimation Algorithm}
+An IMU-based FPA estimation algorithm was developed based on the following three key components (Figure \ref{fig:c3_block_diagram}): 1) orientation estimation, 2) acceleration transformation, and 3) FPA estimation. First, the orientation of the foot is partially estimated based on the measured angular velocity and gravity vector. Second, the estimated orientation is converted to rotation matrix to transform the accelerometer data. Finally, the FPA of each step is estimated from the peak foot deceleration during the swing phase. To help users implement the proposed IMU-based algorithm, pseudocode (Figure \ref{fig:c3_pseudocode}) is provided with a standard programming structure.
+
+\subsection{Orientation Estimation}
+Let $S_0$ denote the sensor frame with alignment offset, whose orientation is determined by sensor placement. Also, let $S$ denote the calibrated sensor frame (Figure \ref{fig:c3_frames}), whose y-axis aligns with foot vector (from the calcaneus to the head of the second metatarsal), z-axis aligns with the gravity vector pointing upwards when the shoe is flat on the ground, and x-axis is perpendicular to these axes following the right-hand rule. When the sensor was placed in the shoe, the orientation difference between $S_0$ and $S$ was calibrated based on the spatial relationship between the calcaneus, the head of the second metatarsal, and the sensor \cite{Xia2017Validation}. Then, a transformation matrix $R_{cali}$ was computed and used to transform all the outputs from $S_0$ to $S$. For simplicity, the calibrated sensor frame will be referred to as sensor frame in the rest of this work. 
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=14.5cm]{figures/chapter4/c3_frames.png}
+  \caption[Coordinate frames used in the proposed FPA algorithm.]
+    {Orientations of the foot, sensor, and coordinate frames in one stride from (A) side view, (B) top view, and (C) top view (local). Since $y^C$ is aligned with the foot heading vector and $y^F$ is aligned with the foot vector at foot stance, the angle between these two axes is equal to the FPA in (C). Dot symbols are used to represent the main component direction of $x^S$, $x^F$ in (A) and of $z^S$ in (B), although these axes are not strictly perpendicular to the plane.}
+ \label{fig:c3_frames}
+\end{figure}
+
+Let $C$ denote a current step frame (Figure \ref{fig:c3_frames}), which is updated at each foot stationary phase. Frame $C$'s y-axis aligns with the foot heading direction (line of progression), z-axis aligns with the gravity vector, and x-axis is defined by the right-hand rule. The orientation of the sensor frame with respect to the current step frame is:
+\begin{equation}
+    \mathbf{R}_{S}^{C}=\mathbf{R}(y) \mathbf{R}(p) \mathbf{R}(r),
+\end{equation}
+
+\noindent where the $r$, $p$, and $y$ are Euler angles called roll, pitch, and yaw, respectively. For each step, the FPA is defined by the angle between the foot heading direction (aligns with the y-axis of current step frame) and the foot vector (aligns with the y-axis of sensor frame after sensor orientation calibration) at mid-stance, so the FPA is equivalent to the Euler angle yaw (Figure \ref{fig:c3_frames} C). To calculate yaw, the author introduced a ``foot flat'' frame $F$, (Figure \ref{fig:c3_frames}) which is an intermediate coordinate frame defined by rotating the current step frame about its z-axis by -y deg. The orientation relationship between sensor frame, current step frame, and foot flat frame are:
+
+\begin{equation}
+    \mathbf{R}_{S}^{F}=\mathbf{R}(p) \mathbf{R}(r) \ \text{and}
+\end{equation}
+\begin{equation}
+    \mathbf{R}_{F}^{C}=\mathbf{R}(y).
+\end{equation}
+
+An adaptive gait event detection algorithm \cite{Félix2017Adaptive} has been implemented to determine the heel-strike, toe-off, and foot stationary phase based on the foot pitch angular velocity, thereby demarcating the swing and stance phase. The detection thresholds and detection intervals were adjusted after each valid step to adapt gait pattern differences \cite{Félix2017Adaptive}. For each step, starting from the mid-stance, the $r$ and $p$ are initialized by:
+
+\begin{equation}
+    \left[\begin{array}{l}
+    r_{a c c} \\
+    p_{a c c}
+    \end{array}\right]_{k}
+    =
+    \left[\begin{array}{c}
+    \arctan \left(a_{y}^{S} / a_{z}^{S}\right) \\
+    \arctan \left(-a_{x}^{S} / \sqrt{\left(a_{y}^{S}\right)^{2}+\left(a_{z}^{S}\right)^{2}}\right)
+    \end{array}\right]_{k},
+\end{equation}
+
+\begin{equation}
+    \left[\begin{array}{c}
+    r \\
+    p
+    \end{array}\right]_{k}=\left[\begin{array}{c}
+    r_{a c c} \\
+    p_{a c c}
+    \end{array}\right]_{k},
+\end{equation}
+
+\noindent where $r_{acc}$ and $p_{acc}$ denote the angles estimated from the accelerometer, denote accelerometer outputs, and $k$ denotes the sample in the middle of foot stationary phase. Then, the $r$ and $p$ are estimated from the end to the start of the current step so that those two angles are more accurately estimated with less integration drift during the deceleration period of the swing phase. For each sample $j$ from $k$-1 to the toe-off of the last step, reversely update the $r_{gyr}$ and $p_{gyr}$ of sample $j$ by gyroscope integration \cite{Foxlin1996Inertial} as follows:
+
+\begin{equation}
+    \left[\begin{array}{c}
+    r_{g y r} \\
+    p_{g y r}
+    \end{array}\right]_{j}=\left[\begin{array}{c}
+    r \\
+    p
+    \end{array}\right]_{j+1}-\left[\begin{array}{ccc}
+    1 & \mathrm{S} r \mathrm{S} p / \mathrm{C} p & \mathrm{C} r \mathrm{S} p / \mathrm{C} p \\
+    0 & \mathrm{C} r & -\mathrm{S} r
+    \end{array}\right]_{j+1}\left[\begin{array}{c}
+    \omega_{x} \\
+    \omega_{y} \\
+    \omega_{z}
+    \end{array}\right]_{j+1},
+\end{equation}
+
+\noindent where $r_{gyr}$ and $p_{gyr}$ denote the angles estimated from the gyroscope, S and C denote sin and cos functions, $\omega_x$, $\omega_y$, and $\omega_z$, denote gyroscope outputs. Also, the gravity measured by the accelerometer is used to correct the gyroscope integration drift via a gradient descent algorithm \cite{Madgwick2011Estimation}. This algorithm corrected $r_{gyr}$ and $p_{gyr}$ of sample $j$ in the gradient direction as follows:
+
+\begin{equation}
+{\left[\begin{array}{c}
+r \\
+p
+\end{array}\right]_{j}=\left[\begin{array}{c}
+r_{gyr} \\
+p_{gyr}
+\end{array}\right]_{j}-\beta \frac{\nabla f}{\|\nabla f\|}}, \\
+\label{equ:3-7}
+\end{equation}
+
+\begin{equation}
+\beta=\left\{\begin{array}{cc}
+\sqrt{\frac{3}{4}} \tilde{\omega}_{\max } & \text { if } j \text { in foot stationary phase } \\
+0 & \text { otherwise }
+\end{array}\right.,
+\end{equation}
+
+\noindent where $f$ denotes the objective function to minimize, \nabla accent denotes the gradient direction, and $β$ denotes the correction rate. The $β$ is set based on the maximum gyroscope measurement error ($\tilde{\omega}_{\max }$) if the sample $j$ belongs to foot stationary phase \cite{Huang2016Novel}, and it is set to zero if the accelerometer outputs deviate from the gravity due to foot movement. Because gyroscope drift error can cause misalignment between the gravity vector and the accelerometer output, the objective function $\boldsymbol{f}$ is constructed to minimize alignment difference via correcting $r_{gyr}$ and $p_{gyr}$ as follows:
+
+\begin{equation}
+\min _{r_{gyr}, p_{gyr}} \boldsymbol{f} \left(r_{g y r}, p_{g y r}, \hat{ \boldsymbol{a}}^{S}, \hat{ \boldsymbol{g}}^{F}\right), \\
+\end{equation}
+
+\begin{equation}
+\boldsymbol{f} = \left[\mathbf{R}\left(p_{g y r}\right) \mathbf{R}\left(r_{g y r}\right)\right]^{T} \hat{ \boldsymbol{g}}^{F}-\hat{ \boldsymbol{a}}^{S},
+\label{equ:3-10}
+\end{equation}
+
+\noindent where the $ˆ$ accent mark denotes a normalized vector of unit length, $\hat{a}^{S}$ denotes the normalized accelerometer output, and $\hat{g}^{F}$ denotes the normalized gravity vector. The objective function becomes Equation \ref{equ:3-13} when substituting Equation \ref{equ:3-11} and Equation \ref{equ:3-12} into Equation \ref{equ:3-10} as follows:
+
+\begin{equation}
+\hat{\boldsymbol{a}}^{S}=\left[a_{x}^{S}, a_{y}^{S}, a_{z}^{S}\right] /\left\|\boldsymbol{a}^{S}\right\| ,
+\label{equ:3-11}
+\end{equation}
+\begin{equation}
+\hat{\boldsymbol{g}}^{F}=[0,0,1],
+\label{equ:3-12}
+\end{equation}
+\begin{equation}
+\boldsymbol{f}=\left[\begin{array}{r}
+-\mathrm{S} p_{g y r}-a_{x}^{S} /\left\|\boldsymbol{a}^{S}\right\| \\
+\mathrm{S} r_{g y r} C p_{g y r}-a_{y}^{S} /\left\|\boldsymbol{a}^{S}\right\|. \\
+\mathrm{C} r_{g y r} C p_{g y r}-a_{z}^{S} /\left\|\boldsymbol{a}^{S}\right\|.
+\end{array}\right]. \\
+\label{equ:3-13}
+\end{equation}
+
+Therefore, the objective function's Jacobian and its gradient direction are:
+
+\begin{equation}
+\boldsymbol{J}=\left[\begin{array}{cc}
+0 & -\mathrm{C} p_{g y r} \\
+\mathrm{C}r_{g y r} \mathrm{C}p_{g y r} & -\mathrm{S} r_{g y r} \mathrm{S}p_{g y r} \\
+-\mathrm{S} r_{g y r} \mathrm{C} p_{g y r} & -\mathrm{C}r_{g y r} \mathrm{S}p_{g y r}
+\end{array}\right] \text { and } \\
+\label{equ:3-14}
+\end{equation}
+\begin{equation}
+\nabla \boldsymbol{f}=\boldsymbol{J}^{T} \boldsymbol{f}.
+\label{equ:3-15}
+\end{equation}
+
+Now, the $r$ and $p$ of sample $j$ can be updated by substituting Equation \ref{equ:3-13}, \ref{equ:3-14}, and \ref{equ:3-15} into Equation \ref{equ:3-7}.
+
+\subsection{Acceleration Transformation} \label{section:acceleration_transformation}
+
+For each sample $j$, the measured foot acceleration is transformed from sensor frame to foot flat frame by:
+
+\begin{equation}
+\boldsymbol{a}^{F} =\mathbf{R}(p) \mathbf{R}(r) \boldsymbol{a}^{S}, \\
+\end{equation}
+
+\noindent where $\mathbf{R}(r)$ and $\mathbf{R}(p)$ are rotation matrix defined by:
+
+\begin{equation}
+\mathbf{R}(r) =\left[\begin{array}{ccc}
+1 & 0 & 0 \\
+0 & \mathrm{C} r & -\mathrm{S} r \\
+0 & \mathrm{~S} r & \mathrm{C} r
+\end{array}\right], \\
+\end{equation}
+
+\begin{equation}
+\mathbf{R}(p)=\left[\begin{array}{ccc}
+\mathrm{C} p & 0 & \mathrm{~S} p \\
+0 & 1 & 0 \\
+-\mathrm{S} p & 0 & \mathrm{C} p
+\end{array}\right].
+\end{equation}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=10cm]{figures/chapter4/c3_representative_gait_cycle.png}
+  \caption[Signals from a representative walking gait cycle.]
+    {A representative gait cycle showing FPA signal from OMC data and foot acceleration signals from transformed IMU data (section \ref{section:acceleration_transformation}). Ground-truth FPA was computed as the average value from 15\% to 50\% of the stance phase (the green shaded interval) \cite{Simic2013Altering}. The proposed algorithm estimated FPA based on peak foot deceleration (the red dots) according to Equation \ref{equ:fpa}.}
+ \label{fig:c3_representative_gait_cycle}
+\end{figure}
+
+\subsection{FPA Estimation}
+The relationship between the foot acceleration in foot flat frame and current step frame is:
+
+\begin{equation}
+\boldsymbol{a}^{C}=\mathbf{R}(y) \boldsymbol{a}^{F}, \\
+\label{equ:3-19}
+\end{equation}
+\begin{equation}
+\mathbf{R}(y)=\left[\begin{array}{ccc}
+\mathrm{C} y & -\mathrm{S} y & 0 \\
+\mathrm{S} y & \mathrm{C} y & 0 \\
+0 & 0 & 1
+\end{array}\right].
+\end{equation}
+
+For each step, since the y-axis of the current step frame is aligned with the foot heading direction, the foot acceleration in x-axis of the current step frame is zero:
+
+\begin{equation}
+a_x^{C}=0.
+\label{equ:3-21}
+\end{equation}
+
+The relationship between the acceleration of different axes can be obtained by substituting Equation \ref{equ:3-21} into the first row of Equation \ref{equ:3-19} as follows:
+
+\begin{equation}
+0 =\cos (y) a_{x}^{F}-\sin (y) a_{y}^{F},
+\end{equation}
+
+\noindent so the FPA of the current step can be estimated by:
+
+\begin{equation} \label{equ:fpa}
+\text{FPA} =y=\arctan \left[\left(a_{x}^{F} / a_{y}^{F}\right)_{l}\right],
+\end{equation}
+
+\noindent where $l$ is the sample with the largest acceleration magnitude during the second half of the swing phase (Figure \ref{fig:c3_representative_gait_cycle}). This sample is selected because its signal is the strongest during the deceleration period of the swing phase. 
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=14.5cm]{figures/chapter4/c3_instrumentation_layout.jpg}
+  \caption[Subject instrumentation layout for FPA estimation.]
+    {(a) Testing environment for experiment I, (b) inertial data collection via an insole-embedded IMU, and (c) orientation placement error correction via a top-view photo. Reflective markers were placed on the left shoe above the calcaneus, the head of the second metatarsal, and the head of fifth metatarsal. The $ 6 \deg $ orientation placement error was determined based on the angle between two cyan lines.}
+ \label{fig:c3_instrumentation_layout}
+\end{figure}
+
+\section{Instrumentation}
+A smart shoe with an insole-embedded sensor \cite{Xia2017Validation} was used to collect inertial data at 100 Hz (Figure \ref{fig:c3_instrumentation_layout}). After sensor installation, the orientation placement error was removed manually through a top-view photo (Figure \ref{fig:c3_instrumentation_layout}c). The sensor uses STM32 as its microcontroller. The inertial data was collected via a magneto-IMU chip consists of three-axis accelerometer, three-axis gyroscope, and three-axis magnetometer. Note that the proposed algorithm only used IMU measurements for FPA estimation. The sensor measurements were stored in a microSD card, and a 16 GB card can be used to log 320 h data. The power was provided by a 1000 mAh lithium-ion battery, which can support the sensor operate continuously for 16 h. This sensor has a wireless charging receiver, which can charge the battery without uninstalling the sensor from the smart shoe. The entire sensor was encapsulated in silicon and epoxy to protect the electronic components and wire connections. The overall size and weight of the sensor were $52 \rm{mm} \times 40 \rm{mm} \times 13 \rm{mm}$ and 44 g, respectively.
+
+The ground-truth FPA was computed based on the trajectory of three reflective markers placed on the left shoe above the calcaneus, the head of the second metatarsal, and the head of the fifth metatarsal (Figure \ref{fig:c3_instrumentation_layout}). An OMC system (Vicon, Oxford Metrics Group, Oxford, UK) was used to collect their trajectories at 100 Hz. A synchronized instrumented treadmill (Bertec Corp., Worthington, OH, USA) was used to measure GRF at 100 Hz, which was used to detect the ground-truth stance phase for ground-truth FPA computation.
+
+\section{Experiment I: Continuous Straight Walking}
+
+\subsection{Experimental Testing}
+The first experiment was to quantify the accuracy of the proposed IMU-based algorithm in continuous straight walking tasks. Twelve healthy subjects (age: 25.8 ± 3.3; height: 1.72 ± 0.07 m; weight: 59.2 ± 8.8 kg, all male) participated in this study after giving informed consent, which was reviewed and approved by the university ethics committee. 
+Subjects performed seven walking trials (large toe-in, medium toe-in, small toe-in, normal, small toe-out, medium toe-out, and large toe-out) at a self-selected speed (1.16 ± 0.06 m/s) on the treadmill. Prior to each trial, subjects placed their left heel on the ground and swung their left toe externally three times to collect data for synchronization (the synchronization method is described in section \ref{section:acceleration_transformation}). The trial sequence was randomized for each subject. Each trial lasted two minutes and subjects were given one minute to rest after each trial if requested. Prior to the formal experiment, subjects tried different FPA modifications and were instructed to walk with the largest modification they could comfortably maintain in large toe-in/toe-out trials. In medium and small toe-in/toe-out trials, subjects' FPA modifications were instructed to be half and a quarter as much as the largest modification, respectively.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=12cm]{figures/chapter4/c3_each_gait.png}
+  \caption[Average FPA measurements and estimations grouped by gait patterns.]
+    {Average FPA grouped by gait patterns. There was no significant difference between FPA: Motion Capture and FPA: Inertial Sensor for any gait pattern.}
+ \label{fig:c3_each_gait}
+\end{figure}
+
+\subsection{Data Analysis}
+Marker trajectories were low-pass filtered at 15 Hz and force plate data at 50 Hz using a zero-lag second-order Butterworth filter \cite{Huang2016Novel}. The ground-truth stance phase was detected by the measured vertical ground reaction force with a threshold of 20 N \cite{panebianco2018analysis}. FPA was defined by the angle between the line from the calcaneus to the head of the second metatarsal and the long edge of the treadmill and was computed as the average value from 15\% to 50\% of the stance phase (Figure \ref{fig:c3_representative_gait_cycle}) \cite{Simic2013Altering}. FPA was considered positive when the second metatarsal head was lateral of the calcaneus. The three toe swings prior to each trial correspond to three Euler angle $y$ peaks (orientation of sensor frame $S$ with respect to current step frame $C$). The peaks computed from the magneto-IMU data and the peaks measured by the motion capture system were matched manually to synchronize the data. For each trial, 50 steps after the first 20 steps were used for analysis. A paired t-test was used to determine if there were significant differences between FPA estimated by the proposed algorithm and ground-truth FPA for all seven different gait patterns. The level of significance was set to 0.05.
+
+\begin{table}[!htbp]
+    \centering
+    \caption [FPA estimation accuracy for each subject.]
+    {MAE and correlation coefficient ($\rho$) of FPA estimation for each subject.}
+    \includegraphics[width=14.5cm]{figures/chapter4/c3_each_subject.PNG}
+    \label{c3_each_subject}
+\end{table}
+
+\subsection{Results}
+FPA estimated by the proposed algorithm closely matched ground-truth FPA for all seven gait patterns (Figure \ref{fig:c3_each_gait}). The overall MAE, mean error, and Pearson's correlation coefficient ($\rho$) across all walking gait patterns were 3.1 ± 1.3 deg, 0.3 ± 2.7 deg, and 0.99 ± 0.0, respectively. The mean error was substantially smaller than the MAE because positive and negative errors were cancelled out in mean error computation. The MAE for large toe-in, medium toe-in, small toe-in, normal, small toe-out, medium toe-out, and large toe-out trial were 2.7 ± 1.2 deg, 2.7 ± 1.4 deg, 2.5 ± 1.0 deg, 2.6 ± 1.1 deg, 3.8 ± 2.4 deg, 3.8 ± 2.5 deg, 4.0 ± 2.1 deg, respectively. There was no significant difference between FPA estimated by the proposed algorithm and ground-truth FPA for any of the seven gait patterns (Figure \ref{fig:c3_each_gait}).
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=10.5cm]{figures/chapter4/c3_representative_subject.png}
+  \caption[FPA estimation results of a representative subject.]
+    {Scatter plot and linear regression line showing FPA estimation results of a representative subject. The MAE, mean error, and $\rho$ of this subject were 3.2 deg, 2.8 deg, and 0.99, respectively.}
+ \label{fig:c3_representative_subject}
+\end{figure}
+
+The MAEs of FPA estimation were between 1.79 deg and 6.30 deg, and the $\rho$ were higher than 0.98 for all the subjects (Table \ref{c3_each_subject}). There were four subjects and eight subjects whose MAEs were higher and lower than the average value, respectively. Estimated FPA from the foot-worn IMU and measured FPA from the OMC for each step of a representative subject (No.12 in Table \ref{c3_each_subject}) also demonstrated a high correlation between the proposed algorithm estimations and ground-truth FPAs (Figure \ref{fig:c3_representative_subject}). 
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=11cm]{figures/chapter4/c3_outdoor_photo.jpg}  \caption[A subject performing a left turning outdoors when passing a cone marker set..]
+    {A subject performing a left turning outdoors when passing a cone marker set. The dashed line denotes walking direction.}
+    \label{fig:c3_outdoor_photo}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=11cm]{figures/chapter4/c3_outdoor_experiment.png}
+  \caption[Sketch map of walking start and walking turn experiment.]
+    {Sketch map of (a) baseline, (b) walking start, (c) right-left turning, and (d) left-right turning trials. For all trials, subjects walked from start cone markers (green dots) towards end cone markers (red dots) along the dashed arrow. For turning trials, cone marker sets (blue dots) were placed in shapes of isosceles right triangles to indicate the turn direction.}
+ \label{fig:c3_outdoor_experiment}
+\end{figure}
+
+\section{Experiment II: Walking Starts and Turns}
+\subsection{Experimental Testing}
+The second experiment was to test whether the proposed IMU-based algorithm can more quickly provide valid FPA estimates compared with a magneto-IMU-based algorithm for steps after walking starts and turns. Twelve healthy subjects (age: 24.5 ± 1.8; height: 1.77 ± 0.04 m; weight: 70.2 ± 8.8 kg, all male) participated in this study after giving informed consent, which was reviewed and approved by the university ethics committee. This experiment was performed outdoors (Figure \ref{fig:c3_outdoor_photo}) because the laboratory walkway was not long enough to accommodate required walking distances. The same magneto-IMU from the continuous straight walking experiment was embedded in the sole of each subject's left shoe to collect inertial data and magnetic data at 100 Hz (Figure \ref{fig:c3_instrumentation_layout}b). Note that the proposed algorithm only used inertial data for FPA estimation, and the magnetic data were collected for the magneto-IMU-based algorithm. 
+
+Prior to the formal testing, subjects tried baseline trial, walking start trial, and turning trial for one time. Afterwards, they performed a baseline trial (Figure \ref{fig:c3_outdoor_experiment}a), where they walked naturally and straightly from the start cone marker towards the end cone marker. The two cone markers were placed far enough to accommodate at least 25 ipsilateral steps. Then subjects performed ten walking start trials and ten turning trials with a randomized sequence. For walking start trials, subjects walked naturally and straightly from the start cone marker towards each end cone marker (placed at left, left-forward, forward, right-forward, and right direction) twice with a randomized sequence (Figure \ref{fig:c3_outdoor_experiment}b). The start and end cone markers were placed far enough to accommodate at least 20 ipsilateral steps. The ten turning trials consist of five right-left turning trials (Figure \ref{fig:c3_outdoor_experiment}c) and five left-right turning trials (Figure \ref{fig:c3_outdoor_experiment}d) with a randomized sequence. For each turning trial, subjects walked naturally and straightly from the start cone marker towards the first cone marker set and turned 90 degrees to right/left when passing the first cone marker set. Then, they continued walking without stopping towards the second cone marker set, turned 90 degrees to left/right when passing the second cone marker set, and continued walking towards the end cone marker. The distances from the start cone marker to the first cone marker set, from the first to the second cone marker set, and from the second cone marker set to the end cone marker were all far enough to accommodate at least 20 ipsilateral steps. Each cone marker set was placed in a shape of an isosceles right triangle with 1.5 m side lengths. For right-left trials, two video recorders were placed behind the hypotenuse of the first and the second marker set to record the right and left turns, respectively (Figure \ref{fig:c3_outdoor_experiment}c).
+
+\subsection{Data Analysis}
+For the baseline trial, 10 steps after the first 15 steps were used to calculate the mean and the standard deviation (SD) of baseline FPA. The ±3SD of baseline FPA obtained from the magneto-IMU-based algorithm was used as the criterion to determine valid FPA estimations. Specifically, during 10 walking start and 10 turning trials, each step after walking starts and turns was repeated 10 times, so the FPA of this step was estimated by each algorithm 10 times. If the SD of these 10 FPA estimates is out of ±3SD of baseline FPA, these 10 FPA estimates would be determined invalid, and thus the algorithm would be determined invalid for this step. To visually demonstrate this criterion and compared it to different subjects' data with different baseline FPAs for walking start and turning trials, each subject's baseline FPA obtained from the IMU-based/magneto-IMU-based algorithm was subtracted from the FPA estimated by the IMU-based/magneto-IMU-based algorithm. Therefore, after subtraction, correct FPA estimations are expected to fluctuate around zero for straight walking steps. For each walking start trial, FPA of the first 8 left steps estimated by both two algorithms were analyzed to determine if they were within the ±3SD of baseline FPA. For each turning trial, the step with the largest positive foot heading direction change (calculated by integration of gyroscope z-axis output) was determined as one left turning step, and one of its adjacent steps with the larger heading direction change was determined as the other left turning step. Similarly, the step with the largest negative heading direction change and one of its adjacent steps were determined as two right turning steps. Then, the first 8 steps after both left and right turning steps were analyzed together to determine if they were within the ±3SD of baseline FPA. Additionally, a single investigator analyzed videos of all the right-left turning trials to count the number of turning steps, which were identified if there is a change in the left foot's heading direction before heel-strike \cite{Glaister2007Video}. 
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=11cm]{figures/chapter4/c3_walking_start.png}  \caption[Comparison of FPA estimated by the proposed IMU-based algorithm and magneto-IMU-based algorithm after walking starts.]
+    {Mean with one standard deviation of the FPA estimated by the proposed IMU-based algorithm and magneto-IMU-based algorithm for the first 8 steps after walking starts. The mean baseline FPA was subtracted from FPA estimations to remove the baseline FPA differences between subjects. The green shaded area represents the ±3SD of baseline FPA.}
+    \label{fig:c3_walking_start}
+\end{figure}
+
+\subsection{Results}
+The 3SD of baseline FPA was 7.0 deg. FPA estimated by the proposed IMU-based algorithm was valid (within ±3SD of baseline FPA) for all steps immediately after walking starts and turns, while FPA estimated by the magneto-IMU-based algorithm were invalid for the first 6 steps after walking starts (Figure \ref{fig:c3_walking_start}) and 7 steps after walking turns (Figure \ref{fig:c3_walking_turning}).
+According to the videos, the average number of left steps identified in each turn was 2.01 ± 0.35 steps, and the percentage of one, two, and three steps were 5.8\%, 87.5\%, and 6.7\%, respectively.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=11cm]{figures/chapter4/c3_turning.png}  \caption[Comparison of FPA estimated by the proposed IMU-based algorithm and magneto-IMU-based algorithm after walking turns.]
+    {Mean with one standard deviation of the FPA estimated by the proposed IMU-based algorithm and magneto-IMU-based algorithm for steps before, during, and after 90-degree walking turns. The mean baseline FPA was subtracted from FPA estimations to remove the baseline FPA differences between subjects. The green shaded area represents the ±3SD of baseline FPA. Turning step results were plotted lightly to emphasize that the FPA is not well defined when the heading direction is changing \cite{Xia2020Portable}}
+    \label{fig:c3_walking_turning}
+\end{figure}
+
+\section{Discussion}
+This work presented an IMU-based FPA estimation algorithm for real-life walking conditions. In support of our first hypothesis, FPA estimated by the proposed IMU-based algorithm closely matched ground-truth FPA for normal, toe-in, and toe-out gait patterns in continuous straight walking tasks. In support of our second hypothesis, the proposed IMU-based algorithm can provide valid FPA estimation for all steps immediately after walking starts and turns. The MAE of the proposed algorithm was 3.1 deg, which is smaller than 5 - 10 deg FPA modification prescription provided in prior gait training studies \cite{chen2017wearable, uhlrich2018subject, Xia2020Portable}, indicating that the algorithm is accurate enough for gait training purposes.
+
+\begin{table}[!htbp]
+    \centering
+    \caption [The average number of invalidly measured steps.]
+    {The number of invalidly measured steps after walking starts and after turnings of each subject. Values were averaged for all the trials.}
+    \includegraphics[width=14.5cm]{figures/chapter4/c3_each_subject_turning.PNG}
+    \label{c3_each_subject_turning}
+\end{table}
+
+The previous magneto-IMU-based FPA algorithm is accurate for continuous straight walking tasks in environments free of magnetic distortion, so it directly enabled a few studies including sensorized shoes for outdoor over-ground FPA monitoring \cite{Xia2017Validation, Charlton2019Validity} and haptic feedback-sensorized shoes for FPA modification \cite{Xia2020Portable}. However, that algorithm relied on the magnetometer data for orientation correction, so it is prone to magnetic distortion. Also, that algorithm utilized double integration of noisy accelerometer data, so it requires a complementary filter to suppress the noise via fusion of the current step estimation with the previous step estimations. Despite its high accuracy in continuous straight walking tasks, that algorithm updates slowly after walking starts and turns, making the FPA estimation of the first 6-7 step invalid (Figure \ref{fig:c3_walking_start} and \ref{fig:c3_walking_turning}). On the contrary, the proposed magnetometer-free, IMU-based FPA algorithm utilized the peak foot deceleration during the swing phase, and no complementary filter was required to suppress the noise, so the estimation of each step is independent of its previous steps. Despite its relatively lower accuracy in continuous straight walking tasks, the proposed IMU-based algorithm performed substantially better than previous magneto-IMU-based algorithm for steps after walking starts and turns (Figure \ref{fig:c3_walking_start} and \ref{fig:c3_walking_turning}). The number of invalidly measured steps after walking starts and after turnings were lower than 0.6 and 1 for all 12 subjects when using the proposed IMU-based algorithm, while they were higher than 3.6 and 4.6 for the same 12 subjects when using the magneto-IMU-based algorithm (Table \ref{c3_each_subject_turning}).
+
+The MAE, mean error, and $\rho$ of the proposed IMU-based algorithm were 3.1 deg, 0.3 deg, and 0.99, which were comparable with that reported by other wearable foot orientation estimation studies. Karatsidis et al. \cite{Karatsidis2018Validation} used a set of seven magneto-IMUs and the lower body kinematics reconstructed by commercial software to estimate FPA, and the root mean square errors were between 1.9 and 2.6 deg. However, this method is based on closed-source software, and the placement of seven IMUs on various body segments is inconvenient. Young et al. \cite{Young2018novel} used a chest-worn camera and a ``visual feature matching'' method to estimate FPA, and the mean error was 0.15 deg. However, the validation experiment only involved a normal gait pattern, and strapping a camera in front of the chest is inconvenient for real-life FPA monitoring. Rouhani et al. \cite{Rouhani2012Measurement} used four IMUs to estimate the orientation difference between foot and ankle, and the mean $\rho$ was 0.93. Mariani et al. \cite{Mariani20103D} used a foot-worn IMU to estimate the foot heading direction change, and the mean error was 1.6 ± 6.1 deg. Bidabadi et al. \cite{bidabadi2018validation} used a foot-worn IMU to estimate foot pitch angle (rotation in the sagittal plane), and the $\rho$ was 0.98.
+
+The proposed algorithm estimated the FPA based on the peak foot deceleration measured before heel-strike, so theoretically the estimation can be finished immediately after mid-stance. Therefore, this algorithm can potentially enable FPA feedback during the second half of the stance phase, which is an important prerequisite for real-time FPA modification research \cite{Shull2013Toe-in, Lindsey2020Reductions, Richards2017Gait}. A different FPA estimation strategy can be based on the peak foot acceleration during the first half of the swing phase, but this strategy requires IMU data captured after toe-off for estimation, making the real-time FPA feedback infeasible. Also, the accuracy of the latter strategy might be lower because the foot orientation change after toe-off is relatively larger than that before heel-strike \cite{Mentiplay2018Lower}. 
+
+When the foot heading direction is changing, the FPA is not well defined \cite{Xia2020Portable}, so the results of turning steps were plotted lightly (Figure \ref{fig:c3_walking_turning}). Two turning steps were identified from each turning trial because the average number of turning steps was 2.01. The FPA estimation of the last step before turning was invalid (Figure \ref{fig:c3_walking_turning}), which might be because some subjects performed walking turns with three steps in a few trials, or because the proposed algorithm made an invalid FPA estimation before turning.
+
+One limitation of this study is that the results of the second experiment were not validated via OMC due to inadequate camera view distance. Future studies may evaluate the proposed algorithm for steps after walking starts/turns across various toe-in/toe-out gaits using cameras with adequate view distance (e.g. markerless motion capture).
+
+% One limitation of this study is that no experiment was performed to validate the immunity of the proposed magnetometer-free, IMU-based FPA algorithm to magnetic distortion. Future studies should investigate the precise influence of various magnetic distortions on the proposed algorithm and other FPA algorithms. 
+
+\section{Chapter Summary}
+The IMU-based algorithm proposed in this chapter provides comparable FPA estimation accuracy during continuous straight walking and higher validity after walking starts and turns compared with a magneto-IMU-based algorithm. This magnetometer-free algorithm could enable gait training in homes where magnetic distortion is present due to the ferrous treadmill, metal structures, and other electrical equipment. This algorithm could also enable more accurate gait training outcome assessment in real-life walking conditions when walking starts, stops, and turns commonly occur.

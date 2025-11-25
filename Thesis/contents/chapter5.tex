@@ -1,0 +1,364 @@
+% !TeX root = ../main.tex
+
+\chapter{IMU-Driven Walking Knee Moment Modeling} \label{chapter5}
+Wearable sensors are marking a turning point for clinical biomechanics, but new algorithms are still needed to extract meaningful outcomes from them and successfully translate them to clinics. The author presents here a new KAM and KFM estimation via wearable IMUs. A generalizable deep learning model incorporating domain knowledge was developed to extract features from IMU data, estimate knee moment components, and finally compute KAM and KFM. Eight IMUs were placed on trunk, pelvis, and both thighs, shanks, and feet. The rRMSE of the proposed model were 8.3\% and 6.5\% for KAM and KFM estimation, respectively. The proposed model could detect the peak KAM and KFM changes introduced by gait modifications. Also, either using all eight IMUs or using three IMUs (pelvis and both feet) was significantly more accurate than using one IMU (pelvis). In addition, the author demonstrated that two smartphone cameras can potentially be used to improve the KAM and KFM estimation accuracy compared with the IMU-based model. This work could enable knee moment assessment in various environments such as clinics, homes, or athletic facilities. 
+
+\section{Introduction}
+In the United States, 37.4\% of adults over the age 60 have radiographic knee OA, and 32.4\% of these patients suffer from persistent pain\cite{dillon2006prevalence}.
+Ambulatory knee joint load is believed to contribute to articular cartilage degeneration and drive knee OA progression\cite{andriacchi2015systems, englund2010role, andriacchi2006role}.
+The external KAM is frequently used as a surrogate measure of knee joint load and a high KAM has been associated with OA of medial compartment of tibia-femoral joint \cite{zhao2007correlation}. The external KFM is also a critical biomechanical measurement and a high KFM is associated with the cartilage loss of patello-femoral joint \cite{farrokhi2015altered}. It has thus been suggested that both KAM and KFM should be considered when assessing joint load \cite{walter2010decreased, manal2013alternate}.
+
+Measurement of KAM and KFM is traditionally performed with force plates and OMC systems, which are expensive equipment owned only by gait laboratories. Thus, most patients and clinicians do not have access to regular assessments of KAM and KFM, which could enhance clinical practice by assisting in the prescription of gait training programs, for example \cite{richards2018gait, cheung2018immediate}. Wearable gait assessment tools for in-clinic or at-home applications could democratize gait analysis, make patient care more efficacious, and also save patients from necessary journeys.
+
+IMUs, which enable lightweight and low-cost sensing, now present a new opportunity for KAM and KFM estimation in natural environments when combined with musculoskeletal models or machine learning models. Musculoskeletal models first optimize the body kinematics, muscle forces, and ground reaction forces based on signals of IMU sensors placed at major body segments \cite{dorschky2019estimation, karatsidis2019musculoskeletal, konrath2019estimation}. Then the knee moments are computed directly from muscle forces \cite{dorschky2019estimation} or indirectly from ground reaction forces using inverse dynamics \cite{karatsidis2019musculoskeletal, konrath2019estimation}. A musculoskeletal model can provide comprehensive lower extremity gait analysis, but many error sources, including reduced degrees of freedom, simplified muscle properties, and inaccurate foot-ground contact modeling, make it difficult for it to compensate for the noise and drift present in the IMU data \cite{dorschky2019estimation, karatsidis2019musculoskeletal, konrath2019estimation}. Machine learning models directly map IMU data to knee moments using experimentally collected training data, without relying on data processing steps that increase drift. ANNs and CNNs have been implemented to estimate knee moments when combined with one to five IMUs \cite{dorschky2020cnn, stetter2020machine, lee2020estimation, lim2020prediction}. These studies demonstrated the benefits of combining IMUs and machine learning models for knee moment estimation. However, the estimation accuracy was less satisfactory, possibly because their neural network models used non-recurrent structures. In contrast, recurrent neural networks (RNNs) could memorize past and future information, therefore not only the current time step but also past and future time steps can be used for prediction.
+
+The author presents here an IMU-based RNN model that estimates KAM and KFM during walking, which is publicly available on GitHub \footnote{\label{code_availability}
+\href{https://github.com/TheOne-1/KAM_and_KFM_Estimation}{https://github.com/TheOne-1/KAM\_and\_KFM\_Estimation}}. The proposed model incorporated domain knowledge to extract features, estimate knee moment components, and calculate KAM and KFM. To build a robust model for various walking conditions, different gait modifications were tested, including changes in walking speed, trunk sway angle, FPA, and step width.
+The influence of the number of IMUs on estimation accuracy was investigated by comparing models using all eight IMUs, models using pelvis and feet IMUs, and models using one pelvis IMU. It was hypothesized that the proposed model can detect the knee moment change introduced by gait modification. It was also hypothesized that more IMUs would lead to higher KAM and KFM estimation accuracy.
+
+\begin{figure}[!htb]
+\begin{minipage}{0.55\textwidth}
+  \centering
+  \includegraphics[height=11.8cm]{figures/chapter5/c5_marker_anterior.png}
+  \subcaption{}
+\end{minipage}\hfill
+\begin{minipage}{0.43\textwidth}
+  \centering
+  \includegraphics[height=11.8cm]{figures/chapter5/c5_marker_posterior.png}
+  \subcaption{}
+\end{minipage}
+\caption[Anatomical landmarks for the placement of markers.]
+{Anatomical landmarks on (a) the anterior and (b) posterior human body for the placement of 32 reflective markers. The skeletal model is generated in BioDigital \ref{skeletal_model}}
+\label{fig:c5_marker_set}
+\end{figure}
+
+\section{Instrumentation}
+Reflective markers were placed on 32 anatomical landmarks (Figure \ref{fig:c5_marker_set}): calcaneus, head of second metatarsal, head of the fifth metatarsal, lateral and medial malleoli, lateral and medial femoral epicondyles, tibial tuberosity, lateral mid-shaft shank, greater trochanter, lateral mid-shaft femur, left and right ilium crest tubercle, left and right posterior superior iliac spines, sternum jugular notch, left and right acromion, seventh cervical vertebra, sternum xiphisternal joint, mid-point between the inferior angles of most caudal points of the two scapulae. \footnote{\label{skeletal_model}\href{https://human.biodigital.com}{https://human.biodigital.com}} Marker trajectories were recorded at 100 Hz with a ten-camera OMC system (Vicon, Oxford Metrics Group, Oxford, UK). Synchronized GRF data were collected at 1000 Hz with an instrumented treadmill (Bertec Corp., Worthington, OH, USA).
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=14.5cm]{figures/chapter5/c5_IMU_system.png}
+\caption[One control unit and one IMU sensor of the Sage wireless IMU system.]
+{One IMU sensor (left) and one control unit (right) of the Sage wireless IMU system. The control unit can connect up to eight IMU sensors through Bluetooth. A portable battery was used to power the control unit.}
+\label{c5_IMU_system}
+\end{figure}
+
+A wireless IMU system (SageMotion, Kalispell, MT, USA) (Figure \ref{c5_IMU_system}) was used to collect inertial data at 100 Hz. The control unit of the system can communicate and control up to eight IMU sensors through Bluetooth. The average communication delay between an IMU sensor and the control unit was 103 ms. The size and weight of the control were $65 \rm{mm} \times 111 \rm{mm} \times 40 \rm{mm}$ and 175 g, respectively. The size and weight of one IMU sensor were $50 \rm{mm} \times 28 \rm{mm} \times 19.5 \rm{mm}$ and 38 g, respectively. The control unit can operate at full capacity for 4 hours when powered by a 6700 mAh portable battery. Eight IMU sensors were used in this study, which were securely strapped to each subject (Figure \ref{c5_subject}) with their z-axis aligned with the segment surface normal, y-axis pointing upwards, and x-axis being perpendicular to the y and z axes following the right-hand rule at the following locations: trunk - midway between sternum jugular notch and sternum xiphisternal joint, pelvis - midway between left and right anterior superior iliac spine, both thighs - midway between anterior superior iliac spine and femur medial epicondyle, both shanks - midway between femur medial epicondyle and tibia apex of medial malleolus, and both feet - second metatarsal.
+
+
+\section{Experiment} \label{section:c5_experiment}
+\subsection{Subjects} 
+Seventeen subjects (all male; age: $23.2\pm 1.1$; height: $1.76\pm 0.06$m; mass: $67.3\pm 8.3$kg; BMI: $21.5\pm 2.1$kg/m$^2$) with no history of musculoskeletal disorders volunteered to participate in this study. All the subjects provided written informed consent before being tested, and the experimental procedure was reviewed and approved by the Shanghai Jiao Tong University Internal Review Board.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=10cm]{figures/chapter5/c5_subject.jpg}
+\caption[Experimental testing layout for KAM and KFM estimation.]
+{Experimental testing layout for KAM and KFM estimation. IMU sensors were located at the trunk, pelvis, both thighs, both shanks, and both feet. }
+\label{c5_subject}
+\end{figure}
+
+\subsection{Experimental Protocol} \label{sec:c5_experiment}
+
+Testing conditions included different walking speeds, step widths, FPA and trunk sway angles. Step width is defined as the distance between ankle joint centers along the short edge of the treadmill during initial double support \cite{Favre2016}. FPA is defined as the angle between the foot vector from the calcaneus to the second metatarsal and the long edge of the treadmill and was computed as the average
+value from 15\% to 50\% of the stance phase \cite{Simic2013Altering}. Trunk sway angle is defined as the maximum angle during each step between the vertical axis and the axis from the middle of the left and right posterior superior iliac spines to the center of the manubrium markers in the laboratory frontal plane \cite{Favre2016}.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=12cm]{figures/chapter5/c5_feedback_fpa.png}
+    \caption[Visual feedback for modification of FPA.]
+    {Visual feedback provided by a monitor in front of the treadmill for modification of FPA. The green and red lines represented the prescribed gait parameters and the measured gait parameters, respectively. Note that the blue text and blue arrow were not part of the feedback. Current walking speed and the remaining walking time were presented on the right upper corner of the feedback image. Visual feedback for step width and trunk sway angle were similar to this figure.}
+    \label{fig:c5_feedback_fpa}
+\end{figure}
+
+Subjects first performed one normal walking trial for 2 minutes at self-selected speeds ($1.16\pm 0.04 $ m/s). This baseline trial was post-processed immediately to determine each subject's baseline step width and FPA for feedback in subsequent trials. After this baseline trial, subjects performed one step width trial, one FPA trial, and one trunk sway trial in random order. The step width trial was a combination of three speeds ($\mathrm{normal} - 0.2 $ m/s, normal, and $\mathrm{normal} + 0.2$ m/s) and three step widths ($\mathrm{baseline} - 0.054$ m, baseline, and $\mathrm{baseline} + 0.070$ m) \cite{Favre2016}. The FPA trial was a combination of the same three speed and three FPAs ($\mathrm{baseline} - 15^{\circ}$, baseline, and $\mathrm{baseline} + 15^{\circ}$) (Figure \ref{fig:c5_feedback_fpa}) \cite{VanDenNoort2013}. The trunk sway trial was a combination of the same three speeds and three trunk sway angles ($4^{\circ}$,$ 8^{\circ}$, and $12^{\circ}$) \cite{Hunt2011}. Each combination took 30 seconds and each trial lasted 4.5 minutes. The sequence of combinations in each trial was randomized. Subjects were asked to match their current gait pattern to the required one using real-time visual feedback provided by a monitor placed in front of the treadmill (Figure \ref{c5_subject}). Before each gait modification trial, subjects practiced to ensure that they were familiar with gait modifications and could correctly perceive visual feedback. Additionally, prior to each trial, subjects stood on their left foot and swung their right shank three times to collect data for synchronization.
+
+\subsection{Data Processing}
+Marker data and force plate data were low-pass filtered at 15 Hz using a zero-lag fourth-order, Butterworth filter \cite{kristianslund2012effect}. Data analyses were performed on each subject's right knee. A threshold of 20 N in the vertical GRF was used to determine ground-truth right stance phase \cite{FELLIN2010646}. The ground-truth knee moments were calculated using cross product function \cite{rutherford2018knee} and were normalized by body weight (BW; N) times body height (BH; m) as follows:
+
+\begin{equation}
+    \mathrm{Knee\ Moments} = \frac{r \times F}{\mathrm{BW} \cdot \mathrm{BH}}
+    \label{equ:3d_moments}
+\end{equation}
+\begin{equation}
+    r = \mathrm{CoP} - \mathrm{Knee\ Joint\ Center},
+\end{equation}
+
+\noindent where $F$ denotes ground reaction force, $\times$ denotes cross product operation, and $r$ denotes the vector from knee to the CoP. The KAM and KFM are y component and x component of knee moments in (\ref{equ:3d_moments}), which can be expanded as follows:
+\begin{equation}
+    \mathrm{KAM} = \frac{r_{z} \cdot F_{x} - r_{x} \cdot F_{z}}{\mathrm{BW} \cdot \mathrm{BH}}\ \mathrm{and}
+    \label{equ:kam}
+\end{equation}
+\begin{equation}
+    \mathrm{KFM} = \frac{r_{y} \cdot F_{z} - r_{z} \cdot F_{y}}{\mathrm{BW} \cdot \mathrm{BH}}.
+    \label{equ:kfm}
+\end{equation}
+
+% synchronize three modals of data and segment data
+The magnitude of right shank angular velocity during three swings prior to each trial was individually computed from IMU data and OMC data \cite{tan2019influence}, and cross-correlation results were used to synchronize the two data sources. 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=14.5cm]{figures/chapter5/c5_model.png}
+\caption [Architecture of KAM and KFM estimation model.]
+{(a) Features transformed from raw IMU data and (b) six identical RNN used IMU features to estimate $F_x$, $r_x$,$F_y$, $r_y$,$F_z$, and $r_z$. The computation of KAM and KFM followed the cross-product approach \cite{rutherford2018knee}.}
+\label{c5_model}
+\end{figure}
+
+\section{IMU-Based KAM and KFM Estimation}
+\subsection{Model Architecture}
+
+A generalizable model was developed to estimate KAM and KFM during walking based on feature extraction, GRF and lever arm vector estimation, and final KAM and KFM computation (Figure \ref{c5_model}). First, angular velocity and weighted acceleration from IMUs were fed into six identical deep RNNs to estimate GRF components ($F_x$, $F_y$ and, $F_z$) and lever arm vector components ($r_x$, $r_y$ and, $r_z$). Then, KAM and KFM were calculated via the cross-product function of individual components \cite{rutherford2018knee}.
+
+The features were relevant to GRF and lever arm vector components. For $F_x$, $F_y$, and $F_z$ estimation, angular velocity and weighted accelerations were used as input features. Weighted accelerations were computed by IMU measurements times segment masses (approximated by subject's mass times segment's average ratio obtained from young male adults \cite{de1996adjustments}). They were used because the external force ($\bm{F}_{ext}$) can be estimated based on body segment mass and acceleration according to Newton's second law as follows:
+
+\begin{equation}
+\label{eqa:force}
+\bm{F}_{ext} = \sum_{i=1}^N m_{i}(\bm{\alpha}_i^G + \bm{g}),
+\end{equation}
+
+\noindent where $N$ is the number of segments, $m_i$ is the segment mass, $\bm{g}$ is the gravity, and $\bm{\alpha}_i^G$ is the global acceleration of the segment. Since an IMU measures acceleration in the sensor frame, rather than global frame required by (\ref{eqa:force}), to provide body segment orientation information, angular velocities measured by IMUs were used as supplementary features.
+For $r_x$ and $r_y$ estimation, angular velocity and weighted accelerations were also used as input features. $r_x$ and $r_y$ start at the knee center and end at the CoP. Angular velocity and weighted accelerations could provide information about each segment's center of mass and its change, which were closely related to the CoP \cite{lee2020estimation}. Also, the foot and shank angular velocity could determine the knee position in the global frame when the foot and shank are considered as a two-bar link with one end connecting to the ground during stance phase. For $r_z$ estimation, only the foot and shank angular velocities measured by IMUs were used as input features because $r_z$ is only determined by the actual height of the knee in the global frame. 
+
+Min-max normalization was used to normalize input features. Weighted accelerations were normalized together to preserve segment mass information, while other features were normalized individually. A foot contact event-detection algorithm \cite{Sin2013} that used right foot IMU data was implemented to segment continuous features into discrete steps (from 0.2s before heel-strike to 0.2s after toe-off).
+
+\begin{table}[!htb]
+    \centering
+    \caption
+    {Parameters of two training stages.}
+    \includegraphics[width=14.5cm]{figures/chapter5/c5_training_stages.png}
+    The model was trained by knee moment components and knee moments in stage I and stage II, respectively. Base learning rate, base batch size, and base epoch were tuned via the method described in the Section \ref{section:performance_evaluation}
+    \label{tab:c5_training_stages}
+\end{table}
+
+The architecture of six RNNs used for GRF and lever arm vector estimation was inspired by previous work performing pose reconstruction from six IMU sensors \cite{huang2018deep}. Each RNN consisted of two bi-directional long short-term memory (LSTM) layers and two FCNN layers. The activation functions of the first and second FCNN were a rectified linear unit function and an identity function, respectively.
+The training procedure consisted of two stages (Table \ref{tab:c5_training_stages}). In stage I, each RNN was trained individually using one GRF or lever arm component (e.g. $F_x$) and its corresponding input features (e.g. angular velocity, weighted acceleration, and joint positions). In stage II, RNNs were combined and trained together using the output (KAM or KFM) and all the input features. Stage II is necessary because the optimal model parameters for GRF and lever arm estimation may not be optimal for KAM and KFM estimation. 
+For example, during stage I training of RNN1 (Figure \ref{c5_model}), the estimation loss was 
+
+\begin{equation}
+    E_{\text {stage } \mathrm{I}}=\sum_{i=0}^{n}\left(\widehat{F}_{x}-F_{x}\right)^{2},
+\end{equation}
+
+\noindent where $ \widehat{} $ on top of symbol denotes an estimate. The backpropagated gradient was only determined by the discrepancy between the estimated and ground-truth $F_x$ as follows:
+
+\begin{equation}
+    \text { Gradient }_{\text {stage I }}=\frac{\partial E_{\text {stage } \mathrm{I}}}{\partial F_{x}}=2 \sum_{i=1}^{n}\left(\widehat{F}_{x}-F_{x}\right).
+\end{equation}
+
+\noindent In contrast, for stage II training, the gradient was determined not only by $F_x$ but also other components. Specifically, for stage II training, the estimation loss was
+
+\begin{equation}
+    E_{\text {stage II }}=\sum_{i=0}^{n}(\widehat{\mathrm{KAM}}-\mathrm{KAM})^{2}=\sum_{i=0}^{n}\left(\frac{\widehat{r}_{z} \cdot \widehat{F}_{x}-\widehat{r}_{x} \cdot \widehat{F}_{z}}{\mathrm{BW} \cdot \mathrm{BH}}-\mathrm{KAM}\right)^{2}
+    % E=\sum_{i=0}^{n}\left(\mathrm{KAM}_{\text {estimation }}-\mathrm{KAM}_{\text {ground-truth }}\right)^{2}
+\end{equation}
+
+\noindent And the gradient of KAM estimation for RNN1 training was
+
+\begin{equation}
+    \text { Gradient }_{\text {stage II }}=\frac{\partial E_{\text {stage II }}}{\partial F_{x}}=2 \widehat{r}_{z} \cdot \sum_{i=0}^{n}\left(\frac{\widehat{r}_{z} \cdot \widehat{F}_{x}-\widehat{r}_{x} \cdot \widehat{F}_{z}}{\mathrm{BW} \cdot \mathrm{BH}}-\mathrm{KAM}\right)
+\end{equation}
+
+\begin{equation}
+    \text { Gradient }_{\text {stage II }}=2 \widehat{r}_{z} \cdot \sum_{i=0}^{n}\left(\widehat{\mathrm{KAM}}-\mathrm{KAM}\right)
+\end{equation}
+
+
+\noindent Thus, the $r_z$ was involved in the stage II training of RNN1 as a coefficient of $F_x$'s upstream gradient. One straightforward way to understand this is that during stage I training of RNN1, $F_x$ across all the time steps were treated equally. However, during stage II training, $r_z$ would determine the priority of $F_x$ in different time steps, with higher priority given to the time steps when $r_z$ is large. When $r_z$ is small, the accuracy of $F_x$ estimation would have a minor influence on the accuracy of KAM estimation, so those time steps were less prioritized.
+Adam was used as the optimizer and mean square error was used as a loss function for both stage I and stage II.
+Also, the epochs of training were the same for both stage I and stage II, while the learning rate and batch size of stage II were manually set to be 10 times smaller and 10 times bigger than those of stage I to avoid significant trainable parameter changes in stage II. The number of unit in each LSTM and FCNN layer, learning rate, batch size, and the epochs of training were tuned together via a Tree-structured Parzen Estimator Approach \cite{bergstra2011algorithms} using the train set (section \ref{section:performance_evaluation}). The ranges of parameters for tuning are specified in Table \ref{tab:c5_training_stages}. The model was implemented in Python (version 3.8) using Pytorch (version 1.7.0). The code and trained models are available on GitHub.
+
+\subsection{Performance Evaluation} \label{section:performance_evaluation}
+% model training
+The proposed model was generalizable in that it was trained and tested by the data of different subjects using a five-fold cross-validation method. Specifically, subjects were randomly divided into five groups. Then the model training and testing were repeated five times, with each group used as the test set once and the rest four groups combined as the train set. For each iteration, three subjects were randomly selected from the train set and used as the validation data for hyper-parameter tuning. After tuning, the model was trained with the entire train set and evaluated with the test set.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=12cm]{figures/chapter5/c5_overall.png}
+\caption[Compiled KAM and KFM estimation results for all subjects.]
+{Compiled KAM (top) and KFM (bottom) estimation results for all subjects. Orange lines and orange shading represent the mean and one standard deviation of knee moments computed from force plates and OMC for all steps of all subjects. Blue dashed lines and blue shading represent results estimated by the proposed model.}
+\label{c5_overall}
+\end{figure}
+
+To investigate how the number of IMUs affected estimation accuracy, a three-IMU-based model (pelvis and both feet) and a one-IMU-based model (pelvis) with the same architecture were trained. The pelvis and feet were selected as the locations of three IMUs for comparison because users can conveniently clip commercial IMUs \cite{RunScribe, mbientlab} onto their shoes or belts without wearing extra accessories. The pelvis IMU was selected for the single IMU configuration because of its alignment with the body center of mass \cite{lee2020estimation, lim2020prediction}. In addition, the author evaluated whether the proposed model could detect the differences in peak KFM and KFM between gait patterns. The FPA trial was equally divided into three groups (toe-in, normal, toe-out) of gait cycles. Similarly, the step width trial was divided into a narrow, normal, and wide width group, while the trunk sway trial was divided into a small, medium, and large angle group. The peak KAM and KFM of each group were determined as the maximum values during the first half of the stance phase \cite{boswell1921neural}.
+The RMSE, rRMSE, and the correlation coefficient between ground-truth and estimated knee moments were determined to assess the models' performance. The definition of rRMSE is:
+
+\begin{equation}
+  \text{rRMSE} (\%)=\frac{\sqrt{\left(\sum_{t=0}^{t_{e n d}}\left[\left(\text{Moment}_{j, measured}(t)-\text{Moment}_{j, estimated}(t)\right)^{2}\right]\right) / N}}{\max \left(\text{Moment}_{j, measured}(t)\right)-\min \left(\text{Moment}_{j, measured}(t)\right)} \times 100 \%,
+\end{equation}
+
+\noindent where $t$ is the current sample, $N$ is the total number of samples of the current trial, and $j$ is the axis of 3-D knee moment. RM-ANOVA with a Least Significant Difference (LSD) correction post hoc test were used to determine if there were significant differences in rRMSE among models using one, three, or eight IMUs, and if the peak KAM and KFM were significantly affected by FPAs, step widths, or trunk sway angles. A paired t-test was used to determine if there were significant differences between ground-truth peak moment and that estimated by the proposed model for each gait pattern.
+The levels of significance were set to 0.05 for all the statistical analyses.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=14.5cm]{figures/chapter5/c5_gait_patterns.png}
+    \caption[Peak KAM and peak KFM grouped by gait patterns.]
+    {Mean and one standard deviation of peak KAM (top) and peak KFM (bottom) grouped by gait patterns. There was no significant difference between ground-truth measurements and estimations of the proposed model for any gait pattern. * above an orange line and a blue line indicates that both ground-truth and estimated peak knee moments were significantly influenced by different foot progression angles, step widths, or trunk sway angles.}
+    \label{c5_gait_patterns}
+\end{figure}
+
+\subsection{Results}
+For the proposed model with IMU data as input, the KAM and KFM estimations closely matched ground-truth values over the whole stance phase (Figure \ref{c5_overall}). The overall RMSE, rRMSE, and correlation coefficient across all walking trials were 0.62\%$\mathrm{BW}\cdot\mathrm{BH}$, 8.3\%, and 0.90 for KAM estimation and 0.75\%$\mathrm{BW}\cdot\mathrm{BH}$, 6.5\%, and 0.93 for KFM estimation.
+
+The proposed model could detect the peak KAM and KFM changes introduced by gait modifications. There was no significant difference between ground-truth measurements and estimations of the proposed model for any gait pattern (Figure \ref{c5_gait_patterns}). Both ground-truth and estimated peak KAM significantly decreased with decreased foot progression angles (Figure \ref{c5_gait_patterns}). Both ground-truth and estimated peak KFM significantly increased with decreased foot progression angles, increased step widths, or increased trunk sway angles (Figure \ref{c5_gait_patterns}).
+% Ground-truth peak KAM significantly decreased with decreased FPAs, while ground-truth peak KFM significantly increased with decreased FPAs, increased step widths, or increased trunk sway angles (Figure \ref{c5_gait_patterns}). 
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=10cm]{figures/chapter5/c5_imu_number.png}
+    \caption[Accuracy comparison between using different numbers of IMUs.]
+    {Accuracy comparison between using all eight IMUs, using three IMUs (pelvis and both feet), and using one IMU (pelvis) for KAM and KFM estimation. Bars represent the mean and one standard error of rRMSE. * denotes a significant difference between using different numbers of IMUs.}
+    \label{c5_imu_number}
+\end{figure}
+
+Either using all eight IMUs or using three IMUs (pelvis and both feet) was significantly more accurate than using one IMU (pelvis) (Figure \ref{c5_imu_number}). Decreasing the number of IMUs from eight to one significantly increased the rRMSEs by 1.8\% and 1.3\% for KAM and KFM estimation, respectively. There was no significant difference between using eight or three IMUs.
+
+\begin{table}[!htb]
+  \centering
+  \caption
+    {KAM and KFM estimation accuracy of each subject.}
+  \includegraphics[width=12cm]{figures/chapter5/c5_each_subject.png}
+ \label{tab:c5_each_subject}
+\end{table}
+
+The rRMSEs of all the subjects were between 4.4\% and 13.3\% for KAM estimation, and were between 4.2\% and 11.9\% for KFM estimation (Table \ref{tab:c5_each_subject}). The correlation coefficient between rRMSE of KAM and KFM estimation was -0.02, indicating that there was no linear relationship between the accuracy of KAM and KFM estimation.
+
+\subsection{Real-Time Knee Moment Estimation}
+To evaluate the feasibility of using the proposed model for real-time gait training, the author implemented the IMU-based model in the Sage wireless IMU system (Figure \ref{c5_IMU_system}). The control unit of the Sage system is based on a Raspberry Pi 3B+, which has a 1.4GHz 64-bit quad-core processor. The same programming language (Python, version 3.8) and deep learning framework (Pytorch, version 1.7.0) used for model training were installed in the Sage system. The real-time KAM and KFM estimation model first detect the heel-strike and toe-off events. Then, at 200 ms after the toe-off event, the data of the last step were concatenated and pre-processed to be the model input. Finally, two threads were created to simultaneously estimate KAM and KFM using the processed data. The required computational time for the estimation of one right-foot step was recorded using the timer of the Raspberry Pi. 
+
+The validation experiment was performed in a 20-meter hallway (Figure \ref{c5_real_time}). Eight IMU sensors were strapped on the subject according to the Section \ref{sec:c5_experiment}. Also, the control unit was placed in a waist bag (Figure \ref{c5_real_time}). The subject walked normally and straightly while holding a smartphone (iPhone 7 Plus, Apple Inc., Cupertino, CA, USA), which received the estimated KAM and KFM via Bluetooth. Then, the received data were displayed in a web browser in real-time (Figure \ref{c5_real_time}). The required computation time for the estimation of one step was $0.9 \pm 0.1 $ second, which is shorter than the duration of a bilateral step during walking.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=14.5cm]{figures/chapter5/c5_real_time.jpg}
+    \caption[Real-time knee moment estimation and display.]
+    {Real-time knee moment estimation and display. The KAM and KAM estimation was performed in a Raspberry Pi 3B+, which was placed in the waist bag. Then, the estimation results were transmitted to a smartphone and displayed in a web browser in real-time.}
+    \label{c5_real_time}
+\end{figure}
+
+\section{Camera-Aided KAM and KFM Estimation}
+\subsection{Motivation}
+% The rationale for using machine learning models is that the input IMU data contain adequate information for knee moment estimation. However, such a hypothesis might be incorrect considering that segment pose cannot be reconstructed from IMU data due to noise and subsequent drift. When body segments move from different poses with similar accelerations and angular velocities, machine learning models would make close predictions for substantially different ground-truth knee moments.\raggedbottom
+
+Smartphone cameras can be combined with human body keypoint (joint center) detection algorithms to enable robust tracking of anatomical landmarks (e.g. hip, knee, and ankles) from 2-D videos taken in natural environments \cite{cao2019openpose, chen2020monocular}. These keypoints have shown potential for knee moment estimation in a simulation experiment \cite{boswell1921neural}, where 3-D marker trajectories captured by OMC were projected onto 2-D planes to simulate keypoints detected from cameras. Promising results were achieved when no noise was added to the simulated keypoints; however, the accuracy substantially decreased when random noises (close to real detection errors) were added to the keypoints of each frame \cite{boswell1921neural}, indicating that current keypoint-detection algorithms may not be accurate enough for researchers to perform knee moment estimation solely based on cameras. Segment pose information provided by cameras can potentially compensate for the drift present in IMU-based methods. In computer vision applications, fusion of data from IMUs and cameras has already enabled more accurate estimation of kinematics \cite{VonMarcard2016, malleson2019real}. Based on the complementary nature of these two sensing approaches, it was hypothesized that smartphone cameras can be used to aid IMUs for more accurate estimation of KAM and KFM.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=10cm]{figures/chapter5/c5_subject_camera.png}
+    \caption[Placement of the right and back smartphone camera.]
+    {Placement of the right and back smartphone camera. The distance from treadmill center to each camera was 3m and the height from the treadmill plane to each camera was 1.2 m.}
+    \label{c5_subject_camera}
+\end{figure}
+
+\subsection{Camera Data Collection and Processing}
+Two smartphone cameras (iPhone 11, Apple Inc., Cupertino, CA, USA) (sampling rate: 120 Hz) were placed vertically on the back and right side of the subject with their image planes aligned with the laboratory frontal and sagittal plane, respectively. The distance from treadmill center to each camera was 3m and the height from the treadmill plane to each camera was 1.2 m (Figure \ref{c5_subject_camera}).
+
+OpenPose (version 1.7.0, Body\_25 model) \cite{cao2019openpose}, a joint center detection library, was used to estimate the 2-D positions of shoulder, hip, knee, and ankle joints from each frame of the right and the back camera data. Detection results were robust with the presence of the background objects such as lights, cables, and foam blocks. To remove incorrect detection results and suppress noises, the 2-D joint positions were processed with the following steps. First, joint positions were dropped and linearly interpolated based on their adjacent frames if the estimation confidence provided by OpenPose was smaller than 50\%. Second, the interpolated 2-D joint positions were filtered at 15 Hz using a zero-lag second-order, Butterworth filter. Third, the filtered 2-D joint positions were downsampled from 120 Hz to 100 Hz with linear interpolation to match the sampling rate of IMUs. Finally, the center of the left and right hip joints was defined as the origin, so that other 2-D joint positions were independent of the subject's position in the global frame. The magnitude of right shank angular velocity during three swings prior to each trial was individually computed from camera data and OMC data \cite{tan2019influence}, and cross-correlation results were used to synchronize the two data sources.
+
+\subsection{Models Incorporating Camera Data}
+The joint positions extracted by OpenPose \cite{cao2019openpose} were used as additional features, which were concatenated with IMU data as the deep learning model input. Selected joint positions were fed into each RNN for estimation of each force and lever arm component. Specifically, the 2-D joint positions of shoulder, knee, and ankle joint estimated from the back camera were used to predict $F_x$, $r_x$ and $F_z$. These joint positions can provide body segment orientation information. The 2-D joint positions estimated from the right camera were used to predict $F_y$ and $r_y$ because this camera's image plane was in parallel with the laboratory sagittal plane. For $r_z$ estimation, only knee height estimated from the right camera was used because it is proportional to the height of the knee in the global frame.
+
+Apart from the IMU-based model and the camera-aided model, a camera-based model was trained by only using camera features. RM-ANOVA with an LSD correction post hoc test was used to determine if there were significant differences in rRMSE among the IMU-based model, the camera-aided model, or the camera-based model.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=12cm]{figures/chapter5/c5_sensing_approach.png}
+    \caption[Accuracy comparison between different sensing approaches.]
+    {Accuracy comparison between the IMU-based, the camera-aided, and the camera-based model for KAM and KFM estimation. Bars represent the mean and one standard error of rRMSE. * denotes a significant difference between sensing approaches.}
+    \label{c5_sensing_approach}
+\end{figure}
+
+\subsection{Results}
+The camera-aided model was significantly more accurate than either IMU-based or camera-based model for both KAM and KFM estimation (Figure \ref{c5_sensing_approach}). The statistical analysis results of each trial were in general aligned with the overall results. The camera-aided model was significantly more accurate than IMU-based model for all the trials in KAM estimation, and for FPA and trunk sway trial in KFM estimation (TABLE \ref{table:each_trial}). The camera-aided model was significantly more accurate than camera-based model for both KAM and KFM across all the trials (TABLE \ref{table:each_trial}).
+
+\begin{table}[!hbt]
+    \centering
+    \caption[Accuracy comparison between sensing approaches.]{Accuracy comparison between the IMU-based, the camera-aided, and the camera-based model for KAM and KFM estimation during walking.}
+    \label{table:each_trial}
+    \includegraphics[width=14.5cm]{figures/chapter5/c5_result_trial_table.png}
+    
+    Errors were reported as mean and one standard error of rRMSE. Camera aiding significantly (*) improved KAM and KFM estimation accuracy.
+\end{table}
+
+\section{Discussion}
+This chapter presented a new model for estimating KAM and KFM in a range of walking gaits from IMUs. In support of our first hypothesis, the proposed model can detect the peak knee moment change introduced by modifications of FPA, step width, or trunk sway angle. Our second hypothesis was partially supported in that, using either eight IMUs or three IMUs was significantly more accurate than using one IMU, while there was no significant difference in accuracy between using eight IMUs and three IMUs (Figure \ref{c5_imu_number}).
+
+\begin{figure*}[!htb]
+\centering
+\includegraphics[width=14.5cm]{figures/chapter5/c5_representative_subject.png}
+\caption[The mean KAM and KFM estimation results of a representative subject.]{The mean KAM (left) and KFM (right) estimation results from independent trials of a representative subject (No.7 of Table \ref{tab:c5_each_subject}). Orange solid lines and orange dashed lines represent the ground-truth and estimated knee moments, respectively.}
+\label{c5_representative_subject}
+\end{figure*}
+
+% accuracy comparison
+Existing IMU-based approaches have reported RMSEs of 1.0\% - 1.4\%$\mathrm{BW}\cdot\mathrm{BH}$ for KAM and 1.9\%$\mathrm{BW}\cdot\mathrm{BH}$ for KFM estimation when using musculoskeletal models \cite{konrath2019estimation, karatsidis2019musculoskeletal}, 1.0\%$\mathrm{BW}\cdot\mathrm{BH}$ for KAM and 1.5\%$\mathrm{BW}\cdot\mathrm{BH}$ for KFM estimation when using an FCNN model \cite{stetter2020machine}, and 1.1\%$\mathrm{BW}\cdot\mathrm{BH}$ for KFM estimation when using a CNN model \cite{dorschky2020cnn}.
+% Existing IMU-based approaches have reported RMSEs of 1.1\% \cite{karatsidis2019musculoskeletal}, 1.0\%-1.4\% \cite{konrath2019estimation}, and 1.0\%$\mathrm{BW}\cdot\mathrm{BH}$ \cite{stetter2020machine} for KAM estimation; and 1.5\% \cite{dorschky2019estimation}, 1.9\% \cite{karatsidis2019musculoskeletal}, 1.5\% \cite{stetter2020machine}, and 1.1\%-1.4\%$\mathrm{BW}\cdot\mathrm{BH}$ \cite{dorschky2020cnn} for KFM estimation.
+%; and 9.63\% \cite{lim2020prediction} for residual knee moment estimation.
+The proposed RNN model outperformed all prior models with overall RMSEs of 0.62\%$\mathrm{BW}\cdot\mathrm{BH}$ for KAM and 0.75\%$\mathrm{BW}\cdot\mathrm{BH}$ for KFM estimation. One possible reason is that the author used eight IMU sensors located at most of the major body segments, while most other studies only used 1 to 4 IMU sensors located at the pelvis and lower extremities Insufficient IMU sensors might cause incomplete kinematic knowledge of important segments, such as trunk, whose acceleration and relative position to stance foot could strongly influence GRF \cite{shahabpoor2018real} and lever arm vector \cite{hunt2008lateral}, respectively.
+
+Estimation results of a representative subject (No.7 of Table \ref{tab:c5_each_subject}) also demonstrated good agreement between the proposed IMU-based model and ground-truth measurements, despite that the proposed model would overestimate the first peak of KAM and underestimate the peak of KFM (Figure \ref{c5_representative_subject}). Also, this subject has a relatively larger peak KFM in the trunk sway trial compared with the other three trials, possibly due to the awkwardness of large trunk sway gait.
+
+To the best of our knowledge, none of the IMU-based models proposed by prior knee moment estimation studies has been made publicly available for other researchers to use. In contrast, models of this study are available with no restriction: (1) an eight-IMU-based model, (2) a three-IMU-based model (pelvis and feet), (3) a camera-aided, eight-IMU-based model, (4) a camera-aided, three-IMU-based model (pelvis and feet) and cameras, and (5) a camera-based model. Both models using eight IMUs and models using three IMUs were provided because their differences in accuracy were not significant (Figure \ref{c5_imu_number}). Users can set up the IMUs and/or cameras according to Section \ref{section:c5_experiment} and incorporate our models into their own knee moment estimation projects according to the tutorial provided in the online repository. Since the author built models with the data collected in a university laboratory, it is important to note that these models may not be directly used in a different testing environment. For example, if IMUs were taped on the skin or embedded in clothing rather than strapped on the subjects (Figure \ref{c5_subject}), the measured signals would be different due to differences in soft tissue artifact and relative movement between skin and sensor. Also, when the data is collected during overground walking rather than treadmill walking, the distance between the subject and cameras would change, thereby scaling the estimated 2-D joint positions. 
+
+For the baseline trial where subjects walked with their normal gait, the RMSE of KAM estimation was 0.62\%$\mathrm{BW}\cdot\mathrm{BH}$, which was close to the lower bound of the clinically-relevant range of 0.5\% - 2.2\%$\mathrm{BW}\cdot\mathrm{BH}$ related to diagnosing OA and evaluating the risk of progression \cite{miyazaki2002dynamic, mundermann2004potential, mundermann2005secondary, amin2004knee}. Therefore, the proposed IMU-based model is expected to be accurate enough to evaluate the risk of OA progression.
+Apart from the normal walking trial, the results of gait modification trials of this study corroborate with prior studies that peak KAM was reduced by decreased FPAs \cite{Simic2013Altering, Favre2016, bennett2017effects}, and peak KFM increased with decreased FPAs \cite{Simic2013Altering, Favre2016, bennett2017effects}, increased step widths \cite{Favre2016, bennett2017effects}, or increased trunk sway angles \cite{Favre2016} (Figure \ref{c5_gait_patterns}). Since users of the proposed model might modify these gait parameters, the author built and tested the model with a range of walking gait patterns, while prior models were only tested with a normal walking gait pattern. Prior studies also reported that the KAM reductions induced by these gait modifications were sometimes accompanied by KFM increases that might adversely affect knee OA \cite{Simic2013Altering, Favre2016, bennett2017effects}. The proposed model can accurately detect the potential KFM increase of each subject because its estimations were highly correlated ($\rho = 0.93$) to the ground-truth measurements. Combining the KAM and KFM estimation results, the proposed model might help patients find optimal gaits that could significantly reduce KAM while keep the KFM change within a clinically acceptable range. Previous research demonstrated that gait training performed at home showed non-inferiority compared to face-to-face training \cite{moffet2015home, piqueras2013effectiveness, tousignant2011randomized}. A combination of the proposed model and feedback devices can enable self-oriented, home-based gait training and potentially eliminate the dependence on therapists. Patients can freely determine the time and workload of training according to their schedule and status. 
+Based on the estimated knee moments, haptic or visual feedback devices such as vibration motors or monitors can be used to provide biofeedback for patients to correct their gait. Recent developments in augmented reality headsets can further enrich the form of visual feedback, allowing more attention-tracking and intuitive biofeedback \cite{Karatsidis2018Validation}. If combining the proposed model with augmented reality technology, patients can not only learn whether they are achieving the desired target gait, but also perceive the quantified differences from the target \cite{Karatsidis2018Validation}. 
+
+% \begin{figure}[!htb]
+% \begin{minipage}{0.48\textwidth}
+%   \centering
+%   \includegraphics[height=4.5cm]{figures/chapter5/c5_keypoint.jpg}
+%   \subcaption{}
+%   \label{fig:c5_keypoint}
+% \end{minipage}\hfill
+% \begin{minipage}{0.48\textwidth}
+%   \centering
+%   \includegraphics[height=4.5cm]{figures/chapter5/c5_heatmap.jpg}
+%   \subcaption{}
+%   \label{fig:c5_heatmap}
+% \end{minipage}
+% \caption[Location and heatmap of body keypoints detected by STAF.]
+% {The (a) centers and (b) heatmap of body keypoints detected by STAF \cite{raaj2019efficient}. The information contained in the heatmap not only includes centers but also the probability distribution of each body keypoint.}
+% \end{figure}
+
+The camera-aided model significantly outperformed the IMU-based model, possibly because the complementary nature of IMU and camera provided more comprehensive kinematic information for kinetic estimation. The drift and lack of positional information in IMU data are corrected by the video input, while the rotational ambiguities in video data are corrected via IMUs. One limitation of the camera-aided model is that, limited by the time complexity of OpenPose, the proposed model may not be used in real-time applications. Detecting body keypoints from the video data of one gait cycle takes roughly 60 seconds using OpenPose and a personal computer with GPU (GTX 960, Nvidia Corp., Santa Clara, CA, USA). The author envisions that with the development of GPU computational power and computer vision technologies, human body keypoint detection would become much faster and make real-time applications possible in the future.
+
+% When using the back camera to estimate joint positions, the estimated positions can be slightly scaled by the subject's position along the walking direction. For example, walking in the front of a treadmill would make a subject's body slightly smaller than that of walking in the center of a treadmill. It is possible to estimate subject's position in the walking direction from the right camera and use it with a pinhole camera model to reduce this source of error. Although joint positions estimated by the right camera do not have the scale problem because of the parallelism between its image plane and walking direction, the left body joint positions estimated by the right camera contained more noise than the right body joint positions because of the visual obstruction from right limbs and right half of the body (Figure \ref{c5_subject}). An additional camera placed at the left side of the subject could potentially reduce this source of error.
+
+There are two potential methods to increase the accuracy of camera-aided model. The first method is the triangulation of the back and the right camera data to obtain the 3-D locations of keypoints. The 3-D locations can be obtained via the following steps: 1) for each camera, stretching each 2-D body keypoint to a line in the 3-D space using a pinhole camera model \cite{ruiz2020idiot}, 2) based on the line of a body keypoint from the back camera and the line of the same body keypoint from the right camera, finding the third line that crossed these two lines and is also perpendicular to these two lines, and 3) using the mid-point of two cross points as the 3-D body keypoint. The second method is the fusion of IMU data with the heatmap of body keypoint detected from camera data. The heatmap contains not only the estimated center, but also the estimated probability distribution of each body keypoint. From the probability distribution, the estimation error of camera data can be modeled. Also, the estimation error of IMU data can be modeled based on the sensor bias and noise. Thus, camera and IMU data can be fused more deeply using these error models.
+
+% One limitation of this study is that only healthy subjects with no history of musculoskeletal disorders were recruited for validation of the proposed model. It is unknown whether the results can be generalized to new populations such as knee OA patients. It is possible to train a more general and accurate KAM and KFM estimation model using a larger dataset consisting of a broader population. The published models resulting from this study should facilitate training of future models.
+
+\section{Chapter Summary}
+The proposed IMU-based model incorporating domain knowledge could enable accurate estimation of KAM and KFM during walking. The proposed model utilized wearable IMUs, which can be used in various environments outside of traditional biomechanics labs such as clinics, homes, or athletic training facilities. Potential applications include outcome assessment of knee surgery and gait training to reduce knee load.
+
+
+% 可以增加长度的内容
+
+% \begin{figure}[!t]
+% \centering
+%     \includegraphics[width=8cm]{figures/chapter5/c5_linked_bars.png}
+%     \caption[Simplifying the shank and foot as a two-bar link.]
+%     {Simplifying the shank and foot as a two-bar link with one end connecting to the ground during the stance phase. Thus the orientation of shank and foot could determine the knee position in the global frame.}
+%     \label{c5_linked_bars}
+% \end{figure}
+
+
+
+% \begin{figure}[!htb]
+%     \begin{minipage}{0.48\textwidth}
+%       \centering
+%       \includegraphics[height=8cm]{figures/chapter5/c5_op_side.jpg}
+%       \subcaption{}
+%       \label{fig:c5_op_side}
+%     \end{minipage}\hfill
+%     \begin{minipage}{0.48\textwidth}
+%       \centering
+%       \includegraphics[height=8cm]{figures/chapter5/c5_op_back.jpg}
+%       \subcaption{}
+%       \label{fig:c5_op_back}
+%     \end{minipage}
+%     \caption[Body keypoints detected by OpenPose from a representative frame.]
+%     {Body keypoints detected by OpenPose from (a) the right side camera and (b) the back camera with the presence of the background objects. Knee height estimated from the right side camera is proportional to the actual height of the knee in the global frame.}
+% \end{figure}
+

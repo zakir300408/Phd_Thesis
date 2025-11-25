@@ -1,0 +1,33 @@
+% !TEX root = ../main.tex
+
+\begin{abstract}
+走路与跑步是人类最重要的运动方式，但随之而来的膝关节载荷会引起多种疾病，包括膝骨关节炎（OA），髌骨疼痛，以及髂胫束综合症。膝关节内翻力矩（KAM）以及屈曲力矩（KFM）是评估走路时膝关节载荷的两个重要指标，垂直平均冲击负载率（VALR）是评估跑步时膝关节损伤风险的重要度量。膝关节载荷测量通常基于高精度的测力板以及视觉运动捕捉系统（OMC）。但这些设备仅存在于步态实验内，因此限制了测量环境。研究人员试图使用可穿戴惯性传感器（IMU）或是压力传感器，通过估计运动学参数间接估计膝关节载荷，或是通过物理学模型、数据驱动模型直接估计膝关节载荷。该类研究前景广阔，但是其广泛应用仍面临诸多问题。第一，尽管IMU的放置误差会整体上降低模型精度，但是不同IMU放置误差对精度的确切影响尚未被研究。第二，人体包含多个主要肢体，最优的传感器放置肢体组合尚未被研究。第三，当模型结合IMU及磁力计时，地磁场扭曲会严重降低模型精度。第四，现有模型的验证大多基于正常步态下收集的数据，
+因此模型对修正后的步态可能不具有泛化能力。为了解决这些问题，并推动膝关节载荷估计在实际生活场景中的应用，本文开展了以下工作：
+
+1）为了系统地评估IMU位置误差及朝向误差对动力学模型的影响，本文使用八个肢体（躯干、骨盆、左右大腿、左右小腿、左右脚）的运动学数据合成了八个IMU传感器及1888种不同放置误差。结果表明，对于单个IMU存在放置误差的情况，位置误差及朝向误差分别导致2.0\%和7.3\%的最大估计精度下降。对于多个IMU同时存在放置误差的情况，位置误差及朝向误差分别导致6.0\%和23.4\%的最大估计精度下降。该研究表明准确地进行IMU（尤其是躯干IMU）朝向放置十分重要。
+
+2）本文提出了一个基于IMU的卷积神经网络模型用于估计VALR，并测试了位于躯干、骨盆、大腿、小腿、脚部的五个IMU及其组合，以研究最优的传感器放置位置。测试实验在多种跑步条件下进行，包括不同的跑鞋、跑步速度、足着地方式、步频。结果表明该模型可通过一个小腿IMU数据作为输入达到较高的估计精度，模型预测值与测力板测量结果的相关系数为$\rho = 0.94$，该数值显著高于最大小腿加速度与测力板测量结果的相关系数（$\rho = 0.44-0.66$）。此外，将小腿IMU与任意1-4个其他位置IMU结合作为模型输入并不能显著提高估计精度。
+
+3）足前进角（FPA）可用于间接估计KAM。现有FPA估计算法基于IMU及磁力计，因此算法易受地磁场扭曲的影响。本文提出了一种基于IMU、不依赖磁力计的FPA估计算法。该算法包含三个主要步骤：朝向估计、加速度转换、基于最大减速度的FPA估计。直线行走情况下该算法的平均绝对误差为$3.1 \pm 1.3$度，接近已有算法的精度。此外，该算法对走路起始及转弯结束后的足偏角估计有较高的稳定性。
+
+4）本文提出了一个基于IMU的循环神经网络模型，用于估计地面反作用力及其力臂，并由此计算KAM及KFM。八个IMU被放置于躯干、骨盆、左右大腿、左右小腿、左右脚。测试实验包含多种步态修正策略，包括改变FPA、步宽、躯干摇摆角度。结果表明，KAM及KFM估计结果的相对方均根误差分别为8.3\%和6.5\%。该模型可以检测出由FPA，步宽，或是躯干摇摆角度改变引起的峰值力矩的改变。
+
+综上，本文基于可穿戴惯性传感器，通过建立运动学模型及动力学模型，实现了走路和跑步时的膝关节载荷综合评估。本文成果的潜在应用为实际生活场景（如诊所、住宅、运动中心）下的膝关节载荷估计。
+
+
+\end{abstract}
+
+\begin{abstract*}
+Walking and running are the most important forms of human locomotion; however, the accompanying knee load can induce diseases including osteoarthritis, patellofemoral pain syndrome, and tractus iliotibial band syndrome. The external knee adduction moment (KAM) and knee flexion moment (KFM) are two surrogate measures of knee load during walking, and the vertical average loading rate (VALR) is an important measure to evaluate the risk of knee injuries during running. Assessment of knee load is traditionally performed with optical motion capture and force plates. Though these pieces of equipment are accurate, they only exist in standard gait laboratories, thereby confining the assessment environment.
+Thus, researchers have attempted to use wearable inertial measurement units (IMUs) and/or pressure sensors to indirectly assess knee load via estimating kinematics, or directly assess knee load via physics-based and data-driven kinetic models. These models achieved promising results; however, several existing problems still hinder their widespread adoption. First, although there is a general understanding that the IMU placement error could significantly adversely influence the accuracy of estimating knee load, the precise influence of placement errors across various body segments is still unknown. Second, the human body consists of various segments, and the optimal combination of sensor placement segments for estimating kinetic parameters is unclear. Third, distortion of the Earth's magnetic field can negatively influence the performance of existing models when magnetometers are used. Fourth, prior models were mostly validated on normal gait data, so they may not be generalized to modified gaits which could influence knee load. To solve these problems and move knee load assessment to real-life environments, the following research was conducted in this thesis:
+
+1) To systematically investigate the influence of IMU sensor position and orientation placement errors on kinetic models, eight IMU sensors and 1888 different placement errors were synthesized using the kinematics of eight body segments (trunk, pelvis, and both thighs, shanks, and feet). Results show that for conditions of a single misplaced IMU, estimation accuracy was reduced by position and orientation placement errors by up to 2.0\% and 7.3\%, respectively. For conditions of all eight simultaneously misplaced IMUs, estimation accuracy was reduced by position and orientation placement errors by up to 6.0\% and 23.4\%, respectively. It was concluded that the IMU orientation placement, especially the trunk IMU, should be carefully performed.
+
+2) This thesis proposed an IMU-based convolutional neural network (CNN) model to enable VALR estimation. Optimal IMU configuration was investigated by testing combinations of one to five IMUs placed on trunk, pelvis, thigh, shank, and foot. Several different running conditions were tested, including changes in footwear, speed, foot-strike pattern, and step rate. Results show that VALR estimations via the CNN model with a single shank-worn IMU were highly correlated ($\rho = 0.94$) with force-plate VALR measurements and were substantially higher than previously reported peak tibial acceleration correlations with force-plate VALR measurements from shank-worn accelerometers ($\rho = 0.44-0.66$). There was no improvement in accuracy from the shank-worn IMU when adding $1-4$ additional IMUs from the trunk, pelvis, thigh, or foot.
+
+3) Foot progression angle (FPA) can be used to indirectly estimate KAM. Prior magneto-IMU-based FPA estimation algorithms are prone to magnetic distortion. This thesis proposed a magnetometer-free, IMU-based FPA estimation algorithm comprised of three key components: orientation estimation, acceleration transformation, and FPA estimation via peak foot deceleration. Compared with prior magneto-IMU-based algorithms, the proposed algorithm can provide close FPA estimation accuracy (mean absolute error = $3.1 \pm 1.3$ deg) during straight walking and higher validity after walking starts and turns.
+
+4) This thesis proposed an IMU-based recurrent neural network (RNN) model to estimate ground reaction forces and lever arm components, from which KAM and KFM were computed. Eight IMUs were placed on the trunk, pelvis, and both thighs, shanks, and feet. Various walking gaits were tested, including modifications of FPA, step width, and trunk sway angle. The relative root mean square errors of the proposed RNN model were 8.3\% and 6.5\% for KAM and KFM estimation, respectively. It was demonstrated that the proposed model could detect the peak KAM and KFM changes introduced by modifications of FPA, step width, or trunk sway angle.
+
+In summary, this thesis proposed IMU-based kinematic and kinetic models for both indirect and direct knee load assessment. The outcomes could potentially facilitate more widespread assessment in various real-life walking and running environments such as clinics, homes, or athletic facilities.
+\end{abstract*}

@@ -1,0 +1,100 @@
+% !TeX encoding = UTF-8
+
+% Load SJTUThesis Template
+\documentclass[type=doctor, language=english]{sjtuthesis}
+
+% ===================================================
+% 1. SETUP
+% ===================================================
+% This file (sjtusetup.tex) contains your Title, Author, 
+% and Supervisor info. Keep it in the same folder!
+\input{sjtusetup} 
+
+\begin{document}
+	
+	%TC:ignore
+	
+	% ===================================================
+	% 2. FRONT MATTER (Abstract, TOC, Symbols)
+	% ===================================================
+	
+	% Title Page
+	\maketitle
+	
+	% Front matter numbering (Roman numerals)
+	\frontmatter
+	
+	% --- Abstract ---
+	% You can write your abstract directly here
+	\begin{abstract}
+		Here is where you write your English abstract. Briefly summarize your research, methodology, and findings.
+	\end{abstract}
+	
+	% If you need a Chinese abstract, uncomment below:
+	% \begin{abstract*}
+		%   这里写中文摘要。
+		% \end{abstract*}
+	
+	% --- Table of Contents & Lists ---
+	\tableofcontents
+	\listoffigures*
+	\listoftables*
+	
+	% --- Nomenclature (Optional) ---
+
+	%TC:endignore
+	
+	% ===================================================
+	% 3. MAIN MATTER (Your Chapters)
+	% ===================================================
+	
+	% Main numbering (Arabic numerals 1, 2, 3...)
+	\mainmatter
+	
+	\chapter{Introduction}
+	\label{chap:intro}
+	This is your introduction. You can start typing your content here. 
+	For example, "The objective of this study is..."
+	
+	\section{Background}
+	Here is a section within the introduction.
+	
+	\chapter{Literature Review}
+	\label{chap:lit_review}
+	Here you can discuss previous works.
+	
+	\chapter{Methodology}
+	\label{chap:method}
+	Describe your methods here.
+	
+	\chapter{Results and Discussion}
+	\label{chap:results}
+	Present your findings here.
+	
+	\chapter{Conclusion}
+	\label{chap:conc}
+	Summarize your thesis and future work.
+	
+	%TC:ignore
+	
+	% ===================================================
+	% 4. BACK MATTER (Bib, Appendix, Bios)
+	% ===================================================
+	
+	% Appendix numbering (A, B, C...)
+	\appendix
+	
+	\chapter{Supplementary Data}
+	If you have extra codes or data, put them here.
+	
+
+	% --- Acknowledgements ---
+	\begin{acknowledgements}
+		I would like to thank my supervisor and my friends...
+	\end{acknowledgements}
+	
+
+	
+	%TC:endignore
+	
+\end{document}

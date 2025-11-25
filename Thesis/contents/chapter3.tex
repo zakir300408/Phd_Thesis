@@ -1,0 +1,301 @@
+% !TeX root = ../main.tex
+
+\chapter{IMU-Driven Running Impact Loading Modeling}
+VALR, a measure of impact loading during running, is associated with several knee joint injuries. The author presents an IMU-based subject-independent CNN model for runners to accurately estimate VALR in various running conditions. VALR estimations via the CNN model with a single shank-worn IMU were highly correlated ($\rho$ = 0.94) with force-plate VALR measurements. Correlation results from the CNN model for a single IMU placed at the foot, pelvis, trunk, and thigh were $\rho$ = 0.91, 0.76, 0.69, and 0.65, respectively. There was no improvement in accuracy from the shank-worn IMU when adding 1-4 additional IMUs from the trunk, pelvis, thigh, or foot. The proposed subject-independent CNN model with a single shank-worn IMU provides more accurate estimation of VALR than previous wearable sensing approaches. This could potentially provide insights into running-related knee injury risk and prevention.
+
+\begin{figure}[!b]
+  \centering
+  \subcaptionbox{}{\includegraphics[height=3cm]{figures/chapter3/c4_shoes_standard.png}}
+  \hspace{0.5cm}
+  \subcaptionbox{}{\includegraphics[height=3cm]{figures/chapter3/c4_shoes_minimalist.png}}
+  \caption[Cushioning thickness of running shoes.]
+  {(a) Traditional and (b) minimalist running shoes whose cushioning are thick and extremely thin, respectively.}
+  \label{fig:c4_running_shoes}
+\end{figure}
+
+\section{Introduction}
+Running is a popular physical activity, but high impact loading during running has been associated with several knee joint injuries including inflammation patellar tendon, patellofemoral pain syndrome, and tractus iliotibial band syndrome \cite{van1992running, Cheung2011Landing}. Impact loading can be affected by various running gait parameters such as foot-strike pattern \cite{Lieberman2010Foot, Futrell2018Relationships}, step rate \cite{Hobara2012Step, Hafer2015effect}, and speed \cite{Breine2014Relationship, Breine2019Running}, as well as external factors such as footwear cushioning thickness (Figure \ref{fig:c4_running_shoes}) \cite{Horvais2013Effect, Hamill2011Impact} and running surface \cite{Dixon2000Surface}.
+The foot-strike pattern has the most pronounced influence on the intensity of impact loading. Based on the initial foot-ground contact location (discriminated by the acting point of initial ground reaction force (GRF) on foot), the collisions can be categorized into three patterns: a fore-foot strike, in which the toe touches the ground first; a mid-foot strike, in which the toe and the heel touch the ground simultaneously; and a rear-foot strike, in which the heel touches the ground first \cite{Lieberman2010Foot}. The vertical GRF of a rear-foot strike step typically has a distinct impact peak in front of the peak force (Figure \ref{fig:c1_strike_rearfoot}), and the impact peak is not typically seen in a mid-foot or fore-foot strike step (Figure \ref{fig:c1_strike_forefoot}) \cite{Cavanagh1980Ground}. As a result, the GRF of a rear-foot strike has a much shorter rising time, and thus the corresponding impact loading is much more intense.
+
+\begin{figure}[!htbp]
+    \begin{minipage}{0.48\textwidth}
+      \centering
+      \includegraphics[height=7cm]{figures/chapter1/c1_strike_rearfoot.png}
+      \subcaption{}
+      \label{fig:c1_strike_rearfoot}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+      \centering
+      \includegraphics[height=7cm]{figures/chapter1/c1_strike_forefoot.png}
+      \subcaption{}
+      \label{fig:c1_strike_forefoot}
+    \end{minipage}
+    \caption[GRF and impact loading.]
+    {Vertical GRF of (a) a typical rear-foot strike step and (b) a typical mid-foot or fore-foot strike step. For mid-foot and fore-foot strike patterns, 13\% of the gait cycle is used as a surrogate impact peak occurrence time if it is missing. The GRFs used for VALR computation are marked red.}
+    \label{fig:c1_strike}
+\end{figure}
+
+VALR is often used to assess the intensity of impact loading \cite{davis2016greater, Ceyssens2019Biomechanical}. Measuring VALR typically requires embedded force plates, which can be expensive and confine gait assessment to specialized laboratories. Thus, to enable less expensive, widespread assessment outside the lab, PTA has been suggested as a surrogate measure of impact loading for runners \cite{Crowell2011Gait, Clansey2014Influence, Tenforde2019Tibial}. PTA is typically measured with a shank-worn accelerometer and computed as simply the peak acceleration value of the accelerometer axis parallel with the tibia during early stance \cite{Crowell2011Gait, Huang2019Foot}. While this approach is beneficial in that it is relatively easy to implement, previous studies have reported that PTA can be insensitive to changes in running gait patterns \cite{Huang2019Foot, Yong2018Acute} and that the correlation between PTA and VALR may not be sufficiently high enough to confidently implement PTA as a widely-used, valid surrogate \cite{Zhang2016Comparison, Laughton2003Effect, Greenhalgh2012Predicting, Taylor1990Interpretation}.
+
+To increase the reliability of wearable impact loading assessment, other more advanced models may need to be explored. Machine learning models such as ANNs have recently shown immense potential for advancing human movement biomechanics research, largely because they can potentially learn highly complex nonlinear relationships from experimental datasets \cite{Halilaj2018Machine}. For example, ANNs have been used with IMUs to estimate running kinetics such as ground reaction force \cite{Wouda2018Estimation} and joint moments \cite{Stetter2019Estimation}. Also, CNNs, a sophisticated type of ANN, have been used with IMUs to enable individual gait identification \cite{Dehzangi2017IMU-Based}, running velocity estimation \cite{Zrenner2018Comparison}, and IMU placement estimation \cite{Zimmermann2018IMU-to-segment}. CNN has powerful information extraction capabilities because it employs trained convolution kernels as templates and makes predictions based on template matching \cite{Yann1995Convolutional}. Despite the potential advantages of CNN, it is unknown whether this model could increase the VALR estimation accuracy compared with existing wearable sensing approaches.
+
+Apart from estimation modeling, the number and body locations of wearable IMUs could also significantly affect VALR estimation accuracy. Body segments including trunk, pelvis, thigh, shank, and foot are frequently selected as the locations for IMUs in gait analysis \cite{Rueterbories2010Methods}. Segments such as the trunk and pelvis have relatively larger masses, so their vertical accelerations are highly correlated with the vertical ground reaction force used to compute VALR \cite{Shahabpoor2018Real-life}. Meanwhile, segments such as the shank and foot are closer to the collision of each foot-strike, so the accompanying shock waves from impact loading are less dampened \cite{Cheung2019Shoe-mounted}. It is unclear which IMU location could achieve the highest VALR estimation accuracy, and whether combinations of IMUs could improve the overall accuracy.
+
+The primary purpose of this work is to present a novel, subject-independent CNN model for estimating VALR in runners from wearable IMUs. A secondary purpose is to determine the optimal configuration of one or more IMUs at the foot, shank, thigh, pelvis, and trunk for accurate VALR estimation. To build a robust model for various running conditions, several different conditions were tested, including changes in footwear, speed, foot-strike pattern, and step rate. It was hypothesized that the CNN model would substantially improve accuracy in estimating VALR during running as compared with previous wearable sensing approaches. It was also hypothesized that the optimal configuration of multiple IMUs would outperform the optimal configuration of a single IMU.
+
+\section{VALR Estimation Model}
+\subsection{Input Data Window Start and End Time Selection} \label{section:c4_input_data_window}
+A foot contact events detection algorithm \cite{Sin2013} using shank IMU data was implemented and modified to segment continuous data into discrete steps. For each gait cycle, a data window was selected to be the proposed model input. This window starts from 60 ms before foot-strike and ends at 150 ms after foot-strike, which were selected to guarantee that the data from foot-strike to vertical impact peak (VIP, whose average occurrence time is 23 ms after foot-strike \cite{Cavanagh1980Ground}) were covered with an adequate margin. It was assumed that the data from foot-strike to VIP is vital for VALR estimation because VALR is defined as the slope of the ground reaction force between foot-strike and VIP \cite{davis2016greater}. Also, it was assumed that small changes in the window start and end time would have a relatively minor impact on estimation accuracy as long as the window covers the data from foot-strike to VIP. To validate these assumptions, the author performed additional VALR estimation analysis with varying window sizes as follows:
+
+(i) Test all the window start times between ``120 ms before foot-strike'' and ``60 ms after foot-strike'' at every 20 ms interval. Note that there was no change in the window end time, which stayed constant at ``150 ms after foot-strike''.
+
+(ii) Test all the window end times between ``10 ms after foot-strike'' and ``170 ms after foot-strike'' at every 20 ms interval. Note that there was no change in the window start time, which stayed constant at ``60 ms before foot-strike''.
+
+\begin{figure}[!htbp]
+  \centering
+  \subcaptionbox{}{\includegraphics[width=7cm]{figures/chapter3/c4_win_start_end_a.png}}
+  \hspace{0.5cm}
+  \subcaptionbox{}{\includegraphics[width=7cm]{figures/chapter3/c4_win_start_end_b.png}}
+  \caption[Change of VALR estimation accuracy with the change of input data window.]
+  {Change of VALR estimation accuracy with the change of (a) input data window start time and (b) input data window end time. The VALR estimation accuracy metric was the correlation between CNN model estimations and force plate measurements. The window start and end time used for the proposed CNN model were marked by a green and a red dot, respectively.}
+  \label{fig:c4_window_start_end_time}
+\end{figure}
+
+In support of the first assumption, substantial estimation accuracy decreases were observed when the window start time was later than foot-strike (Figure \ref{fig:c4_window_start_end_time}a), or the window end time was earlier than ``30 ms after foot-strike'' (Figure \ref{fig:c4_window_start_end_time}b). The ``30 ms after foot-strike'' corroborates previous research findings that the average occurrence time of the VIP was 23 ms after foot-strike \cite{Cavanagh1980Ground}. In support of the second assumption, estimation accuracy did not substantially change when the window start time was between ``120 ms before foot-strike'' and ``20 ms before foot-strike'' (Figure \ref{fig:c4_window_start_end_time}a), or window end time was between ``50 ms after foot-strike'' and ``170 ms after foot-strike'' (Figure \ref{fig:c4_window_start_end_time}b). Therefore, the same VALR estimation accuracy can be achieved by the proposed CNN model via a relatively large range of window start time and end times, despite that the author used 60 ms before foot-strike and 150 ms after foot-strike as the window start and end time, respectively.
+
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=12.6cm]{figures/chapter3/c4_cnn_structure.png}
+  \caption[Architecture of CNN model for VALR estimation.]
+    {Architecture of CNN model for VALR estimation based on one 6-axis IMU. For multiple IMU conditions, the width of raw input was extended from 6 to 6n (n denotes the number of IMUs). Accordingly, the width of extracted step data, two types of convolution kernels (3×6 and 1×6), and two types of convolution results (33×6 and 40×6) were extended from 6 to 6n. Since only the maximum values were kept for the convolution result after the pooling operation, the number of extracted features and the size of the dense layers remained unchanged.}
+ \label{fig:c4_cnn_structure}
+\end{figure}
+
+\subsection{CNN Model Structure} \label{section:c4_cnn_model_structure}
+A subject-independent CNN model was developed to estimate VALR during running from IMU data (Figure \ref{fig:c4_cnn_structure}). Convolution operations were performed between the selected data window (section \ref{section:c4_input_data_window}) and kernels to generate convolution results. Then, the maximum values of convolution results were extracted as the main features via pooling operations. These main features along with 2 auxiliary features (the number of samples from the last toe-off to the current foot-strike and to the current toe-off) were fed into a fully-connected neural network (FCNN) with three hidden dense layers and one output layer to predict VALR. Small changes in hidden dense layer number and neuron number have a relatively minor impact on VALR estimation accuracy (see the next paragraph). The two auxiliary features were used to provide information related to swing phase duration and stride duration of the current step. For the FCNN, the activation functions of the hidden layers and the output layer were rectified linear unit functions and an identity function, respectively.
+
+The influence of hidden dense layer number was investigated via iteratively testing the CNN model with the following eight configurations: 
+(1)	1 layer with 10 neurons,
+(2)	1 layer with 50 neurons and 1 layer with 10 neurons,
+(3)	2 layers with 50 neurons and 1 layer with 10 neurons,
+(4)	3 layers with 50 neurons and 1 layer with 10 neurons,
+(5)	7 layers with 50 neurons and 1 layer with 10 neurons,
+(6)	15 layers with 50 neurons and 1 layer with 10 neurons,
+(7)	31 layers with 50 neurons and 1 layer with 10 neurons, and
+(8)	63 layers with 50 neurons and 1 layer with 10 neurons.
+Note that the (3) configuration is the same as the configuration of the proposed CNN model.
+
+The author also investigated the influence of neuron number via iteratively testing the CNN model with the following 11 configurations:
+(1)	3 layers with 2, 2, and 2 neurons,
+(2)	3 layers with 4, 4, and 4 neurons,
+(3)	3 layers with 8, 8, and 8 neurons,
+(4)	3 layers with 16, 16, and 10 neurons,
+(5)	3 layers with 32, 32, and 10 neurons,
+(6)	3 layers with 50, 50, and 10 neurons,
+(7)	3 layers with 64, 64, and 10 neurons,
+(8)	3 layers with 128, 128, and 10 neurons,
+(9)	3 layers with 256, 256, and 10 neurons,
+(10)   3 layers with 512, 512, and 10 neurons, and
+(11)   3 layers with 1024, 1024, and 10 neurons.
+Note that the (6) configuration is the same as the configuration of the proposed CNN model.  
+
+\begin{figure}[!htbp]
+  \centering
+  \subcaptionbox{}{\includegraphics[width=7cm]{figures/chapter3/c4_neuron_num_a.png}}
+  \hspace{0.5cm}
+  \subcaptionbox{}{\includegraphics[width=7cm]{figures/chapter3/c4_neuron_num_b.png}}
+  \caption[Change of VALR estimation accuracy with the change of hidden layers.]
+  {Change of VALR estimation accuracy with the change of (a) number of hidden dense layers and (b) number of neurons in the first two hidden dense layers. The VALR estimation accuracy metric was the correlation between CNN model estimations and force plate measurements. The used hidden layer and the used neuron number were marked by green dots.}
+  \label{fig:c4_layer_and_neuron_number}
+\end{figure}
+
+Results showed that VALR estimation accuracy changes were relatively small when the number of hidden dense layers was equal to or lower than 32 (Figure \ref{fig:c4_layer_and_neuron_number}a), or the neuron number was equal to or higher than 8 (Figure \ref{fig:c4_layer_and_neuron_number}b). This range includes the configuration of the proposed model---2 layers with 50 neurons and 1 layer with 10 neurons. The accuracy decrease observed in large layer numbers and small neuron numbers are possibly caused by vanishing/exploding gradients \cite{Glorot2010Understanding} and lack of model complexity \cite{teoh2006estimating}, respectively.
+
+\subsection{CNN Model Training} \label{section:c4_cnn_model_implementation}
+This VALR estimation model was trained and tested based on a leave-one-subject-out cross-validation method and thus predictions were not dependent on subject-specific training data. All the data from one subject were used for testing while the data from the remaining subjects were used for training. Then, the training and testing were iteratively performed 15 times, with each subject's data used as the test set once. The CNN model was implemented using Keras (version 2.3.0) \cite{chollet2015keras}, a high-level neural networks application programming interface in Python. Low-level operations including convolution and pooling were performed in TensorFlow (version 1.14.0) \cite{tensorflow2015-whitepaper}, which interfaced with Keras. The Glorot normal initializer \cite{Glorot2010Understanding} was used to initialize kernels and dense layer neurons, and the Nesterov Adam optimizer \cite{Sutskever2013On} was used to optimize the training process. L2 regularization was used to constrain the magnitude of convolution kernels to avoid overfitting. Min-max normalization was used to normalize each IMU channel. The normalization scales were determined by the minimum and maximum values of the training data, and the same scales were applied to the testing data.
+
+\subsection{Computational Complexity} \label{section:c4_cnn_computational_complexity}
+The computational complexity of the proposed model was evaluated based on the total estimated floating point operations (FLOPs) including addition, subtraction, multiplication, and division \cite{Molchanov2019Pruning}. The proposed CNN model contains one convolutional layer consisting of twelve 10×1 kernels, twelve 3×6 kernels, twelve 3×1 kernels, and twenty 1×6 kernels, so the FLOPs of convolutional layers is \cite{Molchanov2019Pruning}:
+
+\begin{equation}
+\begin{aligned}
+& {\rm FLOPs_{CONV}} \\
+=& \sum_{j=1}^{m} 2LW\left(K_{jl} K_{jw}+1\right) \\
+=& 12 \times[2 \times 42 \times 6 \times(10 \times 1+1)] + 12 \times[2 \times 42 \times 6 \times(3 \times 6+1)]+\\
+& 12 \times[2 \times 42 \times 6 \times(3 \times 1+1)]+20 \times[2 \times 42 \times 6 \times(1 \times 6+1)] \\
+=& 276192,
+\end{aligned}
+\end{equation}
+
+\noindent where $j$ is the index of a convolution kernel, $m$ is the number of kernels, $L$ and $W$ are the length and width of the convolutional layer input, $K_{jl}$ and $K_{jw}$ are the length and width of the $j_{th}$ kernel. Also, the proposed CNN contains three hidden dense layers with 50, 50, 10 neurons and one output layer with 1 neuron, so the FLOPs of dense layers is \cite{Molchanov2019Pruning}:
+
+\begin{equation}
+\begin{aligned}
+& {\rm FLOPs_{Dense}} \\
+=& \sum_{\text {layer}=1}^{4}(2 I-1) O \\
+=&(2 \times 58-1) \times 50+(2 \times 50-1) \times 50+(2 \times 50-1) \times 50+(2 \times 10-1) \times 1 \\
+=& 15669,
+\end{aligned}
+\end{equation}
+ 
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=12cm]{figures/chapter3/c4_instrumentation.jpg}
+  \caption[Subject instrumentation layout and locations of the IMU sensors.]
+    {(a) Subject instrumentation layout and (b) locations of the IMU sensors (orange rectangles). Transparent orange indicates that the trunk IMU was located on the posterior torso.}
+ \label{fig:c4_instrumentation}
+\end{figure}
+
+\noindent where $I$ and $O$ are the input and output dimensionality of a dense layer. Therefore, the proposed CNN requires approximately 0.29 Mega FLOPs (≈ 276192 + 15669 = 291861 FLOPs) for predicting the VALR of one gait cycle. Theoretically, a Raspberry pi 3B+, a Snapdragon 865 processor, and an Intel i7-6700 processor can perform 5,300, 122,00, and 217,600 Mega FLOPs per second, indicating that the proposed model is feasible for real-time VALR prediction. 
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=10cm]{figures/chapter3/c4_sensor_wrapping.jpg}
+  \caption[An IMU sensor securely strapped around the body segment.]
+    {An IMU sensor securely strapped around the body segment.}
+ \label{fig:c4_sensor_wrapping}
+\end{figure}
+
+\section{Instrumentation}
+IMU sensors of this study were MTi-300 (Xsens Technologies B.V., Enschede, the Netherlands), which collected data at 200 Hz. The full range, bias stability, and noise density are 450 °/s, 10 °/h, and 0.01 $°\rm{/ s / \sqrt{Hz}}$ for its internal gyroscope, and are 20g, 15 µg, and 60  $\rm{µg / s / \sqrt{Hz}}$ for its internal accelerometer. The dimension and weight of each IMU sensor are 57 mm x 42 mm x 24 mm and 55 g, respectively.
+IMUs were strapped to each subject (Figure \ref{fig:c4_instrumentation}) at the following locations: trunk---5th thoracic vertebrae, pelvis---mid-point between left and right anterior superior iliac spine, left thigh---mid-point between left anterior superior iliac spine and left femur medial epicondyle, left shank---one third point between left femur medial epicondyle and left tibia apex of medial malleolus near proximal end of tibia, and left foot---across metatarsal bones.
+Each sensor was tapped to a strap, which was securely wrapped around the body segment for more than two rounds (Figure \ref{fig:c4_sensor_wrapping}). Ground-truth VALR was computed from GRF data collected by an instrumented treadmill with two embedded force plates (Bertec Corp., Worthington, OH, USA) at 1000 Hz.
+
+
+\section{Experimental Validation}
+\subsection{Subjects}
+Fifteen college students (8 males and 7 females; age: 23.9 ± 1.1; height: 1.68 ± 0.08 m; weight: 61.9 ± 7.7 kg; BMI: 21.8 ± 1.2 kg/m$^{2}$; mileage: 9.8 ± 7.3 km/week) with no history of running-related injuries or musculoskeletal disorders volunteered to participate in this study. All the subjects provided written informed consent before being tested, and the experimental procedure was reviewed and pre-approved by the university ethics committee. The model was trained and tested based on a leave-one-subject-out cross-validation method and thus predictions were not dependent on subject-specific training data.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=10cm]{figures/chapter3/c4_define_strike_pattern.png}
+  \caption[Definition of foot-strike patterns.]
+    {Definition of foot-strike patterns. The definition is based on the ratio between the distance from the heel to the center of pressure and the length of foot at foot-strike. A step was categorized as a rear-foot, mid-foot, or forefoot strike if its ratio is within 0\% - 33\%, 33\% - 67\%, or 67\% - 100\%, respectively.}
+ \label{fig:c4_define_strike_pattern}
+\end{figure}
+
+\subsection{Protocol}
+Testing conditions included different footwear, running speeds, foot-strike patterns, and step rates. Subjects performed separate running trials with two different running shoes: standard shoes (Revolution 4, Nike, Inc., Beaverton, OR, USA) and minimalist shoes (V-RUN, Vibram Corp., Brookline, MA, USA). Subjects were also asked to run at two speeds: 2.4 m/s and 2.8 m/s. The sequence of footwear and running speed was randomized. For each type of footwear and each running speed, subjects initially performed a warm-up trial, and then a changing foot-strike pattern trial, and a changing step rate trial. The one-minute warm-up trial was to allow subjects to become familiar with the running speed and footwear and to determine each subject's self-selected step rate for that testing condition. Foot-strike pattern was defined by the ratio between the distance from the heel to the center of pressure and the length of foot at foot-strike. A step was categorized as a rear-foot, mid-foot, or forefoot strike if its ratio is within 0\% - 33\%, 33\% - 67\%, or 67\% - 100\%, respectively (Figure \ref{fig:c4_define_strike_pattern}). During the foot-strike pattern trial, subjects ran 100 steps for each of three patterns (forefoot, mid-foot, and rear-foot strike). Subjects were asked to match their current pattern to the required one according to the real-time visual feedback provided via a monitor (Figure \ref{fig:c4_visual_feedback}). During the step rate trial, subjects linearly increased their baseline step rate from 90\% to 110\% during one minute and then linearly decreased the baseline step rate from 110\% to 90\% during another minute. Subjects were asked to match their footfalls to the designated tempo of the audio feedback provided by a speaker to change step rate. Before foot-strike pattern and step rate trials began, subjects practiced these two trials to ensure that they were familiar with gait modifications and could correctly perceive visual/audio feedback. The sequence of three foot-strike patterns, the order of step rate increase/decrease, and the order of the two gait modification trials were randomized.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=10cm]{figures/chapter3/c4_visual_feedback.png}
+  \caption[Visual feedback for modification of foot-strike pattern.]
+    {Real-time visual feedback for modification of foot-strike pattern. The subject's current pattern and prescribed pattern were marked by a blue bar and a pink block, respectively. The remaining step number was updated after each strike. The completed pattern regions were plotted lightly.}
+ \label{fig:c4_visual_feedback}
+\end{figure}
+
+\subsection{Data Analysis}
+Marker data were low-pass filtered at 12 Hz and force plate data at 50 Hz using a zero-lag, fourth-order Butterworth filter \cite{davis2016greater, Shahabpoor2018Real-life}. A threshold of 20 N in the vertical ground reaction force was used to identify foot-strike and toe-off to determine the stance phase \cite{Breine2019Running}. VALR is defined as the slope of the line through the 20\% and 80\% points of the VIP (the local maximum between foot-strike and peak vertical force) \cite{davis2016greater}. In cases where the VIP was missing from the vertical ground reaction force, the force value at 13\% of stance was used \cite{Willy2008Calculation}. The accelerometer data used for PTA calculation was low-pass filtered at 75 Hz with a zero-lag, second-order Butterworth filter \cite{Crowell2011Gait}. PTA was calculated as the peak tibial acceleration after foot-strike from the x-axis of the IMU aligned with the longitudinal direction of the tibia \cite{Huang2019Foot}.
+
+To find the optimal IMU configuration for VALR estimation, apart from the shank IMU, the author also tested the CNN model with other IMU locations (trunk, pelvis, thigh, and foot). In addition, the author extended this model to multi-IMU conditions and explored all the possible combinations of two to five IMUs. When combining $n$ IMUs out of five IMUs to be the model input, the number of all the possible combinations is 5Cn, which is defined by:
+
+\begin{equation}
+5 \mathrm{C}n=\frac{5 !}{n !(5-n) !}
+\end{equation}
+\begin{equation}
+n!=n \times(n-1) \times \cdots \times 1
+\end{equation}
+\begin{equation}
+5!=5 \times 4 \times 3 \times 2 \times 1=120,
+\end{equation}
+
+\noindent where $n!$ is the factorial of a positive integer $n$. For each $n$ from one to five, the combination with the smallest relative root mean square error (rRMSE) was selected as the optimal configuration of $n$ IMUs for VALR estimation. Note that the dimension of the model changed according to the dimensional change of the input data in multi-IMU conditions (Figure \ref{fig:c4_cnn_structure} caption).
+
+\begin{figure}[!htb]
+    \begin{subfigure}{1\textwidth}
+    \centering
+    \includegraphics[width=14.5cm]{figures/chapter3/c4_main_comparison.png}
+    \subcaption{}
+    \end{subfigure}
+    
+    \begin{subfigure}{1\textwidth}
+    \centering
+    \includegraphics[width=12.5cm]{figures/chapter3/c4_main_comparison_pvalue.png}
+    \subcaption{}
+    \end{subfigure}
+    \caption[Correlations between VALR estimation and force-plate measurements.]
+    {(a) Correlation between various wearable VALR estimation methods with laboratory force-plate VALR measurements in this study and in previous research (Greenhalgh et al. \cite{Greenhalgh2012Predicting}, Zhang et al. \cite{Zhang2016Comparison}, and Laughton et al. \cite{Laughton2003Effect}) and (b) p-values between pairs of body segments with bold text indicating significant differences. Laughton et al. and Greenhalgh et al. did not report standard deviations. There were significant differences between the proposed CNN model and the PTA of the present study. Also, there were significant differences between the shank and the pelvis, trunk, or thigh.}
+    \label{fig:c4_main_comparison}
+\end{figure}
+
+RM-ANOVA followed by Tukey's HSD post-hoc tests was used to determine if the IMU location would significantly affect the mean Pearson's correlation between CNN model estimations and force plate measurements. The same method was used to determine if increasing the input IMU number would significantly increase the VALR estimation accuracy. Additionally, an independent-samples t-test was used to determine if the mean Pearson's correlation of the CNN model was significantly higher than that of PTA for all the running trials and for each individual running condition. A paired-samples t-test was used to determine if there were significant differences between pairs of CNN model estimations and force plate measurements for different types of footwear and running speeds. The level of significance was set to 0.05 for all statistical analyses. 
+
+\begin{table}[!htbp]
+  \centering
+  \caption[VALR estimation accuracy of each subject.]
+    {Comparison between the proposed CNN model and PTA for each subject}
+  \includegraphics[width=12cm]{figures/chapter3/table_each_subject.png}
+ \label{tab:table_each_subject}
+\end{table}
+
+\begin{table}[!htbp]
+  \centering
+  \caption[VALR estimation accuracy of each running condition.]
+    {Correlation between VALR Estimation of the Proposed CNN Model and PTA with Laboratory Force-Plate VALR Measurements for Each Running Condition}
+  \includegraphics[width=12.5cm]{figures/chapter3/table_each_running_condition.png}
+
+  A step rate was categorized into low, medium, or high when it is within 90\%-97\%, 97\%-103\%, or 103\%-110\% baseline step rate, respectively.  Bold p-values indicate significant differences.
+  \label{tab:table_each_running_condition}
+\end{table}
+
+\section{Results}
+For the CNN model with the shank IMU data as input, the mean correlation coefficient to force plate measurements was 0.94, which was significantly higher than 0.61 obtained by the PTA with the data of the present study and was also substantially higher than $0.44 - 0.66$ obtained by the PTA from several other studies \cite{Zhang2016Comparison, Laughton2003Effect, Greenhalgh2012Predicting} (Figure \ref{fig:c4_main_comparison}). Correlation results for a single IMU placed at the foot, pelvis, trunk, and thigh were 0.91, 0.76, 0.69, and 0.65, respectively. The shank IMU had a significantly greater mean correlation than the pelvis, trunk, or thigh IMUs, while no significant difference was found between shank and foot IMUs (Figure \ref{fig:c4_main_comparison}). Strong correlations (≥ 0.89) were found between the proposed CNN model VALR estimations and force plate VALR measurements for each individual subject (TABLE \ref{tab:table_each_subject}). Strong correlations (≥ 0.88) were also found for each running condition with different speeds, footwear, strike patterns, and step rates (TABLE \ref{tab:table_each_running_condition}). Mean correlation coefficients of the CNN model were significantly higher than those of PTA for all the running conditions.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=13cm]{figures/chapter3/c4_best_combo.png}
+  \caption[One to five optimally-placed IMUs.]
+    {Mean (and standard deviation) of VALR estimation results from one to five optimally-placed IMUs via the CNN model. There were no significant differences in correlation coefficient ($\rho$), rRMSE, or MAE between different numbers of IMUs.}
+ \label{fig:c4_best_combo}
+\end{figure}
+
+No significant difference was found in the correlation coefficient ($\rho$), rRMSE, or MAE when using one or multiple IMU data as the CNN model input (Figure \ref{fig:c4_best_combo}). The shank IMU was included in all five optimal IMU combinations. In general, with the increase of the number of IMUs, the rRMSE and MAE slowly decreased and the correlation coefficient slowly increased.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=9.5cm]{figures/chapter3/c4_each_running_condition.png}
+  \caption[Average VALR grouped by running conditions.]
+    {Average VALR grouped by running conditions. There were no significant differences between VALR: Laboratory Force Plate and VALR: Single Shank IMU (Proposed CNN Model) for any of the four conditions.}
+ \label{fig:c4_each_running_condition}
+\end{figure}
+
+There was no significant difference between VALR estimated by the CNN model and VALR measured by the force plate for all types of footwear and running speeds (Figure \ref{fig:c4_each_running_condition}). The mean VALR was lower in 2.4 m/s running speed compared with 2.8 m/s and was lower in standard running shoes compared with minimalist running shoes. 
+
+\section{Discussion}
+This work presented an accurate VALR estimation model using a shank-worn IMU and a convolutional neural network model. One shank-worn IMU was the optimal configuration for impact loading assessment, a conclusion reached by comparing five locations and all their possible combinations. In support of our first hypothesis, the proposed CNN model achieved substantially higher VALR estimation accuracy than previous wearable sensing approaches. The second hypothesis was not supported, because there was no significant difference in accuracy between using one shank IMU or multiple optimally-placed IMUs. 
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=10cm]{figures/chapter3/c4_representative.png}
+  \caption[Scatter plot and linear regression line showing VALR estimation results of a representative subject.]
+    {Scatter plot and linear regression line showing VALR estimation results of a representative subject. Standard and minimalist running shoes are represented by blue and red markers, respectively. 2.4 m/s and 2.8 m/s running speeds are represented by triangle and circle markers, respectively.}
+ \label{fig:c4_representative}
+\end{figure}
+
+Apart from the PTA, the CNN model also outperformed other existing loading rate estimation models. Derie et al. \cite{Derie2020Tibial} used two accelerometers strapped on both shanks and a GBDT model to estimate VILR of 93 middle-age runners, and the correlation coefficient was 0.88. Pogson et al. \cite{Pogson2020neural} used a seven-layer ANN and a trunk-worn accelerometer to estimate VALR of 15 healthy young runners, and the correlation coefficient was 0.79. Wouda et al. \cite{Wouda2018Estimation} used three IMUs placed on the pelvis and both shanks and a four-layer artificial neural network to estimate VALR of eight healthy young runners, and the correlation coefficient was 0.75. Verheul et al. \cite{Verheul2019Whole-body} used accelerations of 15 body segments obtained by an OMC system and a six-degree-of-freedom dynamic human model to estimate the VALR of fifteen healthy young runners. The rRMSE and correlation coefficient were 29.3\% and 0.82, respectively. The proposed CNN model was validated on healthy young runners, and the subject number was 15, which was the same as that of Pogson et al. \cite{Pogson2020neural} and Verheul et al. \cite{Verheul2019Whole-body}, approximately two times as that of Wouda et al. \cite{Wouda2018Estimation}, but lower than that of Derie et al. \cite{Derie2020Tibial}. With only a single IMU, our CNN model achieved 9.7\% rRMSE and 0.94 correlation, respectively (Figure \ref{fig:c4_best_combo}). Predicted VALR from the shank-worn IMU and measured VALR from the laboratory force plate for each step of a representative subject (No.01 from TABLE \ref{tab:table_each_subject}) also demonstrated good correlation between the CNN model estimations and force plate measurements (Figure \ref{fig:c4_representative}). One possible reason for the relatively lower accuracy of the model proposed by Pogson et al. \cite{Pogson2020neural} is that the trunk is a non-optimal sensor location for VALR estimation according to the investigation of this work. Additionally, the models proposed by Wouda et al. \cite{Wouda2018Estimation} and Verheul et al. \cite{Verheul2019Whole-body} achieved relatively lower accuracy, possibly because these models only used the data of each sample for estimation, while other models used the data of each step for estimation. If a model takes each sample independently as the input, it will not be able to extract non-linear relationships between different samples, and it will be more sensitive to the noise of each sample. 
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=11cm]{figures/chapter3/c4_data_amount.png}
+  \caption[Relationship between losses and training set size.]
+    {The influence of training set size on training and validation losses (mean-squared-error) for configurations of one to five IMUs. The solid and dotted lines represent the change of training and validation losses, respectively.}
+ \label{fig:c4_data_amount}
+\end{figure}
+
+The author collected 18468 gait cycles from 15 subjects, with each subject contributed more than 1000 gait cycles. To investigate the influence of the training set size on training and validation losses, the author trained the model with different amounts of data, which were randomly selected from the original training set with a portion of 1\%, 2\%, 4\%, 8\%, 16\%, 32\%, 64\%, and 100\%. For example, when the first subject's data were used as the testing set, a portion of data (e.g. 1\%) were randomly selected from each subject of the original training set (subject 2 to 15) to form the new training set. Investigations were iteratively performed on each optimal configuration of 1 to 5 IMUs (Figure \ref{fig:c4_best_combo}). For each data size and each IMU configuration, the relative success of model training was quantified by the mean-squared-error, which is the target loss function to minimize during model training. In general, configurations of multiple IMUs achieved slightly lower training and validation losses than the configuration of a single IMU (Figure \ref{fig:c4_data_amount}). This corroborates with the testing errors (Figure \ref{fig:c4_best_combo}), where the errors of configurations with multiple IMUs were close to each other but slightly lower than the errors of the configuration with a single IMU. The losses decreased sharply when the training set size increased from 1\% to 16\%, but the decreasing trend was less pronounced when the size was larger than 16\%. Still, it is possible that a better VALR estimation model with lower losses can be trained using a larger training data set consisting of a larger number of runners.
+
+The CNN model findings aligned with PTA findings that the shank was the optimal location for impact loading assessment. Additionally, adding IMU data of other locations to the CNN model slightly numerically increased the estimation accuracy, but the differences were not statistically significant (Figure \ref{fig:c4_best_combo}). This corroborates with the relative success of model training between different IMU configurations, where configurations of multiple IMUs achieved slightly lower training and validation losses than the configuration of a single IMU for most of the training set size (Figure \ref{fig:c4_data_amount}). The minor differences in VALR estimation accuracy and the losses indicated that only limited additional information related to VALR was provided by the kinematics of other body segments. Nevertheless, some of these segments might be able to provide more information for the estimation of other impact loading variables such as VIP, and this would require further analysis to validate. 
+
+Since the correlation differences between the shank and foot IMU were not significant (Figure \ref{fig:c4_main_comparison}), the foot can be an alternative IMU location if the shank is not available due to placement difficulty or awkwardness of running. One potential benefit of gait assessment with a foot-worn IMU is that many commercially available devices are designed to be attached to shoes \cite{Cheung2019Shoe-mounted}.
+
+To the best of our knowledge, our study is the first attempt to estimate the running impact loading rate via a CNN model. The proposed CNN model consists of both short and long convolution kernels, aiming to capture both instantaneous features such as peak acceleration and integral features such as changes in body segment orientation. Also, CNNs are invariant to feature time shift problems within the range of input data \cite{Yann1995Convolutional}, and thus VALR estimation accuracy is invariant to small foot-strike detection errors. Additionally, no sensor placement calibration was required for the experimental setup, which could make it easier for researchers or clinicians to use the model. Various running conditions with different footwear, foot-strike pattern, and step rate were included in our experimental protocol, so the CNN model is expected to be valid for all these conditions. Nevertheless, the proposed model may not be valid for other conditions such as uphill and high speed running (> 2.8 m/s).
+
+One limitation of this study is that the proposed model only estimates VALR, while variables including VILR and VIP are also commonly used to indicate the intensity of impact loading. Although VALR demonstrated a better capability in predicting injury risk than VIP and VILR according to a study of 249 female runners \cite{davis2016greater}, VILR was more consistent among different calculation methods according to a study of 9 male runners \cite{ueda2016comparison}. Since a strong correlation exists between these three variables \cite{Hobara2012Step, Crowell2011Gait, Bowser2018Reducing}, it is reasonable to expect that the same CNN model can achieve close accuracy for VILR and VIP estimation. Nevertheless, to enable a complete, wearable impact loading assessment, future research may consider building a model that could simultaneously estimate VALR, VILR, and VIP.
+
+% One limitation of this study is that only 15 healthy runners with no history of running-related injuries were recruited for validation of the proposed CNN model. It is unknown whether the results can be generalized to a broader population, especially injured runners considering their relatively higher running loading rates \cite{Futrell2018Relationships, davis2016greater}. It is possible to train a more general and accurate VALR estimation model using a larger data set consisting of a broader population.
+
+\section{Chapter Summary}
+
+The proposed subject-independent CNN model with a single shank-worn IMU provides more accurate estimations of VALR than previous wearable sensing approaches. This could enable runners to more accurately assess impact loading rates and potentially provide insights into running-related injury risk and prevention. Also, coaches can use this model to understand runners' workload and capacity, thus enhance training design, evidence biomechanical fatigue, and facilitate the development of appropriate injury reduction interventions \cite{camomilla2018trends}. In addition, researchers may use this work's findings to determine the optimal IMU location and configuration when establishing new wearable impact loading assessment methods.
