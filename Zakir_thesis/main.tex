@@ -1,0 +1,66 @@
+% main.tex
+% Minimal standard thesis setup (no SJTU, no ctex, just plain LaTeX)
+
+\documentclass[12pt,a4paper]{report}
+
+%------------------- Packages -------------------%
+\usepackage[utf8]{inputenc}   % UTF-8 input
+\usepackage[T1]{fontenc}      % Better font encoding
+\usepackage{lmodern}          % Latin Modern font
+
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing               % 1.5 line spacing
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage[hidelinks]{hyperref}
+
+% If you want clever cross-refs later:
+% \usepackage{cleveref}
+
+%------------------- Bibliography (optional for now) -------------------%
+% Option 1: biblatex + biber (modern)
+% \usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+% \addbibresource{references.bib}
+
+% Option 2: classic BibTeX (uncomment later if you prefer)
+% \usepackage[numbers,sort&compress]{natbib}
+
+%------------------- Meta info -------------------%
+\title{Reinforcement Learning and Model-Free Control Frameworks for Magnetic Soft Robots}
+\author{Zakir Ullah}
+\date{\today}  % or set a fixed date
+
+%=================================================%
+\begin{document}
+	%=================================================%
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	%-------------------------------------------------%
+	% Chapters
+	%-------------------------------------------------%
+	
+	\input{contents/chapter1_intro}
+	% \input{contents/chapter2}
+	% \input{contents/chapter3}
+	% ...
+	
+	%-------------------------------------------------%
+	% Bibliography
+	%-------------------------------------------------%
+	
+	% For biblatex:
+	% \printbibliography
+	
+	% For BibTeX:
+	% \bibliographystyle{plainnat}
+	% \bibliography{references}
+	
+	%=================================================%
+\end{document}

@@ -1,0 +1,136 @@
+\chapter{Introduction}
+
+\section{Background and Motivation}
+
+\subsection{Robotics: From Rigid Machines to Adaptive Systems}
+
+Robotics originated as an engineering discipline focused on rigid, precisely actuated machines capable of executing repetitive tasks with high accuracy. This early paradigm was driven by industrial manufacturing, where articulated manipulators operated in structured environments and prioritized stiffness, precision, and isolation from human workers. Although these systems excelled at tasks such as welding, assembly, and material handling, their mechanical rigidity limited their adaptability when confronted with variable environments, uncertain contacts, or delicate objects.
+
+Over the past decade, this classical view has expanded toward a broader landscape in which robots must operate in complex, dynamic, and human-centered settings. A major catalyst for this shift has been the emergence of soft robotics, which demonstrates how compliance, deformability, and embodied mechanical intelligence enable capabilities that rigid mechanisms struggle to achieve. Soft robots integrate highly deformable materials—elastomers, hydrogels, liquid-crystal elastomers, and magnetoactive composites—into actuation and body structures. These materials allow robots to bend, twist, stretch, and conform to obstacles, providing intrinsic resilience and safety. Laschi, Mazzolai, and Cianchetti showed that soft robotic technologies fundamentally redefine what robots can do, expanding manipulation and locomotion paradigms into previously inaccessible domains.\cite{ref1}
+
+Growth-based soft robots illustrate how morphology can offload computational burden from controllers. Hawkes et al. introduced a soft growing robot that advances by tip extension, enabling steering and navigation through cluttered environments without complex articulated joints.\cite{ref2} Vacuum-powered architectures further demonstrate material-driven behavior: Robertson and Paik showed that negative-pressure networks embedded in soft structures produce multifunctional actuation without relying on rigid components.\cite{ref3} High-power-density materials also play an important role. Huang et al. demonstrated untethered soft robots driven by shape memory alloy tendons that achieve rapid biomimetic locomotion.\cite{ref4}
+
+Another critical development in adaptive robotics is soft sensing. Electronic skins (e-skins) permit continuous tactile perception on compliant bodies. Byun et al. created fully soft robots with conformal e-skin modules enabling wireless reconfiguration.\cite{ref5} Booth et al. extended this idea with OmniSkins that wrap passive objects and instantly transform them into multifunctional robotic systems.\cite{ref6} Embedded sensory networks combined with learning-based models, such as recurrent neural networks, yield robust proprioception even under complex deformations.\cite{ref10}
+
+Soft robots have also demonstrated unique locomotion and manipulation capabilities. Wall-climbing robots achieve adhesion and locomotion on vertical surfaces through anisotropic friction and compliant gripping.\cite{ref7} Underwater, Katzschmann et al. developed a silent, soft robotic fish capable of interacting safely with marine life.\cite{ref8} Kim et al. created ferromagnetic soft continuum robots whose programmed magnetization fields allow complex bending and twisting motions under simple magnetic inputs.\cite{ref9} Hydrogel-based oscillators and phototactic swimmers add to the repertoire of environmentally responsive soft locomotion.\cite{ref11}
+
+Soft manipulation has similarly advanced. Sinatra et al. created soft grippers capable of ultragentle manipulation of delicate specimens.\cite{ref12} Dielectric elastomer actuators have enabled translucent, muscle-like robotic structures that serve simultaneously as sensors, actuators, and load-bearing bodies.\cite{ref14}
+
+Adaptation is increasingly addressed not only at the component level but also at the system level. Dorigo et al. described how collective behaviors in multi-robot swarms increasingly rely on emergent physical interactions rather than rigid centralized control.\cite{ref15} Bujard et al. showed that squid-inspired soft robots can exploit resonant fluid–structure coupling to achieve propulsion with biological-level efficiency.\cite{ref16} Shape-morphing robotic surfaces\cite{ref17} and subterranean soft robots\cite{ref18} further illustrate how adaptability and environment-aware behavior are tightly linked to material and geometric design.
+
+Recent work has targeted extreme and long-duration environments with compliant bodies. Li et al. developed a self-powered soft robot that operated successfully at a depth of 10,900 meters in the Mariana Trench.\cite{ref19} Aubin et al. introduced electrolytic vascular systems for robots, distributing energy storage throughout the body reminiscent of biological circulatory systems.\cite{ref20} Entirely soft autonomous robots have been demonstrated with integrated body–actuator–controller architectures.\cite{ref21}
+
+These developments converge toward the emerging concept of physical intelligence: the idea that perception, computation, and actuation are embedded within body materials and structural features. Chen et al. argued that autonomous soft robots will increasingly rely on material-level intelligence rather than heavy computational hierarchies.\cite{ref27} Architected metamaterials extend this concept through programmable mechanical logic and multistability.\cite{ref28} Life-cycle extension strategies, including in situ repair of soft robotic bodies, further indicate that adaptability in future robots will include not just control but self-maintenance.\cite{ref29}
+
+Finally, soft–biological sensing interfaces blur the boundary between robotics and neuroscience. Niu et al. introduced an artificial afferent nerve capable of transmitting tactile signals through neuromorphic encoding, enabling event-driven robotic tactile responses.\cite{ref30}
+
+Together, these advances reflect a profound evolution: robotics is transitioning from rigid, deterministic machines toward adaptive, materially intelligent systems capable of operating safely and effectively in dynamic, uncertain, and biologically relevant environments. This shift motivates the broader exploration of model-free, learning-based, and reinforcement learning control strategies developed later in this thesis.
+
+
+\subsection{Soft Robotics: Materials, Deformation, and Capabilities}
+Soft robotics emerged to overcome these limitations by leveraging compliant
+materials and continuum structures. Unlike rigid-link mechanisms, soft robots
+undergo large deformations, conform to physical environments, and achieve
+intrinsic safety during human interaction. Soft robot technologies span
+pneumatic and hydraulic actuation, dielectric elastomer actuators, thermal
+actuation, cable-driven designs, and magnetically responsive materials.
+
+\subsection{Magnetic Soft Robotics}
+Magnetic soft robots (MSRs) embed magnetic particles or segments inside
+elastomeric matrices, enabling wireless actuation through externally applied
+magnetic fields. Magnetic torques and forces permit fast, reversible
+deformations, miniaturization, and operation in enclosed or fluidic
+environments inaccessible to conventional tethered actuation systems.
+
+\subsection{Biomedical and Clinical Applications}
+The unique properties of MSRs have made them promising candidates for
+applications in minimally invasive medicine, targeted drug delivery, tissue
+manipulation, and navigation inside constrained anatomical pathways. Their
+untethered control, biocompatibility potential, and ability to perform complex
+deformations allow new paradigms in medical robotics where safety,
+adaptability, and size constraints are critical.
+
+%------------------------------------------------------------
+\section{State of the Art}
+
+\subsection{Control Approaches in Soft Robotics}
+
+\subsubsection{Model Based Control Methods}
+Model-based soft robot control typically relies on continuum mechanics
+frameworks such as Cosserat rods, finite element models, or discrete
+differential geometric formulations. These approaches offer physical fidelity
+but demand intensive computation, complex parameter identification, and become
+challenging under large deformation, friction, or contact-rich conditions.
+
+\subsubsection{Learning Based Control Methods}
+Data-driven control methods, including reinforcement learning and imitation
+learning, eliminate explicit modeling at the cost of substantial data
+requirements. While these methods have demonstrated promising results across
+soft robotic systems, training instability, sim-to-real discrepancies, and
+morphology-specific retraining remain central limitations.
+
+\subsubsection{Sensing and Feedback Approaches}
+Soft robotic control is coupled with diverse sensing modalities, such as
+embedded resistive, capacitive, optical, or magnetic sensors, along with
+vision-based pose estimation. Feedback control integrates these measurements to
+stabilize or guide soft robotic motion, yet sensor nonlinearity and drift can
+introduce additional challenges.
+
+\subsection{Magnetic Soft Robotics: Modeling and Control Strategies}
+Magnetic soft robotic control leverages magneto-mechanical models to map
+desired deformations into magnetic actuation commands. Analytical and numerical
+methods provide insight but often struggle with computational complexity and
+parameter sensitivity. Learning-based controllers for MSRs have appeared, yet
+their reliance on large datasets or carefully tuned simulators limits their
+portability across geometries and applications.
+
+\subsection{Experience Based and Memory Augmented Methods}
+Experience-based control, including episodic memory systems and memory-augmented
+neural architectures, provides mechanisms to incorporate previous observations
+into current decision-making processes. These methods separate fast retrieval
+of stored experience from slower, generalized function approximation, offering
+a promising foundation for data-efficient decision-making in robotics.
+
+\subsection{Limitations of Current Approaches}
+Existing methods for soft and magnetic soft robot control face several
+persistent challenges: computational overhead in physics-based controllers, high
+sample complexity in deep reinforcement learning, sensitivity to robot
+morphology or task changes, and practical constraints on latency and
+real-time control. These limitations motivate the need for more efficient,
+model-free, and adaptable control frameworks for MSRs.
+
+%------------------------------------------------------------
+\section{Problem Definition}
+
+Magnetic soft robotic actuation requires mapping desired robot motion or shape
+changes to magnetic field inputs that drive distributed magnetization patterns.
+This mapping is typically many-to-one, nonlinear, and morphology-dependent.
+Physics-based controllers are computationally expensive, while learning-based
+controllers require extensive data and retraining for each new geometry or
+environment. The central research problem addressed in this thesis is the
+development of model-free, reinforcement learning-based control frameworks
+capable of achieving efficient, generalizable, and robust actuation of magnetic
+soft robots.
+
+%------------------------------------------------------------
+\section{Thesis Contents}
+
+\subsection{Scope of the Thesis}
+This thesis investigates model-free and reinforcement learning-based approaches
+for controlling magnetic soft robots. It explores multiple learning frameworks,
+their integration with perception systems, and their applicability across
+different MSR morphologies and tasks.
+
+\subsection{Chapter Overview}
+Chapter 2 provides a comprehensive literature review of soft robotics, magnetic
+soft robots, and state-of-the-art control strategies.  
+Chapter 3 introduces the proposed learning-based control frameworks, including
+reinforcement-learning-driven experience collection and model-free controllers.  
+Chapter 4 describes experimental platforms, electromagnetic actuation hardware,
+and data acquisition processes.  
+Chapter 5 presents quantitative and qualitative evaluations of the proposed
+methods across multiple MSR morphologies and tasks.  
+Chapter 6 discusses limitations, potential improvements, and broader
+implications of model-free MSR control.  
+Chapter 7 concludes the thesis and outlines directions for future research.
+
