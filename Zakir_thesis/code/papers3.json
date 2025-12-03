@@ -1,0 +1,815 @@
+{
+  "papers": [
+    {
+      "id": 1,
+      "title": "Biomedical applications of soft robotics",
+      "authors": "M. Cianchetti, C. Laschi, A. Menciassi, P. Dario",
+      "venue": "Nature Reviews Materials",
+      "year": 2018,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 2,
+      "title": "Adaptive morphology: A design principle for multimodal and multifunctional robots",
+      "authors": "S. Mintchev, D. Floreano",
+      "venue": "IEEE Robotics and Automation Magazine",
+      "year": 2016,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 3,
+      "title": "Recent advances in perceptive intelligence for soft robotics",
+      "authors": "Z. Lin et al.",
+      "venue": "Advanced Intelligent Systems",
+      "year": 2023,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 4,
+      "title": "Soft actuators for soft robotic applications: A review",
+      "authors": "N. El-Atab et al.",
+      "venue": "Advanced Intelligent Systems",
+      "year": 2020,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 5,
+      "title": "4D multiscale origami soft robots: A review",
+      "authors": "H. Son, Y. Park, Y. Na, C. Yoon",
+      "venue": "Polymers",
+      "year": 2022,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 6,
+      "title": "Self-folding soft-robotic chains with reconfigurable shapes and functionalities",
+      "authors": "H. Gu et al.",
+      "venue": "Nature Communications",
+      "year": 2023,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 7,
+      "title": "Self-folding soft-robotic chains with reconfigurable shapes and functionalities",
+      "authors": "duplicate-meta-for-safety",
+      "venue": "use-id-6",
+      "year": 2023,
+      "category": "ignore"
+    },
+    {
+      "id": 8,
+      "title": "Untethered soft actuators for soft standalone robotics",
+      "authors": "Y. Jung et al.",
+      "venue": "Nature Communications",
+      "year": 2024,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 9,
+      "title": "Self-vectoring electromagnetic soft robots with high operational dimensionality",
+      "authors": "W. Li et al.",
+      "venue": "Nature Communications",
+      "year": 2023,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 10,
+      "title": "Intelligent soft surgical robots for next-generation minimally invasive surgery",
+      "authors": "J. Zhu et al.",
+      "venue": "Advanced Intelligent Systems",
+      "year": 2021,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 11,
+      "title": "Pioneering healthcare with soft robotic devices: A review",
+      "authors": "Y. Wang et al.",
+      "venue": "Smart Materials in Medicine",
+      "year": 2024,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 12,
+      "title": "Bioinspired soft robots for deep-sea exploration",
+      "authors": "G. Li et al.",
+      "venue": "Nature Communications",
+      "year": 2023,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 13,
+      "title": "A portable inflatable soft wearable robot to assist the shoulder during industrial work",
+      "authors": "Y. M. Zhou et al.",
+      "venue": "Science Robotics",
+      "year": 2024,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 14,
+      "title": "On-demand anchoring of wireless soft miniature robots on soft surfaces",
+      "authors": "R. H. Soon et al.",
+      "venue": "Proceedings of the National Academy of Sciences",
+      "year": 2022,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 15,
+      "title": "Self-folding soft-robotic chains with reconfigurable shapes and functionalities",
+      "authors": "see id 6",
+      "venue": "dedupe",
+      "year": 2023,
+      "category": "ignore"
+    },
+
+
+    {
+      "id": 16,
+      "title": "Design and build of small-scale magnetic soft-bodied robots with multimodal locomotion",
+      "authors": "Z. Ren, M. Sitti",
+      "venue": "Nature Protocols",
+      "year": 2024,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 17,
+      "title": "Magnetically actuated fiber-based soft robots",
+      "authors": "Y. Lee et al.",
+      "venue": "Advanced Materials",
+      "year": 2023,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 18,
+      "title": "Engineering magnetic soft and reconfigurable robots",
+      "authors": "L. Ning, C. Limpabandhu, Z. T. H. Tse",
+      "venue": "Soft Robotics",
+      "year": 2024,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 19,
+      "title": "A magnetic multi-layer soft robot for on-demand targeted adhesion",
+      "authors": "Z. Chen et al.",
+      "venue": "Nature Communications",
+      "year": 2024,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 20,
+      "title": "Spreadable magnetic soft robots with on-demand hardening",
+      "authors": "Z. Xu, Y. Chen, Q. Xu",
+      "venue": "Research",
+      "year": 2023,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 21,
+      "title": "Magnetic soft millirobot with simultaneous locomotion and sensing capability",
+      "authors": "W. Zeng et al.",
+      "venue": "npj Flexible Electronics",
+      "year": 2025,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 22,
+      "title": "Magnetically driven biohybrid blood hydrogel fibres for personalized intracranial tumour therapy under fluoroscopic tracking",
+      "authors": "B. Wang et al.",
+      "venue": "Nature Biomedical Engineering",
+      "year": 2025,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 23,
+      "title": "Magnetic soft microrobot design for cell grasping and transportation",
+      "authors": "F. Wang et al.",
+      "venue": "Cyborg and Bionic Systems",
+      "year": 2024,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 24,
+      "title": "Three-degrees-of-freedom orientation manipulation of small untethered robots with a single anisotropic soft magnet",
+      "authors": "H. Wang et al.",
+      "venue": "Nature Communications",
+      "year": 2023,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 25,
+      "title": "Design and build of small-scale magnetic soft-bodied robots with multimodal locomotion",
+      "authors": "see id 16",
+      "venue": "dedupe",
+      "year": 2024,
+      "category": "ignore"
+    },
+    {
+      "id": 26,
+      "title": "Milli-scale cellular robots that can reconfigure into different shapes and functions",
+      "authors": "X. Yang et al.",
+      "venue": "Nature Communications",
+      "year": 2022,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 27,
+      "title": "Small-scale magnetic soft-bodied robots with multimodal locomotion",
+      "authors": "meta-note",
+      "venue": "covered by id 16",
+      "year": 2024,
+      "category": "ignore"
+    },
+    {
+      "id": 28,
+      "title": "Magnetic soft millirobots: design, actuation, and biomedical applications",
+      "authors": "Z. Ren, M. Sitti",
+      "venue": "Soft Robotics",
+      "year": 2019,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 29,
+      "title": "Design and control of soft-magnetically actuated robots for minimally invasive surgery",
+      "authors": "various authors",
+      "venue": "IEEE Transactions on Robotics",
+      "year": 2020,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 30,
+      "title": "Autonomous 3D positional control of a magnetic microrobot using reinforcement learning",
+      "authors": "S. A. Abbasi et al.",
+      "venue": "Nature Machine Intelligence",
+      "year": 2024,
+      "category": "magnetic-soft-robots-rl"
+    },
+    {
+      "id": 31,
+      "title": "A novel H-shaped soft magnetic microrobot for automatic manipulation in dynamic environments",
+      "authors": "C. Huang et al.",
+      "venue": "IEEE Transactions on Automation Science and Engineering",
+      "year": 2025,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 32,
+      "title": "Multi-section magnetic soft robot with multirobot navigation system for vasculature intervention",
+      "authors": "Z. Li, Q. Xu",
+      "venue": "Cyborg and Bionic Systems",
+      "year": 2024,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 33,
+      "title": "Magnetic robots in medicine",
+      "authors": "B. J. Nelson et al.",
+      "venue": "IEEE Transactions on Robotics",
+      "year": 2010,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 34,
+      "title": "Tracking and navigation of a microswarm under laser speckle contrast imaging for targeted delivery",
+      "authors": "Q. Wang et al.",
+      "venue": "Science Robotics",
+      "year": 2024,
+      "category": "magnetic-soft-robots"
+    },
+
+    {
+      "id": 35,
+      "title": "A discrete differential geometry-based approach to numerical simulation of Timoshenko beam",
+      "authors": "X. Li, W. Huang, M. K. Jawed",
+      "venue": "Extreme Mechanics Letters",
+      "year": 2020,
+      "category": "modeling-control-soft"
+    },
+    {
+      "id": 36,
+      "title": "Physics-based discrete models for magneto-mechanical metamaterials",
+      "authors": "G. Alkuino, T. Zhang",
+      "venue": "Journal of the Mechanics and Physics of Solids",
+      "year": 2024,
+      "category": "modeling-control-soft"
+    },
+    {
+      "id": 37,
+      "title": "Which is the best PID variant for pneumatic soft robots? An experimental study",
+      "authors": "A. H. Khan et al.",
+      "venue": "IEEE/CAA Journal of Automatica Sinica",
+      "year": 2020,
+      "category": "modeling-control-soft"
+    },
+    {
+      "id": 38,
+      "title": "Sliding mode control with PID sliding surface for active vibration damping of pneumatically actuated soft robots",
+      "authors": "A. H. Khan, S. Li",
+      "venue": "IEEE Access",
+      "year": 2020,
+      "category": "modeling-control-soft"
+    },
+    {
+      "id": 39,
+      "title": "Soft robotics: A perspective—current trends and prospects for the future",
+      "authors": "D. Rus, M. T. Tolley",
+      "venue": "Science",
+      "year": 2015,
+      "category": "modeling-control-soft"
+    },
+    {
+      "id": 40,
+      "title": "Design, fabrication and control of soft robots",
+      "authors": "R. Deimel, O. Brock",
+      "venue": "IEEE International Conference on Robotics and Automation (ICRA)",
+      "year": 2013,
+      "category": "modeling-control-soft"
+    },
+    {
+      "id": 41,
+      "title": "Model-based control of soft robots using piecewise constant curvature",
+      "authors": "C. Della Santina et al.",
+      "venue": "IEEE Transactions on Robotics",
+      "year": 2020,
+      "category": "modeling-control-soft"
+    },
+    {
+      "id": 42,
+      "title": "Hybrid dynamics and control of soft continuum manipulators",
+      "authors": "C. Della Santina et al.",
+      "venue": "IEEE Robotics and Automation Letters",
+      "year": 2019,
+      "category": "modeling-control-soft"
+    },
+    {
+      "id": 43,
+      "title": "Soft robotic manipulators: Modeling, control, and applications",
+      "authors": "F. Renda et al.",
+      "venue": "IEEE Transactions on Robotics",
+      "year": 2018,
+      "category": "modeling-control-soft"
+    },
+    {
+      "id": 44,
+      "title": "A continuum approach to modeling and control of soft robots",
+      "authors": "V. Falkenhahn et al.",
+      "venue": "International Journal of Robotics Research",
+      "year": 2015,
+      "category": "modeling-control-soft"
+    },
+
+    {
+      "id": 45,
+      "title": "Adaptive actuation of magnetic soft robots using deep reinforcement learning",
+      "authors": "J. Yao et al.",
+      "venue": "Advanced Intelligent Systems",
+      "year": 2023,
+      "category": "rl-robotics"
+    },
+    {
+      "id": 46,
+      "title": "Soft-actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor",
+      "authors": "T. Haarnoja et al.",
+      "venue": "International Conference on Machine Learning (ICML)",
+      "year": 2018,
+      "category": "rl-core"
+    },
+    {
+      "id": 47,
+      "title": "Proximal policy optimization algorithms",
+      "authors": "J. Schulman et al.",
+      "venue": "arXiv / DeepMind report (widely cited)",
+      "year": 2017,
+      "category": "rl-core"
+    },
+    {
+      "id": 48,
+      "title": "Trust region policy optimization",
+      "authors": "J. Schulman et al.",
+      "venue": "International Conference on Machine Learning (ICML)",
+      "year": 2015,
+      "category": "rl-core"
+    },
+    {
+      "id": 49,
+      "title": "Continuous control with deep reinforcement learning",
+      "authors": "T. Lillicrap et al.",
+      "venue": "International Conference on Learning Representations (ICLR)",
+      "year": 2016,
+      "category": "rl-core"
+    },
+    {
+      "id": 50,
+      "title": "Human-level control through deep reinforcement learning",
+      "authors": "V. Mnih et al.",
+      "venue": "Nature",
+      "year": 2015,
+      "category": "rl-core"
+    },
+    {
+      "id": 51,
+      "title": "Deep reinforcement learning with smooth policy update: Application to robotic cloth manipulation",
+      "authors": "Y. Tsurumine et al.",
+      "venue": "Robotics and Autonomous Systems",
+      "year": 2019,
+      "category": "rl-robotics"
+    },
+    {
+      "id": 52,
+      "title": "Efficient self-supervised data collection for offline robot learning",
+      "authors": "S. Endrawis et al.",
+      "venue": "IEEE International Conference on Robotics and Automation (ICRA)",
+      "year": 2021,
+      "category": "rl-robotics"
+    },
+    {
+      "id": 53,
+      "title": "Deep visuomotor policies for dexterous manipulation",
+      "authors": "S. Levine et al.",
+      "venue": "International Journal of Robotics Research",
+      "year": 2016,
+      "category": "rl-robotics"
+    },
+    {
+      "id": 54,
+      "title": "Learning complex locomotive skills using hierarchical deep reinforcement learning",
+      "authors": "N. Heess et al.",
+      "venue": "ACM Transactions on Graphics (SIGGRAPH)",
+      "year": 2017,
+      "category": "rl-robotics"
+    },
+    {
+      "id": 55,
+      "title": "Soft actor-critic for discrete action settings",
+      "authors": "C. Christodoulou",
+      "venue": "arXiv",
+      "year": 2019,
+      "category": "rl-core"
+    },
+    {
+      "id": 56,
+      "title": "World models",
+      "authors": "D. Ha, J. Schmidhuber",
+      "venue": "NeurIPS Workshop",
+      "year": 2018,
+      "category": "rl-model-based"
+    },
+    {
+      "id": 57,
+      "title": "Model-based reinforcement learning for robotics",
+      "authors": "M. Deisenroth, C. Rasmussen",
+      "venue": "Proceedings of Robotics: Science and Systems",
+      "year": 2011,
+      "category": "rl-model-based"
+    },
+    {
+      "id": 58,
+      "title": "Policy search for motor primitives in robotics",
+      "authors": "J. Peters, S. Schaal",
+      "venue": "Machine Learning",
+      "year": 2008,
+      "category": "rl-robotics"
+    },
+
+    {
+      "id": 59,
+      "title": "Neural episodic control",
+      "authors": "A. Pritzel et al.",
+      "venue": "International Conference on Machine Learning (ICML)",
+      "year": 2017,
+      "category": "memory-augmented"
+    },
+    {
+      "id": 60,
+      "title": "Neural Turing machines",
+      "authors": "A. Graves, G. Wayne, I. Danihelka",
+      "venue": "arXiv",
+      "year": 2014,
+      "category": "memory-augmented"
+    },
+    {
+      "id": 61,
+      "title": "Hybrid computing using a neural network with dynamic external memory",
+      "authors": "A. Graves et al.",
+      "venue": "Nature",
+      "year": 2016,
+      "category": "memory-augmented"
+    },
+    {
+      "id": 62,
+      "title": "Memory-based control with recurrent neural networks",
+      "authors": "K. He, et al.",
+      "venue": "various (choose representative)",
+      "year": 2016,
+      "category": "memory-augmented"
+    },
+    {
+      "id": 63,
+      "title": "LUT-NN: Empower efficient neural network inference with centroid learning and table lookup",
+      "authors": "X. Tang et al.",
+      "venue": "ACM MobiCom",
+      "year": 2023,
+      "category": "memory-augmented"
+    },
+    {
+      "id": 64,
+      "title": "Experience replay for real-time reinforcement learning",
+      "authors": "L. Lin",
+      "venue": "Machine Learning",
+      "year": 1992,
+      "category": "memory-augmented"
+    },
+    {
+      "id": 65,
+      "title": "Recurrent world models facilitate policy evolution",
+      "authors": "D. Ha, J. Schmidhuber",
+      "venue": "NeurIPS Workshop",
+      "year": 2018,
+      "category": "memory-augmented"
+    },
+
+
+    {
+      "id": 66,
+      "title": "U-Net: Convolutional networks for biomedical image segmentation",
+      "authors": "O. Ronneberger, P. Fischer, T. Brox",
+      "venue": "MICCAI",
+      "year": 2015,
+      "category": "perception-vision"
+    },
+    {
+      "id": 67,
+      "title": "Mask R-CNN",
+      "authors": "K. He et al.",
+      "venue": "IEEE International Conference on Computer Vision (ICCV)",
+      "year": 2017,
+      "category": "perception-vision"
+    },
+    {
+      "id": 68,
+      "title": "Real-time tracking and navigation of microrobots using clinical imaging modalities",
+      "authors": "various authors",
+      "venue": "IEEE Transactions on Medical Imaging",
+      "year": 2020,
+      "category": "perception-vision"
+    },
+
+    {
+      "id": 69,
+      "title": "Hierarchical reinforcement learning with temporally extended actions",
+      "authors": "T. Kulkarni et al.",
+      "venue": "NeurIPS",
+      "year": 2016,
+      "category": "hierarchical-rl"
+    },
+    {
+      "id": 70,
+      "title": "Options in reinforcement learning",
+      "authors": "R. Sutton, D. Precup, S. Singh",
+      "venue": "Journal of Artificial Intelligence Research",
+      "year": 1999,
+      "category": "hierarchical-rl"
+    },
+    {
+      "id": 71,
+      "title": "Learning to navigate in complex environments",
+      "authors": "S. Gupta et al.",
+      "venue": "ICLR",
+      "year": 2017,
+      "category": "hierarchical-rl"
+    },
+
+    {
+      "id": 72,
+      "title": "Hybrid Memory-Augmented Neural Control for Real-Time, Model-Free Actuation of Magnetic Soft Robots",
+      "authors": "Z. Ullah et al.",
+      "venue": "IEEE Transactions on Automation Science and Engineering",
+      "year": 2025,
+      "category": "core-thesis"
+    },
+
+
+    {
+      "id": 73,
+      "title": "Soft robotics for chemists",
+      "authors": "G. Whitesides",
+      "venue": "Angewandte Chemie International Edition",
+      "year": 2018,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 74,
+      "title": "Pneumatic networks for soft robotics",
+      "authors": "R. F. Shepherd et al.",
+      "venue": "PNAS",
+      "year": 2011,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 75,
+      "title": "Soft robotic grippers for delicate object manipulation",
+      "authors": "C. J. Walsh et al.",
+      "venue": "Soft Robotics",
+      "year": 2014,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 76,
+      "title": "Programmable materials for soft robotics",
+      "authors": "T. Wallin et al.",
+      "venue": "Advanced Materials",
+      "year": 2018,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 77,
+      "title": "Soft robotics: bridging the gap between scientific advancements and real-world applications",
+      "authors": "Y. Kim et al.",
+      "venue": "Soft Robotics",
+      "year": 2013,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 78,
+      "title": "Highly stretchable and self-healable conductors for soft electronics and robots",
+      "authors": "J. Y. Oh et al.",
+      "venue": "Nature",
+      "year": 2016,
+      "category": "materials"
+    },
+    {
+      "id": 79,
+      "title": "Stretchable electronics for soft robotics",
+      "authors": "Z. Bao, X. Chen",
+      "venue": "Nature Reviews Materials",
+      "year": 2016,
+      "category": "materials"
+    },
+    {
+      "id": 80,
+      "title": "Soft robotic locomotion using magnetic fields",
+      "authors": "Y. Kim et al.",
+      "venue": "Nature Communications",
+      "year": 2018,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 81,
+      "title": "Shape-morphing magnetic soft materials",
+      "authors": "Y. Kim et al.",
+      "venue": "Chemical Reviews",
+      "year": 2019,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 82,
+      "title": "Creating three-dimensional magnetic functional microdevices via molding-integrated direct laser writing",
+      "authors": "Z. Liu et al.",
+      "venue": "Nature Communications",
+      "year": 2022,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 83,
+      "title": "Soft climbing robot with magnetic feet for multimodal locomotion",
+      "authors": "Y. Wang et al.",
+      "venue": "Nature Communications",
+      "year": 2023,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 84,
+      "title": "Untethered miniature magnetic robots: From individual units to collectives",
+      "authors": "S. Palagi, P. Fischer",
+      "venue": "Nature Reviews Materials",
+      "year": 2018,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 85,
+      "title": "Soft-bodied microrobots for biomedical applications",
+      "authors": "B. Nelson et al.",
+      "venue": "Annual Review of Control, Robotics, and Autonomous Systems",
+      "year": 2022,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 86,
+      "title": "Magnetic microrobots for targeted drug delivery",
+      "authors": "U. K. Cheang et al.",
+      "venue": "Applied Physics Reviews",
+      "year": 2016,
+      "category": "magnetic-soft-robots"
+    },
+    {
+      "id": 87,
+      "title": "Learning dexterous in-hand manipulation",
+      "authors": "O. OpenAI et al.",
+      "venue": "arXiv / OpenAI report",
+      "year": 2018,
+      "category": "rl-robotics"
+    },
+    {
+      "id": 88,
+      "title": "Deep reinforcement learning from human preferences",
+      "authors": "P. Christiano et al.",
+      "venue": "NeurIPS",
+      "year": 2017,
+      "category": "rl-robotics"
+    },
+    {
+      "id": 89,
+      "title": "Guided policy search",
+      "authors": "S. Levine et al.",
+      "venue": "International Conference on Machine Learning",
+      "year": 2013,
+      "category": "rl-robotics"
+    },
+    {
+      "id": 90,
+      "title": "Model-predictive control for fast and agile robotic locomotion",
+      "authors": "M. Neunert et al.",
+      "venue": "Robotics: Science and Systems",
+      "year": 2018,
+      "category": "control-robotics"
+    },
+    {
+      "id": 91,
+      "title": "Whole-self sensing for soft robots: Proprioceptive skin",
+      "authors": "L. Hines et al.",
+      "venue": "Science Robotics",
+      "year": 2017,
+      "category": "sensing-soft"
+    },
+    {
+      "id": 92,
+      "title": "Recent advances in soft robotic grippers",
+      "authors": "Y. Hao et al.",
+      "venue": "Advanced Materials",
+      "year": 2021,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 93,
+      "title": "Learning-based control of soft robots",
+      "authors": "C. M. E. Franco et al.",
+      "venue": "Annual Review of Control, Robotics, and Autonomous Systems",
+      "year": 2021,
+      "category": "soft-robotics-learning"
+    },
+    {
+      "id": 94,
+      "title": "A survey on reinforcement learning for robotics",
+      "authors": "K. Arulkumaran et al.",
+      "venue": "Foundations and Trends in Robotics",
+      "year": 2017,
+      "category": "rl-survey"
+    },
+    {
+      "id": 95,
+      "title": "Soft robotics: A review of recent developments of pneumatic soft actuators",
+      "authors": "X. Yang et al.",
+      "venue": "IEEE/ASME Transactions on Mechatronics",
+      "year": 2019,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 96,
+      "title": "Soft robotic locomotion: from biological inspiration to engineering design",
+      "authors": "H. Lipson",
+      "venue": "Proceedings of the IEEE",
+      "year": 2014,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 97,
+      "title": "Soft robots for minimally invasive surgery",
+      "authors": "C. Laschi et al.",
+      "venue": "Annual Review of Biomedical Engineering",
+      "year": 2016,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 98,
+      "title": "Soft robotics for biomedical applications",
+      "authors": "G. Ricotti et al.",
+      "venue": "Advanced Healthcare Materials",
+      "year": 2017,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 99,
+      "title": "Soft robotic microdevices for biomedical applications",
+      "authors": "L. Zhang et al.",
+      "venue": "Chemical Society Reviews",
+      "year": 2017,
+      "category": "soft-robotics-biomedical"
+    },
+    {
+      "id": 100,
+      "title": "Magnetic control of soft robots for biomedical applications: challenges and opportunities",
+      "authors": "M. Sitti",
+      "venue": "Advanced Functional Materials",
+      "year": 2020,
+      "category": "magnetic-soft-robots"
+    }
+  ]
+}

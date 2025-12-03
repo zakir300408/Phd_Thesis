@@ -4,100 +4,298 @@
 
 \subsection{Robotics: From Rigid Machines to Adaptive Systems}
 
-Robotics originated as an engineering discipline focused on rigid, precisely actuated machines capable of executing repetitive tasks with high accuracy. This early paradigm was driven by industrial manufacturing, where articulated manipulators operated in structured environments and prioritized stiffness, precision, and isolation from human workers. Although these systems excelled at tasks such as welding, assembly, and material handling, their mechanical rigidity limited their adaptability when confronted with variable environments, uncertain contacts, or delicate objects.
+The trajectory of robotics research has witnessed a fundamental paradigm shift, evolving from rigid, industrial machines designed for structured environments to compliant, adaptive systems capable of safe interaction within unstructured and delicate settings. The history of robotics formally commenced in 1959 with the development of Unimate, the first industrial robot designed for precise, repetitive program control \cite{shen2023magnetically}. Traditional robots are typically characterized by skeletal structures composed of rigid links and discrete joints driven by electric motors, allowing them to perform specific tasks efficiently within well-defined parameters \cite{shen2023magnetically, chung2020magnetically}. However, this reliance on rigid components presents significant limitations; these robots often struggle to grasp fragile objects or navigate confined spaces because they lack the mechanical compliance necessary to adapt to environmental uncertainties without complex feedback algorithms \cite{chung2020magnetically, bruder2020data}. Furthermore, conventional modeling techniques based on joint displacements are often insufficient for systems that do not exhibit localized deformation but rather deform continuously along their bodies, necessitating new theoretical frameworks \cite{bruder2020data, chen2024datadriven}.
 
-Over the past decade, this classical view has expanded toward a broader landscape in which robots must operate in complex, dynamic, and human-centered settings. A major catalyst for this shift has been the emergence of soft robotics, which demonstrates how compliance, deformability, and embodied mechanical intelligence enable capabilities that rigid mechanisms struggle to achieve. Soft robots integrate highly deformable materials—elastomers, hydrogels, liquid-crystal elastomers, and magnetoactive composites—into actuation and body structures. These materials allow robots to bend, twist, stretch, and conform to obstacles, providing intrinsic resilience and safety. Laschi, Mazzolai, and Cianchetti showed that soft robotic technologies fundamentally redefine what robots can do, expanding manipulation and locomotion paradigms into previously inaccessible domains.\cite{ref1}
+To address these limitations, the field of soft robotics emerged, drawing inspiration from biological systems to create machines from materials with elasticities comparable to natural tissues, such as elastomers, gels, and fluids \cite{garg2025autonomous, yasa2023overview}. Unlike rigid robots defined by finite degrees of freedom (DOFs), soft robots theoretically possess infinite DOFs, enabling them to distribute stress over their entire bodies and conform to complex shapes \cite{chen2024datadriven, yasa2023overview}. This intrinsic compliance allows soft robots to perform multimodal locomotion—such as squeezing through gaps, growing, and morphing—capabilities that are critical for applications in search-and-rescue, rehabilitation, and minimally invasive surgery \cite{hu2018small, yasa2023overview}.
 
-Growth-based soft robots illustrate how morphology can offload computational burden from controllers. Hawkes et al. introduced a soft growing robot that advances by tip extension, enabling steering and navigation through cluttered environments without complex articulated joints.\cite{ref2} Vacuum-powered architectures further demonstrate material-driven behavior: Robertson and Paik showed that negative-pressure networks embedded in soft structures produce multifunctional actuation without relying on rigid components.\cite{ref3} High-power-density materials also play an important role. Huang et al. demonstrated untethered soft robots driven by shape memory alloy tendons that achieve rapid biomimetic locomotion.\cite{ref4}
+The transition to adaptive soft systems has been heavily influenced by the development of actuation strategies. While pneumatic and hydraulic actuation methods offer high force output and are widely used for soft grippers and haptic devices, they typically require bulky tethers and pumps that restrict mobility and range \cite{jung2024untethered, yasa2023overview}. Consequently, researchers have increasingly focused on untethered actuation strategies utilizing external stimuli such as heat, light, humidity, and magnetic fields \cite{zhao2022stimuli, jung2024untethered}. Among these, magnetic actuation stands out due to its ability to provide instantaneous, remote control with high penetration depth into non-magnetic materials, including biological tissues, making it ideal for medical applications where tethering is impractical \cite{nelson2022magnetically, kim2022magnetic}.
 
-Another critical development in adaptive robotics is soft sensing. Electronic skins (e-skins) permit continuous tactile perception on compliant bodies. Byun et al. created fully soft robots with conformal e-skin modules enabling wireless reconfiguration.\cite{ref5} Booth et al. extended this idea with OmniSkins that wrap passive objects and instantly transform them into multifunctional robotic systems.\cite{ref6} Embedded sensory networks combined with learning-based models, such as recurrent neural networks, yield robust proprioception even under complex deformations.\cite{ref10}
+Magnetic soft robots utilize composite materials comprising magnetic particles dispersed within a soft polymer matrix \cite{kim2022magnetic, xia2024magnetic}. These materials are generally classified into soft-magnetic materials (e.g., iron, nickel), which have low coercivity and do not retain magnetization, and hard-magnetic materials (e.g., NdFeB), which function as permanent magnets with high retentivity \cite{kim2022magnetic, xia2024magnetic}. The integration of hard-magnetic particles allows for the generation of magnetic torques under uniform magnetic fields, enabling complex bending and twisting motions that are difficult to achieve with soft-magnetic materials alone \cite{nelson2022magnetically, kim2022magnetic}. By programming the alignment of these particles during fabrication, researchers can encode specific shape-morphing behaviors into the material, a technique known as magnetic programming \cite{alapan2020reprogrammable, lum2016shape}. Recent innovations have introduced reprogrammable magnetization using heat-assisted methods, allowing a single soft robot to reconfigure its magnetic profile and adapt to different tasks on demand \cite{alapan2020reprogrammable, dong2022untethered}.
 
-Soft robots have also demonstrated unique locomotion and manipulation capabilities. Wall-climbing robots achieve adhesion and locomotion on vertical surfaces through anisotropic friction and compliant gripping.\cite{ref7} Underwater, Katzschmann et al. developed a silent, soft robotic fish capable of interacting safely with marine life.\cite{ref8} Kim et al. created ferromagnetic soft continuum robots whose programmed magnetization fields allow complex bending and twisting motions under simple magnetic inputs.\cite{ref9} Hydrogel-based oscillators and phototactic swimmers add to the repertoire of environmentally responsive soft locomotion.\cite{ref11}
+Advances in manufacturing, such as 3D printing and voxelated assembly, have further expanded the capabilities of magnetic soft robots by allowing for the creation of heterogeneous structures with arbitrary three-dimensional magnetization profiles \cite{zhang2021voxelated, dong2022untethered}. These innovations enable the design of miniature machines capable of multimodal locomotion, including swimming, walking, rolling, and jumping, within a single device \cite{hu2018small, won2019demand}. Furthermore, the integration of flexible electronics and sensors has begun to endow these soft robots with proprioceptive capabilities, allowing them to perceive their shape and interaction with the environment, thereby closing the loop between sensing and actuation \cite{gao2025soft, shih2020electronic}.
 
-Soft manipulation has similarly advanced. Sinatra et al. created soft grippers capable of ultragentle manipulation of delicate specimens.\cite{ref12} Dielectric elastomer actuators have enabled translucent, muscle-like robotic structures that serve simultaneously as sensors, actuators, and load-bearing bodies.\cite{ref14}
+The modeling and control of these high-dimensional soft systems present unique challenges compared to rigid robots. Traditional model-based control is often insufficient due to the nonlinearity and hysteresis inherent in soft materials \cite{chen2024datadriven, han2023datadriven}. Consequently, data-driven approaches, such as those utilizing the Koopman operator theory, neural networks, and reinforcement learning, are being developed to linearize the dynamics and enable precise trajectory tracking and autonomous navigation \cite{bruder2020data, chen2024datadriven}. This progression from rigid, pre-programmed machines to soft, magnetically actuated adaptive systems holds immense promise for the next generation of biomedical devices capable of navigating the human body for targeted drug delivery, biopsy, and minimally invasive interventions \cite{nelson2022magnetically, chen2024magnetic, wang2021evolutionary}.
 
-Adaptation is increasingly addressed not only at the component level but also at the system level. Dorigo et al. described how collective behaviors in multi-robot swarms increasingly rely on emergent physical interactions rather than rigid centralized control.\cite{ref15} Bujard et al. showed that squid-inspired soft robots can exploit resonant fluid–structure coupling to achieve propulsion with biological-level efficiency.\cite{ref16} Shape-morphing robotic surfaces\cite{ref17} and subterranean soft robots\cite{ref18} further illustrate how adaptability and environment-aware behavior are tightly linked to material and geometric design.
 
-Recent work has targeted extreme and long-duration environments with compliant bodies. Li et al. developed a self-powered soft robot that operated successfully at a depth of 10,900 meters in the Mariana Trench.\cite{ref19} Aubin et al. introduced electrolytic vascular systems for robots, distributing energy storage throughout the body reminiscent of biological circulatory systems.\cite{ref20} Entirely soft autonomous robots have been demonstrated with integrated body–actuator–controller architectures.\cite{ref21}
-
-These developments converge toward the emerging concept of physical intelligence: the idea that perception, computation, and actuation are embedded within body materials and structural features. Chen et al. argued that autonomous soft robots will increasingly rely on material-level intelligence rather than heavy computational hierarchies.\cite{ref27} Architected metamaterials extend this concept through programmable mechanical logic and multistability.\cite{ref28} Life-cycle extension strategies, including in situ repair of soft robotic bodies, further indicate that adaptability in future robots will include not just control but self-maintenance.\cite{ref29}
-
-Finally, soft–biological sensing interfaces blur the boundary between robotics and neuroscience. Niu et al. introduced an artificial afferent nerve capable of transmitting tactile signals through neuromorphic encoding, enabling event-driven robotic tactile responses.\cite{ref30}
-
-Together, these advances reflect a profound evolution: robotics is transitioning from rigid, deterministic machines toward adaptive, materially intelligent systems capable of operating safely and effectively in dynamic, uncertain, and biologically relevant environments. This shift motivates the broader exploration of model-free, learning-based, and reinforcement learning control strategies developed later in this thesis.
 
 
 \subsection{Soft Robotics: Materials, Deformation, and Capabilities}
-Soft robotics emerged to overcome these limitations by leveraging compliant
-materials and continuum structures. Unlike rigid-link mechanisms, soft robots
-undergo large deformations, conform to physical environments, and achieve
-intrinsic safety during human interaction. Soft robot technologies span
-pneumatic and hydraulic actuation, dielectric elastomer actuators, thermal
-actuation, cable-driven designs, and magnetically responsive materials.
+
+The field of robotics has witnessed a fundamental paradigm shift from rigid, discrete mechanisms to compliant, continuous systems known as soft robots. Traditional rigid robots are typically constructed from stiff links connected by discrete joints, enabling precise and repetitive tasks in structured environments \cite{rus2015design}. However, their rigidity limits their adaptability and safety when interacting with delicate objects or unstructured surroundings. In contrast, soft robots are composed of materials with Young's moduli comparable to biological tissues ($10^4$–$10^9$ Pa), allowing them to inherently conform to their environment and absorb energy during collisions \cite{kim2022magnetic, cianchetti2018biomedical}. This intrinsic compliance bridges the gap between artificial machines and biological organisms, enabling capabilities such as squeezing through confined spaces, robust grasping of fragile items, and safe human-robot interaction \cite{kim2013soft, majidi2014soft}.
+
+\subsubsection{Materials for Soft Robotics}
+The functionality of soft robots is fundamentally derived from their constituent materials. The most prevalent materials are elastomers, hydrogels, and fluids, which offer high deformability and fatigue resistance.
+
+\paragraph{Elastomers}
+Silicone-based elastomers, such as polydimethylsiloxane (PDMS) and Ecoflex, serve as the primary structural bodies for soft robots due to their ease of fabrication, chemical inertness, and tunable elasticity \cite{chung2021magnetically}. Thermoplastic elastomers (TPEs), such as styrene-ethylene-butylene-styrene (SEBS) and thermoplastic polyurethane (TPU), are also widely utilized. These materials combine the processability of thermoplastics with the elasticity of rubbers, allowing for thermal drawing and reprocessing \cite{lee2023magnetically, kim2019ferromagnetic}. For instance, SEBS allows for large strains (exceeding 600\%) and can be engineered into fiber-based actuators that withstand significant deformation without failure \cite{lee2023magnetically}.
+
+\paragraph{Hydrogels}
+Hydrogels are three-dimensional hydrophilic polymer networks swollen with water, making them highly biocompatible and structurally similar to natural extracellular matrices \cite{zhao2022stimuli}. They can respond to various environmental stimuli, such as pH, temperature, and ionic strength, by swelling or deswelling \cite{zhao2022stimuli}. While hydrogels offer excellent biocompatibility for medical applications, they are often mechanically weaker than elastomers. However, recent advancements in tough hydrogels, such as poly(N-isopropylacrylamide) (PNIPAM) composites, have enabled the creation of robust, stimuli-responsive soft actuators that can perform tasks like cargo delivery and sensing \cite{gao2025soft, zhao2022stimuli}.
+
+\paragraph{Stimuli-Responsive Polymers}
+Beyond passive matrices, active polymers such as liquid crystal elastomers (LCEs) and shape memory polymers (SMPs) provide intrinsic actuation capabilities. LCEs undergo reversible phase transitions (nematic to isotropic) upon heating or illumination, generating large actuation strains \cite{zhao2022stimuli}. SMPs can be programmed into a temporary shape and recover their permanent shape upon exposure to heat, allowing for stiffness tuning and reconfigurable structures \cite{ze2020magnetic, zhao2022shape}.
+
+\subsubsection{Deformation and Modeling Challenges}
+Unlike rigid robots defined by a finite number of kinematic degrees of freedom (DOFs), soft robots theoretically possess infinite DOFs due to their continuous body deformation \cite{chen2024datadriven, bruder2020datadriven}. They do not exhibit localized rotation at discrete joints; instead, they deform continuously along their bodies via bending, twisting, stretching, and compression \cite{wang2021evolutionary, hu2018small}.
+
+This continuum deformation introduces significant challenges in modeling and control. The dynamics of soft robots are highly nonlinear, governed by hyperelastic material behaviors and complex fluid-structure interactions \cite{bruder2020datadriven}. Traditional rigid-body kinematics (e.g., Denavit-Hartenberg parameters) are insufficient. Consequently, researchers employ continuum mechanics models, such as the Cosserat rod theory \cite{chen2024datadriven} and the Piecewise Constant Curvature (PCC) assumption \cite{chen2024datadriven, wang2021evolutionary}. More recently, data-driven approaches utilizing neural networks and Koopman operator theory have emerged to model the global linearization of these highly nonlinear systems, enabling precise trajectory tracking and control without relying solely on computationally expensive finite element methods (FEM) \cite{bruder2020datadriven, han2023datadriven}.
+
+\subsubsection{Capabilities and Actuation Limitations}
+The unique material properties of soft robots unlock capabilities unattainable by rigid systems. Their compliance allows for "passive adaptivity," where the robot body mechanically conforms to the shape of an object without complex feedback control \cite{shih2020electronic, ilievski2011soft}. This is particularly evident in soft grippers that can handle diverse objects ranging from eggs to flat sheets \cite{galloway2016soft, shintake2018soft}. Furthermore, soft robots can execute multimodal locomotion, such as walking, swimming, jumping, and rolling, by exploiting body-environment interactions \cite{hu2018small, jung2024untethered}.
+
+However, the actuation of these soft bodies presents a critical bottleneck. Conventional soft actuators, particularly fluid-driven (pneumatic/hydraulic) systems, require bulky tethers to external pumps and compressors to supply pressurized fluid \cite{jung2024untethered, polygerinos2017soft}. These tethers restrict the robot's range, mobility, and ability to operate in enclosed or tortuous environments \cite{jung2024untethered, wehner2016integrated}. Electrically driven actuators, such as dielectric elastomer actuators (DEAs), often require high voltages (kilovolts), necessitating rigid onboard power supplies that compromise overall softness \cite{gupta2019soft, jung2024untethered}. Thermal actuators based on SMPs or LCEs are generally slow due to the limitations of heat transfer rates \cite{zhao2022stimuli, jung2024untethered}. 
+
+To overcome these tethering and speed limitations, researchers are increasingly turning to field-driven actuation methods. Among these, magnetic actuation stands out for its ability to provide fast, tether-free, and remote control with high penetration depth in biological tissues, making it an ideal candidate for the next generation of biomedical soft robots \cite{kim2022magnetic, nelson2010microrobots, zhou2021magnetically}.
+
 
 \subsection{Magnetic Soft Robotics}
-Magnetic soft robots (MSRs) embed magnetic particles or segments inside
-elastomeric matrices, enabling wireless actuation through externally applied
-magnetic fields. Magnetic torques and forces permit fast, reversible
-deformations, miniaturization, and operation in enclosed or fluidic
-environments inaccessible to conventional tethered actuation systems.
+Magnetic soft robotics represents a convergence of compliant materials science and electromagnetic actuation, enabling the creation of untethered machines capable of complex deformation and locomotion in confined environments. Unlike pneumatic or hydraulic soft systems that rely on physical tethers for fluid transfer, magnetic soft robots are actuated by external magnetic fields which can penetrate most synthetic and biological materials with negligible attenuation \cite{1615, 1820}. This wireless actuation modality allows for instantaneous, holistic control of the robot's body, leveraging the interaction between an externally applied magnetic field and magnetically responsive components distributed within a soft polymer matrix \cite{1058, 1969}.
 
-\subsection{Biomedical and Clinical Applications}
-The unique properties of MSRs have made them promising candidates for
-applications in minimally invasive medicine, targeted drug delivery, tissue
-manipulation, and navigation inside constrained anatomical pathways. Their
-untethered control, biocompatibility potential, and ability to perform complex
-deformations allow new paradigms in medical robotics where safety,
-adaptability, and size constraints are critical.
+\subsubsection{Fundamental Principles of Actuation}
+The mechanics of magnetic soft robots are governed by the forces and torques exerted on magnetic dipoles within the robot body. When a magnetic soft material with a magnetization vector $\mathbf{M}$ is exposed to an external magnetic field $\mathbf{B}$, it experiences a magnetic potential energy
+\begin{equation}
+	U_{m} = - \int_{V} \mathbf{M} \cdot \mathbf{B} \,\mathrm{d}V,
+	\label{eq:magnetic_energy}
+\end{equation}
+where $V$ is the volume of the magnetic material \cite{895}. The actuation is primarily driven by two distinct mechanisms: magnetic torque and magnetic force (gradient) \cite{1061, 1364}.
+
+\textbf{Magnetic Torque:} When a magnetized object is subjected to a uniform magnetic field, it experiences a torque
+\begin{equation}
+	\boldsymbol{\tau} = \int_{V} \mathbf{M} \times \mathbf{B} \,\mathrm{d}V,
+	\label{eq:magnetic_torque}
+\end{equation}
+that tends to align the internal magnetization vector with the external field vector \cite{597, 896}. In soft composite materials, this alignment generates internal stresses that deform the compliant matrix. By spatially programming the magnetization profile $\mathbf{M}(x,y,z)$ throughout the robot's body, a uniform external field can induce complex, multimodal deformations such as bending, twisting, and folding \cite{1270, 1820}. Torque-based actuation is particularly advantageous for small-scale robots because it scales with volume (or the number of magnetic particles) and does not require steep field gradients, which are difficult to generate over large workspaces \cite{1319, 1969}.
+
+\textbf{Magnetic Force:} A net translational force
+\begin{equation}
+	\mathbf{F} = \int_{V} (\mathbf{M} \cdot \nabla)\mathbf{B} \,\mathrm{d}V
+	\label{eq:magnetic_force}
+\end{equation}
+is generated only in the presence of a spatial magnetic field gradient $\nabla \mathbf{B}$ \cite{896, 1061}. While this force is essential for pulling microrobots towards a target, scaling laws dictate that magnetic forces diminish rapidly with distance from the field source. Consequently, many advanced magnetic soft robots rely primarily on torque-driven deformation to induce locomotion (e.g., rolling or swimming) rather than direct gradient pulling \cite{1267, 1554}.
+
+\subsubsection{Material Composition and Classifications}
+Magnetic soft robots are typically composites comprising magnetic micro- or nanoparticles dispersed within a soft polymeric matrix, such as polydimethylsiloxane (PDMS), Ecoflex, or hydrogels \cite{1269, 1721, 881}. The mechanical properties of the matrix determine the compliance of the robot, while the magnetic filler determines the actuation response. These materials are generally classified into two categories based on the coercivity of the magnetic filler:
+
+\textbf{Soft-Magnetic Materials:} Composites containing materials with low magnetic coercivity (e.g., iron or iron oxide) exhibit superparamagnetic or soft-ferromagnetic behavior \cite{860}. These materials possess high magnetic susceptibility but low remanence; they magnetize in the presence of an external field but lose magnetization when the field is removed. Actuation in soft-magnetic soft materials is often driven by the shape anisotropy of the particles or the formation of particle chains, which align with the field to produce torque \cite{865, 918}.
+
+\textbf{Hard-Magnetic Materials:} Composites embedding hard-magnetic particles (e.g., neodymium-iron-boron, NdFeB) retain a strong remanent magnetization $M_{r}$ after saturation \cite{867, 1422}. These materials behave as permanent magnets suspended in an elastic body. Because the magnetization direction is fixed within the material frame, the application of an external field creates predictable and reversible torques, enabling precise shape-morphing capabilities unattainable with soft-magnetic materials \cite{1269, 1868}. Hard-magnetic soft active materials (hm-SAMs) allow for the encoding of discrete magnetization directions in local voxels, permitting the design of robots with complex, pre-programmed kinematic behaviors \cite{1975, 1770}.
+
+Recent advancements have also introduced rheological complexity to the matrix materials. For instance, mixing magnetic particles with non-Newtonian fluids produces robots capable of on-demand hardening, where rapid magnetic actuation triggers shear-thickening behavior to increase stiffness for high-force tasks \cite{1294, 1321}. Similarly, liquid metal matrices have been employed to create reconfigurable magnetic robots with high electrical conductivity \cite{277, 1612}.
+
+\subsubsection{Magnetic Programming and Fabrication}
+The versatility of magnetic soft robots stems from the ability to ``program'' their magnetic anisotropy. This programming process defines how the local magnetization vector $\mathbf{M}$ is oriented relative to the robot's geometry. Several fabrication strategies have been developed to achieve this:
+
+\textbf{Template-Assisted Magnetization:} This method involves curing the polymer matrix while the magnetic particles are aligned by a strong external field. By deforming the robot into a specific shape during magnetization and then releasing it, a complex magnetization profile is ``frozen'' into the resting shape \cite{1269, 1821}. For example, a strip can be magnetized while coiled; upon release, it retains a harmonic magnetization profile that enables undulatory swimming under a rotating field \cite{1276}.
+
+\textbf{Additive Manufacturing and Assembly:} 3D printing techniques, such as direct ink writing (DIW), allow for the physical alignment of anisotropic magnetic particles via shear forces in the nozzle or applied fields during extrusion \cite{1822, 938}. More recently, voxelated assembly methods have been proposed, where individual micro-blocks with specific magnetization directions are assembled to form complex 3D structures with abrupt changes in magnetization profiles, enabling 3D-to-3D shape morphing \cite{1969, 1980}.
+
+\textbf{Reprogrammable Magnetization:} To overcome the fixed nature of permanent magnetization, heat-assisted programming strategies have been developed. By heating the magnetic composite above the Curie temperature of the filler (e.g., chromium dioxide) or the melting point of the matrix (e.g., phase-change polymers), the magnetization domains can be reoriented by a weak external field and locked in upon cooling \cite{1768, 1774}. This allows a single soft robot to be reconfigured for different locomotion modes, such as switching from rolling to tumbling \cite{1514}.
+
+\subsubsection{Locomotion and Shape Morphing}
+Through the interaction of the programmed magnetic profile and time-varying external fields, magnetic soft robots can achieve multimodal locomotion. The most common mode for helical or screw-shaped robots is corkscrew motion, where a rotating magnetic field induces rotation of the robot around its long axis, converting rotational torque into translational thrust at low Reynolds numbers \cite{1130, 1722}. Soft robots with harmonic magnetization profiles can generate undulatory traveling waves to swim or crawl, mimicking biological organisms like spermatozoa or inchworms \cite{1271, 1273}.
+
+Furthermore, by manipulating the field gradients and frequencies, robots can perform multimodal transitions, such as rolling on solid surfaces, walking, jumping over obstacles, or climbing liquid menisci \cite{1267, 1456}. Advanced control strategies, such as the use of rotating magnetic fields to induce tumbling, allow for movement on uneven terrains where traditional rolling might fail \cite{1571, 1572}. The integration of these locomotion modes with shape-morphing capabilities, such as wrapping around objects or changing aspect ratios, enables these robots to interact dynamically with unstructured environments \cite{1784, 1613}.
+
+
+
+\subsection{Biomedical and Clinical Applications of Magnetic Soft Robots}
+
+The intrinsic mechanical compliance of soft robots, combined with the penetrative nature of magnetic fields, has established magnetic soft robotics as a transformative paradigm for biomedical interventions. Unlike rigid robotic systems, soft magnetic devices share mechanical impedance characteristics with biological tissues, thereby minimizing the risk of iatrogenic trauma during interaction with delicate organs \cite{817, 1530}. Furthermore, magnetic fields permeate biological tissues with negligible attenuation, enabling tether-free actuation and control in confined, opaque anatomical regions where traditional optical or tethered modalities are impractical \cite{318, 556}. Consequently, applications have bifurcated into tethered systems, such as steerable catheters and endoscopes, and untethered wireless millirobots and microrobots designed for targeted therapy and diagnostics.
+
+\subsubsection{Tethered Interventions: Catheters and Endoscopes}
+Magnetically steered tethered devices represent the most clinically mature application of this technology. Conventional manual catheterization relies on the mechanical transmission of torque and force from the proximal handle to the distal tip, a process often hindered by friction and the tortuosity of the vasculature \cite{1931}. Magnetic soft continuum robots (MSCRs) overcome these limitations by embedding hard-magnetic particles (e.g., NdFeB) into polymer matrices (e.g., silicone or polyurethane) at the distal tip, allowing for active steering via external magnetic fields \cite{1932, 566}.
+
+\paragraph{Cardiovascular and Neurovascular Applications}
+In cardiovascular medicine, magnetic navigation systems (MNS) have been employed for cardiac ablation to treat arrhythmias. Since 2003, systems utilizing large permanent magnets have allowed physicians to steer ablation catheters with high precision to isolate pulmonary veins, a procedure that requires continuous contact with the heart wall \cite{563, 572}. Recent advancements have introduced variable stiffness catheters that utilize low-melting-point alloys; these devices can transition between soft states for safe navigation and rigid states for effective force application during procedures such as epiretinal membrane peeling \cite{574, 1037}. Furthermore, sub-millimeter magnetic soft continuum robots have been developed to navigate the complex neurovasculature, providing access to intracranial aneurysms and strokes that are unreachable by conventional guidewires \cite{820, 1931}.
+
+\paragraph{Endoscopy}
+Magnetic soft robots are also revolutionizing gastrointestinal (GI) endoscopy. Traditional colonoscopy is often painful and risks perforation; conversely, magnetically actuated soft capsule endoscopes can be actively guided through the GI tract \cite{564}. For instance, soft-tethered capsules can use magnetic levitation or torque-based steering to perform painless colonoscopies, significantly improving diagnostic capabilities compared to passive capsule endoscopy \cite{572}.
+
+\subsubsection{Untethered Systems: Drug Delivery and Microsurgery}
+The elimination of physical tethers allows for the miniaturization of robots down to the micro- and nanoscale, enabling access to capillaries and cellular environments. These untethered agents can be powered by magnetic field gradients (pulling force) or rotating magnetic fields (torque-driven propulsion) to perform specific tasks \cite{570, 1064}.
+
+\paragraph{Targeted Drug and Cell Delivery}
+A primary application of untethered magnetic robots is the targeted delivery of therapeutic agents to minimize systemic toxicity. Magnetic hydrogel microrobots can encapsulate drugs and release them on-demand via structural deformation induced by magnetic or thermal stimuli \cite{1143, 754}. For example, soft capsule robots capable of rolling locomotion have been demonstrated to navigate stomach phantoms and squeeze out liquid drug payloads upon magnetic activation \cite{1889}. Beyond molecular drugs, magnetic soft robots function as mobile scaffolds for cell transplantation. Helical microrobots have been utilized to transport stem cells to cartilage defects for regeneration \cite{1149}, and sperm-hybrid micromotors have been engineered to deliver anticoagulant drugs to treat thrombotic clots \cite{1142}.
+
+\paragraph{Minimally Invasive Surgery and Biopsy}
+Untethered magnetic robots are capable of performing mechanical tasks such as biopsy, resection, and disruption of pathological tissues. Thermally responsive magnetic microgrippers can be navigated to the bile duct to excise tissue samples for biopsy, closing automatically upon exposure to body temperature \cite{1160}. In oncology, magnetic swarms and surface walkers have been employed as "micro-scalpels" to penetrate cancer cells and extract cytosol without destroying the cell membrane \cite{1153}. Furthermore, magnetic actuation has proven effective in disrupting bacterial biofilms; for instance, magneto-catalytic nanorobots can physically degrade biofilms in the human tooth isthmus, a region difficult to access with standard dental tools \cite{1162}.
+
+\paragraph{Hyperthermia and Coagulation}
+While magnetic hysteresis has traditionally been used for hyperthermia, recent bio-inspired designs have leveraged radio-frequency (RF) induced Joule heating for therapeutic effects. A "pangolin-inspired" soft robot equipped with overlapping metallic scales can heat up to $70^{\circ}\mathrm{C}$ within 30 seconds under RF fields. This capability has been demonstrated to perform on-demand thermal ablation of tumor spheroids and coagulation to mitigate bleeding in gastric tissues \cite{1418, 1438}.
+
+\subsubsection{Imaging and Biocompatibility}
+The clinical translation of these systems relies on real-time visualization and biocompatibility. Magnetic soft robots are inherently compatible with medical imaging modalities such as X-ray fluoroscopy, ultrasound, and Magnetic Resonance Imaging (MRI) \cite{951, 1626}. Recent innovations include soft robots capable of shape-morphing that changes their radio-frequency signature, allowing for remote state monitoring via wireless communication \cite{1631}. Regarding biocompatibility, while materials like iron oxide are generally safe, ferromagnetic particles (e.g., NdFeB) require encapsulation or coating (e.g., with silica or parylene) to prevent corrosion and cytotoxicity during long-term in vivo operation \cite{853, 948}.
 
 %------------------------------------------------------------
 \section{State of the Art}
 
 \subsection{Control Approaches in Soft Robotics}
 
-\subsubsection{Model Based Control Methods}
-Model-based soft robot control typically relies on continuum mechanics
-frameworks such as Cosserat rods, finite element models, or discrete
-differential geometric formulations. These approaches offer physical fidelity
-but demand intensive computation, complex parameter identification, and become
-challenging under large deformation, friction, or contact-rich conditions.
+The control of soft robotic systems presents a paradigm shift from traditional rigid-body robotics due to the infinite degrees of freedom (DoF) and inherent nonlinearity of soft materials. Unlike rigid robots, which rely on discrete joints and stiff links, soft robots utilize continuous deformation, requiring advanced modeling and control strategies to manage their complex dynamics and hysteresis \cite{Chen2024}. Recent advancements have bifurcated into model-based approaches, data-driven strategies, and material-embedded control, with magnetic actuation emerging as a dominant modality for untethered, small-scale manipulation.
 
-\subsubsection{Learning Based Control Methods}
-Data-driven control methods, including reinforcement learning and imitation
-learning, eliminate explicit modeling at the cost of substantial data
-requirements. While these methods have demonstrated promising results across
-soft robotic systems, training instability, sim-to-real discrepancies, and
-morphology-specific retraining remain central limitations.
+\subsubsection{Magnetic Actuation and Control Architectures}
 
-\subsubsection{Sensing and Feedback Approaches}
-Soft robotic control is coupled with diverse sensing modalities, such as
-embedded resistive, capacitive, optical, or magnetic sensors, along with
-vision-based pose estimation. Feedback control integrates these measurements to
-stabilize or guide soft robotic motion, yet sensor nonlinearity and drift can
-introduce additional challenges.
+Magnetic actuation offers unique advantages for soft robotics, including remote maneuverability, fuel-free operation, and deep tissue penetration for biomedical applications \cite{Zhou2021, Nelson2022}. The control of these systems is fundamentally governed by the interaction between an external magnetic field and magnetic agents embedded within a soft matrix.
+
+\paragraph{Actuation Principles}
+The motion of magnetic soft robots is driven primarily by magnetic torques and forces. As described by Zhou et al., magnetic torque ($ \tau = \mathbf{m} \times \mathbf{B} $) aligns the magnetic moment $\mathbf{m}$ with the external field $\mathbf{B}$, while magnetic force ($ \mathbf{F} = (\mathbf{m} \cdot \nabla)\mathbf{B} $) translates the robot along field gradients \cite{Zhou2021}. Kim and Zhao emphasize that hard-magnetic soft materials (containing ferromagnetic particles like NdFeB) allow for programmable magnetization profiles, enabling complex shape transformations under uniform magnetic fields via distributed torques \cite{Kim2022}. Conversely, soft-magnetic materials (paramagnetic) require field gradients or structural anisotropy to generate motion, as they do not retain remanent magnetization \cite{Xia2024}.
+
+\paragraph{Magnetic Manipulation Systems}
+Control authority is established through the generation of specific field configurations. Common setups include permanent magnet systems and electromagnetic coil arrays. Shen et al. review various configurations, noting that while permanent magnets offer high field strengths, electromagnetic systems (e.g., Helmholtz and Maxwell coils) provide superior dynamic control and can generate rotating, oscillating, or conical fields necessary for multimodal locomotion \cite{Shen2023}. For instance, Won et al. demonstrated a hierarchical magnetomotility control strategy where varying the rotational speed of a single magnetic source induced distinct rotating, pivoting, and tumbling modes in helical soft robots, allowing for orbital maneuvering of multiple agents simultaneously \cite{Won2019}.
+
+\subsubsection{Programmable Magnetization as Embedded Control}
+
+A significant trend in the state of the art is "control by design," where the control intelligence is embedded directly into the material's magnetization profile. This approach reduces the complexity required of the external controller by pre-programming deformation modes.
+
+\paragraph{Discrete and Voxelated Magnetization}
+Zhang et al. introduced a voxelated assembly method to create 3D magnetic soft machines with arbitrary magnetization profiles. By assembling heterogeneous micro-voxels, they achieved complex behaviors such as negative Poisson's ratios and sequential petal blooming, which are difficult to achieve with monolithic fabrication \cite{Zhang2021}. Similarly, Zhao et al. developed a "magnetic pixel" soft robot using a lattice of liquid-metal/NdFeB composites. This system allows for discrete magnetic encoding, where specific regions of the robot can be programmed with distinct magnetic vectors, enabling predictable shape morphing such as folding or curling under a uniform field \cite{Zhao2022}.
+
+\paragraph{Evolutionary Design Optimization}
+To maximize the workspace and steerability of magnetic soft continuum robots (MSCRs), Wang et al. proposed an evolutionary design strategy. By integrating a hard-magnetic elastica theory with a genetic algorithm, they optimized the distribution of magnetic particles along the robot's body. This non-uniform distribution yielded a workspace significantly larger than that of state-of-the-art designs with uniform magnetization, demonstrating that algorithmic design is a critical component of morphological control \cite{Wang2021}.
+
+\paragraph{Reprogrammability}
+To enhance adaptability, researchers have developed methods to reconfigure the magnetic profile *in situ*. Alapan et al. demonstrated a heat-assisted magnetic programming strategy where soft materials are heated above the Curie temperature of the embedded particles (e.g., CrO$_2$) and re-magnetized during cooling. This allows a single soft robot to be reprogrammed for different tasks, such as switching locomotion gaits or altering gripping modes \cite{Alapan2020}. Furthermore, Xu et al. utilized non-Newtonian fluidic materials mixed with magnetic particles to achieve on-demand hardening. By applying high-frequency oscillating fields, the robot's stiffness could be dynamically increased to exert higher forces, effectively acting as a variable-stiffness controller \cite{Xu2023}.
+
+\subsubsection{Data-Driven and Learning-Based Control}
+
+Given the difficulty in deriving analytical models for complex soft material deformations, data-driven methods have gained prominence for real-time control.
+
+\paragraph{Koopman Operator Theory}
+Bruder et al. applied Koopman operator theory to construct linear representations of nonlinear soft robot dynamics in a lifted state space. This approach enables the use of linear control techniques, such as Model Predictive Control (MPC), on highly nonlinear soft systems. Their results showed that Koopman-based MPC significantly outperformed MPC based on local linearization in trajectory tracking tasks \cite{Bruder2020}. Building on this, Han et al. proposed a framework comparing different basis functions (e.g., Monomial, Hermite, Fourier) for Extended Dynamic Mode Decomposition (EDMD), finding that Monomial basis functions were optimal for modeling 2D and 3D soft pneumatic robots \cite{Han2023}.
+
+\paragraph{Neural Networks and Reinforcement Learning}
+Chen et al. reviewed the extensive use of neural networks, including Recurrent Neural Networks (RNNs) and Long Short-Term Memory (LSTM) networks, to model hysteresis and time-dependent behaviors in soft actuators \cite{Chen2024}. For high-level task execution, Reinforcement Learning (RL) has proven effective. Garg et al. introduced a Safe Reinforcement Learning (SRL) framework for soft continuum robots. By integrating a safety layer that constrains the agent's actions, they achieved efficient policy learning for trajectory tracking while ensuring the robot remained within physical safety limits, a critical feature for biomedical applications \cite{Garg2025}.
+
+\subsubsection{Multimodal Locomotion and Environmental Interaction}
+
+Advanced control strategies have enabled soft robots to navigate unstructured environments via multimodal locomotion. Hu et al. demonstrated a magneto-elastic milli-robot capable of swimming, climbing liquid menisci, rolling, and jumping. These modes are selected by varying the magnitude and frequency of the applied magnetic field, exploiting the coupling between the robot's magnetization profile and body deformation \cite{Hu2018}.
+
+Furthermore, control extends beyond motion to functional interaction. Soon et al. developed a pangolin-inspired magnetic robot capable of on-demand heating via radio-frequency (RF) fields. By controlling the RF exposure, the robot could perform targeted hyperthermia or release cargo, effectively adding a thermodynamic control channel to the magnetic navigation \cite{Soon2023}. Similarly, Chen et al. designed a multi-layer soft robot that uses magnetic peeling mechanisms to selectively detach layers for targeted adhesion to gastric ulcers, controlled by the direction of the magnetic gradient \cite{Chen2024Multi}.
+
+\subsubsection{Sensing and Feedback Integration}
+Effective closed-loop control requires robust state estimation. Shih et al. reviewed the integration of electronic skins and machine learning for proprioception, noting that high-density sensor arrays combined with learning algorithms are essential for estimating the infinite DoF state of soft robots \cite{Shih2020}. Recent innovations also include remote sensing capabilities; Gao et al. integrated flexible dipole antennas into magnetic hydrogel microrobots. As the robot deforms (e.g., from helical to planar) in response to environmental stimuli, the antenna's resonant frequency shifts, providing a wireless feedback signal regarding the robot's shape state \cite{Gao2025}.
+
+\bibliographystyle{ieeetr}
+\begin{thebibliography}{10}
+	
+	\bibitem{Chen2024}
+	Z. Chen, F. Renda, A. L. Gall, L. Mocellin, M. Bernabei, T. Dangel, G. Ciuti, M. Cianchetti, and C. Stefanini, ``Data-Driven Methods Applied to Soft Robot Modeling and Control: A Review,'' \textit{IEEE Transactions on Automation Science and Engineering}, 2024.
+	
+	\bibitem{Zhou2021}
+	H. Zhou, C. C. Mayorga-Martinez, S. Pané, L. Zhang, and M. Pumera, ``Magnetically Driven Micro and Nanorobots,'' \textit{Chemical Reviews}, vol. 121, pp. 4999--5041, 2021.
+	
+	\bibitem{Nelson2022}
+	B. J. Nelson, S. Gervasoni, P. W. Y. Chiu, L. Zhang, and A. Zemmar, ``Magnetically Actuated Medical Robots: An in vivo Perspective,'' \textit{Proceedings of the IEEE}, 2022.
+	
+	\bibitem{Kim2022}
+	Y. Kim and X. Zhao, ``Magnetic Soft Materials and Robots,'' \textit{Chemical Reviews}, vol. 122, pp. 5317--5364, 2022.
+	
+	\bibitem{Xia2024}
+	N. Xia, D. Jin, and L. Zhang, ``Magnetic Soft Matter toward Programmable and Multifunctional Miniature Machines,'' \textit{Accounts of Materials Research}, vol. 5, pp. 173--183, 2024.
+	
+	\bibitem{Shen2023}
+	H. Shen, S. Cai, Z. Wang, Z. Ge, and W. Yang, ``Magnetically driven microrobots: Recent progress and future development,'' \textit{Materials \& Design}, vol. 227, 111735, 2023.
+	
+	\bibitem{Won2019}
+	S. Won, S. Kim, J. E. Park, J. Jeon, and J. J. Wie, ``On-demand orbital maneuver of multiple soft robots via hierarchical magnetomotility,'' \textit{Nature Communications}, vol. 10, 4751, 2019.
+	
+	\bibitem{Zhang2021}
+	J. Zhang, Z. Ren, W. Hu, R. H. Soon, I. C. Yasa, Z. Liu, and M. Sitti, ``Voxelated three-dimensional miniature magnetic soft machines via multimaterial heterogeneous assembly,'' \textit{Science Robotics}, vol. 6, eabf0112, 2021.
+	
+	\bibitem{Zhao2022}
+	R. Zhao, H. Dai, H. Yao, Y. Shi, and G. Zhou, ``Shape programmable magnetic pixel soft robot,'' \textit{Heliyon}, vol. 8, e11415, 2022.
+	
+	\bibitem{Wang2021}
+	L. Wang, D. Zheng, P. Harker, A. B. Patel, C. F. Guo, and X. Zhao, ``Evolutionary design of magnetic soft continuum robots,'' \textit{Proceedings of the National Academy of Sciences}, vol. 118, no. 21, e2021922118, 2021.
+	
+	\bibitem{Alapan2020}
+	Y. Alapan, A. C. Karacakol, S. N. Guzelhan, I. Isik, and M. Sitti, ``Reprogrammable shape morphing of magnetic soft machines,'' \textit{Science Advances}, vol. 6, eabc6414, 2020.
+	
+	\bibitem{Xu2023}
+	Z. Xu, Y. Chen, and Q. Xu, ``Spreadable Magnetic Soft Robots with On-Demand Hardening,'' \textit{Research}, vol. 6, 0262, 2023.
+	
+	\bibitem{Bruder2020}
+	D. Bruder, X. Fu, R. B. Gillespie, C. D. Remy, and R. Vasudevan, ``Data-Driven Control of Soft Robots Using Koopman Operator Theory,'' \textit{IEEE Transactions on Robotics}, 2020.
+	
+	\bibitem{Han2023}
+	L. Han, K. Peng, W. Chen, and Z. Liu, ``A Data-driven Koopman Modeling Framework With Application to Soft Robots,'' \textit{International Journal of Control, Automation and Systems}, vol. 22, no. 1, pp. 249--263, 2023.
+	
+	\bibitem{Garg2025}
+	S. Garg, M. Goharimanesh, S. Sajjadi, and F. Janabi-Sharifi, ``Autonomous control of soft robots using safe reinforcement learning and covariance matrix adaptation,'' \textit{Engineering Applications of Artificial Intelligence}, vol. 153, 110791, 2025.
+	
+	\bibitem{Hu2018}
+	W. Hu, G. Z. Lum, M. Mastrangeli, and M. Sitti, ``Small-scale soft-bodied robot with multimodal locomotion,'' \textit{Nature}, vol. 554, pp. 81--85, 2018.
+	
+	\bibitem{Soon2023}
+	R. H. Soon, Z. Yin, M. A. Dogan, N. O. Dogan, M. E. Tiryaki, A. C. Karacakol, A. Aydin, P. Esmaeili-Dokht, and M. Sitti, ``Pangolin-inspired untethered magnetic robot for on-demand biomedical heating applications,'' \textit{Nature Communications}, vol. 14, 3320, 2023.
+	
+	\bibitem{Chen2024Multi}
+	Z. Chen, Y. Wang, H. Chen, J. Law, H. Pu, S. Xie, F. Duan, Y. Sun, N. Liu, and J. Yu, ``A magnetic multi-layer soft robot for on-demand targeted adhesion,'' \textit{Nature Communications}, vol. 15, 556, 2024.
+	
+	\bibitem{Shih2020}
+	B. Shih, D. Shah, J. Li, T. G. Thuruthel, Y. Park, F. Iida, Z. Bao, R. Kramer-Bottiglio, and M. T. Tolley, ``Electronic skins and machine learning for intelligent soft robots,'' \textit{Science Robotics}, vol. 5, eaaz9239, 2020.
+	
+	\bibitem{Gao2025}
+	Q. Gao, M. Kim, D. von Arx, E. Zhang, X. Zhang, H. Ye, C. Vogt, C. Ehmke, D. Corsino, F. Catania, N. Münzenrieder, M. Magno, G. Cantarella, B. J. Nelson, and S. Pané, ``Soft magnetic microrobots with remote sensing and communication capabilities,'' \textit{Nature Communications}, vol. 16, 428, 2025.
+	
+\end{thebibliography}
 
 \subsection{Magnetic Soft Robotics: Modeling and Control Strategies}
-Magnetic soft robotic control leverages magneto-mechanical models to map
-desired deformations into magnetic actuation commands. Analytical and numerical
-methods provide insight but often struggle with computational complexity and
-parameter sensitivity. Learning-based controllers for MSRs have appeared, yet
-their reliance on large datasets or carefully tuned simulators limits their
-portability across geometries and applications.
 
-\subsection{Experience Based and Memory Augmented Methods}
-Experience-based control, including episodic memory systems and memory-augmented
-neural architectures, provides mechanisms to incorporate previous observations
-into current decision-making processes. These methods separate fast retrieval
-of stored experience from slower, generalized function approximation, offering
-a promising foundation for data-efficient decision-making in robotics.
+The domain of magnetic soft robotics has evolved from the simple guidance of discrete magnetic elements to the complex deformation control of continuum soft bodies with distributed magnetization profiles. The control strategies for these systems are fundamentally rooted in the physical interaction between an external magnetic field $\mathbf{B}$ and the internal magnetic dipole moments $\mathbf{m}$ of the robot.
+
+For a magnetic dipole with moment $\mathbf{m}$ in an external magnetic flux density $\mathbf{B}$, the magnetic torque $\boldsymbol{\tau}$ and force $\mathbf{F}$ are given by
+\begin{equation}
+	\boldsymbol{\tau} = \mathbf{m} \times \mathbf{B},
+\end{equation}
+\begin{equation}
+	\mathbf{F} = \nabla \bigl( \mathbf{m} \cdot \mathbf{B} \bigr),
+\end{equation}
+where spatial variations in $\mathbf{B}$ generate net forces, while uniform fields generate pure torques on the magnetization distribution \cite{Kim2022,Zhou2021}. However, the infinite degrees of freedom (DoFs) inherent to soft materials necessitate advanced modeling frameworks and control architectures that transcend traditional rigid-body kinematics.
+
+\subsubsection{Continuum Mechanics and Numerical Modeling} Accurate control of magnetic soft robots (MSRs) requires high-fidelity models that can predict large nonlinear deformations. A prevalent approach involves the "hard-magnetic elastica" theory, which couples the mechanics of slender rods with the constitutive laws of hard-magnetic soft materials (HMSM). Wang et al. developed a theoretical model based on this theory to calculate the large deflections of MSCRs (Magnetic Soft Continuum Robots) under uniform magnetic fields. They utilized a finite difference method to discretize the elastica into elements, solving for the equilibrium between internal bending moments and distributed magnetic torques \cite{Wang2021}.
+While analytical models provide physical insight, Finite Element Method (FEM) simulations are essential for capturing complex geometries and multi-physics interactions. Commercial packages like Abaqus are often employed to simulate microscopic magnetic Cauchy stresses, validating theoretical models against experimental data \cite{Wang2021, Kim2022}. Furthermore, to bridge the gap between complex dynamics and real-time control, data-driven approaches have gained prominence. Han et al. proposed a Koopman operator-based framework to linearize the highly nonlinear dynamics of soft robots in a lifted infinite-dimensional state space. Their comparative analysis demonstrated that monomial basis functions offer optimal performance for constructing Koopman models for both 2D and 3D soft robotic systems, outperforming traditional state-space models in prediction accuracy \cite{Han2023}.
+\subsubsection{Design Optimization and Magnetization Programming} Control authority in MSRs is heavily dependent on the internal magnetization profile of the soft body. Recent literature emphasizes "control by design," where the intelligence is embedded in the material's magnetic anisotropy. To maximize the workspace and steerability of MSCRs, Wang et al. introduced an evolutionary design strategy integrating the hard-magnetic elastica model with a genetic algorithm. By iteratively optimizing the volume fraction of magnetic particles along the robot's length (varying rigidity and remanent magnetization), they achieved a workspace significantly larger than that of state-of-the-art designs with uniform particle distribution \cite{Wang2021}.
+Programmable magnetization allows for multimodal locomotion under simple control inputs. Hu et al. demonstrated a rectangular sheet robot with a single-wavelength harmonic magnetization profile that can switch between swimming, climbing, rolling, and jumping modes by varying the magnitude and frequency of the oscillating magnetic field \cite{Hu2018}. Furthermore, Xu et al. leveraged non-Newtonian fluidic materials mixed with magnetic particles to achieve on-demand hardening. By applying high-frequency dynamic magnetic fields, the robot's viscosity increases, enabling it to resist external forces and manipulate objects much heavier than itself, effectively serving as a variable-stiffness controller \cite{Xu2023}.
+\subsubsection{Actuation and Feedback Control Architectures} The actuation of MSRs relies on the generation of precise magnetic fields via electromagnetic coil systems (e.g., Helmholtz, Maxwell, saddle coils) or permanent magnet manipulation systems \cite{Zhou2021}. While electromagnetic systems offer fast dynamic response, permanent magnet systems provide higher field strengths for a given workspace volume. Won et al. presented a hierarchical magnetomotility strategy using rotating permanent magnets to control multiple soft robots simultaneously. By regulating the rotational speed of the external magnets, they induced distinct rotating, pivoting, and tumbling modes in helical robots, allowing for independent control of orbital radius and velocity for multi-agent coordination \cite{Won2019}.
+Closed-loop control strategies are increasingly integrating medical imaging modalities for feedback in non-line-of-sight environments. Chen et al. developed a magnetic multi-layer soft robot capable of on-demand targeted adhesion in the stomach. The control strategy utilized real-time ultrasound imaging to navigate the robot to specific gastric ulcers, where magnetic gradients were used to detach therapeutic layers sequentially \cite{Chen2024}. Similarly, magnetically actuated catheters are being integrated with imaging feedback for endovascular interventions, requiring control algorithms that compensate for blood flow dynamics and vessel tortuosity \cite{Nelson2022}.
+\bibliographystyle{ieeetr} \begin{thebibliography}{10}
+	\bibitem{Kim2022} Y. Kim and X. Zhao, ``Magnetic Soft Materials and Robots,'' \textit{Chemical Reviews}, vol. 122, pp. 5317--5364, 2022.
+	\bibitem{Zhou2021} H. Zhou, C. C. Mayorga-Martinez, S. Pané, L. Zhang, and M. Pumera, ``Magnetically Driven Micro and Nanorobots,'' \textit{Chemical Reviews}, vol. 121, pp. 4999--5041, 2021.
+	\bibitem{Wang2021} L. Wang, D. Zheng, P. Harker, A. B. Patel, C. F. Guo, and X. Zhao, ``Evolutionary design of magnetic soft continuum robots,'' \textit{Proceedings of the National Academy of Sciences}, vol. 118, no. 21, e2021922118, 2021.
+	\bibitem{Han2023} L. Han, K. Peng, W. Chen, and Z. Liu, ``A Data-driven Koopman Modeling Framework With Application to Soft Robots,'' \textit{International Journal of Control, Automation and Systems}, vol. 22, no. 1, pp. 249--263, 2023.
+	\bibitem{Hu2018} W. Hu, G. Z. Lum, M. Mastrangeli, and M. Sitti, ``Small-scale soft-bodied robot with multimodal locomotion,'' \textit{Nature}, vol. 554, pp. 81--85, 2018.
+	\bibitem{Xu2023} Z. Xu, Y. Chen, and Q. Xu, ``Spreadable Magnetic Soft Robots with On-Demand Hardening,'' \textit{Research}, vol. 6, 0262, 2023.
+	\bibitem{Won2019} S. Won, S. Kim, J. E. Park, J. Jeon, and J. J. Wie, ``On-demand orbital maneuver of multiple soft robots via hierarchical magnetomotility,'' \textit{Nature Communications}, vol. 10, 4751, 2019.
+	\bibitem{Chen2024} Z. Chen, Y. Wang, H. Chen, J. Law, H. Pu, S. Xie, F. Duan, Y. Sun, N. Liu, and J. Yu, ``A magnetic multi-layer soft robot for on-demand targeted adhesion,'' \textit{Nature Communications}, vol. 15, 556, 2024.
+	\bibitem{Nelson2022} B. J. Nelson, S. Gervasoni, P. W. Y. Chiu, L. Zhang, and A. Zemmar, ``Magnetically Actuated Medical Robots: An in vivo Perspective,'' \textit{Proceedings of the IEEE}, 2022.
+	\bibitem{Xia2024} N. Xia, D. Jin, and L. Zhang, ``Magnetic Soft Matter toward Programmable and Multifunctional Miniature Machines,'' \textit{Accounts of Materials Research}, vol. 5, pp. 173--183, 2024.
+\end{thebibliography}
 
 \subsection{Limitations of Current Approaches}
-Existing methods for soft and magnetic soft robot control face several
-persistent challenges: computational overhead in physics-based controllers, high
-sample complexity in deep reinforcement learning, sensitivity to robot
-morphology or task changes, and practical constraints on latency and
-real-time control. These limitations motivate the need for more efficient,
-model-free, and adaptable control frameworks for MSRs.
+Despite the significant strides made in the design and manipulation of magnetic soft robots, the field remains in a nascent stage, facing fundamental challenges that hinder the transition from laboratory proofs-of-concept to deployment in clinical or industrial settings \cite{Kim2022, Yasa2023}. The limitations of current state-of-the-art approaches stem primarily from the inherent physics of magnetic actuation, the complexities of modeling hyperelastic continuum bodies, and the difficulties in integrating proprioceptive sensing at small scales.
+\subsubsection{Actuation Scalability and Workspace Constraints} A primary bottleneck in magnetic soft robotics is the scaling law governing magnetic fields. As noted by Nelson et al., magnetic fields decay cubically with distance from the source \cite{Nelson2022}. Consequently, generating sufficient magnetic torques and forces to manipulate robots deep within the human body requires massive external magnetic navigation systems (MNS) that are often bulky, energy-intensive, and expensive to install in clinical environments \cite{Zhou2021, Jung2024}. While electromagnetic systems offer dynamic control, they struggle to maintain high field strengths over large workspaces due to overheating constraints, whereas permanent magnet systems, while offering stronger fields, lack the rapid on-off switching capabilities required for complex, high-frequency actuation modes \cite{Zhou2021}. Furthermore, the actuation bandwidth is often limited by the time constants of large electromagnetic coils, restricting the agility of soft robots in dynamic tasks compared to their rigid counterparts \cite{Jung2024}.
+\subsubsection{The Underactuation and Modeling Problem} The control of magnetic soft robots represents a classic underactuated control problem. These robots possess theoretically infinite degrees of freedom (DOFs) due to their continuous soft bodies, yet the control input is typically limited to a uniform magnetic field (3 DOFs) and a spatial gradient (5 DOFs) \cite{Kim2022}. This disparity makes the inverse kinematics problem ill-posed; there are often multiple magnetization profiles or deformation states that satisfy a given end-effector position, complicating precise trajectory planning.
+Furthermore, analytical modeling approaches, such as the piecewise constant curvature (PCC) model or Cosserat rod theory, often rely on simplifying assumptions that fail to capture complex phenomena like viscoelasticity, hysteresis, and nonlinear material responses under large deformations \cite{Chen2024, Wang2021}. While Finite Element Method (FEM) simulations provide higher fidelity, they are computationally prohibitive for real-time closed-loop control. Data-driven methods, such as Neural Networks and Koopman operator theory, offer a pathway to bypass explicit physical modeling \cite{Han2023, Bruder2020}. However, these methods suffer from the "sim-to-real" gap, where policies trained in simulation fail to generalize to physical realities due to unmodeled dynamics and environmental uncertainties \cite{Garg2025}. Moreover, Reinforcement Learning (RL) approaches are often data-inefficient and lack safety guarantees during the exploration phase, posing significant risks for biomedical applications \cite{Garg2025}.
+\subsubsection{Sensing and Feedback Limitations} Robust closed-loop control necessitates real-time state estimation. However, integrating onboard proprioception into soft magnetic robots without compromising their compliance or small form factor remains a significant unresolved challenge \cite{Shih2020}. Most current systems rely on external visual feedback (e.g., cameras, ultrasound, or X-ray fluoroscopy) which may suffer from occlusion, low temporal resolution, or ionizing radiation exposure \cite{Kim2022, Nelson2022}. Although recent work has explored embedding flexible electronics or utilizing magnetic sensors, these additions often introduce rigid components that create stress concentrations and reduce the overall deformability of the robot \cite{Gao2025}. Consequently, many systems still operate in open-loop or rely on visual servoing that is susceptible to environmental disturbances.
+\subsubsection{Functionality and Multi-Agent Coordination} While magnetic actuation enables remote operation, it fundamentally relies on a global field that affects all magnetic material within the workspace simultaneously. This creates a significant hurdle for the independent control of multiple agents (swarms), as differentiating the control inputs for individual robots is difficult without utilizing heterogeneous magnetic profiles or complex frequency-dependent responses \cite{Won2019, Zhou2021}. Additionally, there is often a trade-off between the softness of the robot and its functional capabilities. For instance, Soon et al. noted that achieving efficient radio-frequency (RF) heating for therapeutic functions requires rigid metallic components, which compromises the compliance and safety profile of the soft robot \cite{Soon2023}. Similarly, Xu et al. highlighted that ultrasoft structures essential for safe interaction often lack the stiffness required for substantial force output, necessitating complex variable-stiffness mechanisms that complicate fabrication and control \cite{Xu2023}.
+\bibliographystyle{ieeetr} \begin{thebibliography}{10}
+	\bibitem{Kim2022} Y. Kim and X. Zhao, ``Magnetic Soft Materials and Robots,'' \textit{Chemical Reviews}, vol. 122, pp. 5317--5364, 2022.
+	\bibitem{Yasa2023} O. Yasa, Y. Toshimitsu, M. Y. Michelis, L. S. Jones, M. Filippi, T. Buchner, and R. K. Katzschmann, ``An Overview of Soft Robotics,'' \textit{Annual Review of Control, Robotics, and Autonomous Systems}, vol. 6, pp. 1--29, 2023.
+	\bibitem{Nelson2022} B. J. Nelson, S. Gervasoni, P. W. Y. Chiu, L. Zhang, and A. Zemmar, ``Magnetically Actuated Medical Robots: An in vivo Perspective,'' \textit{Proceedings of the IEEE}, 2022.
+	\bibitem{Zhou2021} H. Zhou, C. C. Mayorga-Martinez, S. Pané, L. Zhang, and M. Pumera, ``Magnetically Driven Micro and Nanorobots,'' \textit{Chemical Reviews}, vol. 121, pp. 4999--5041, 2021.
+	\bibitem{Jung2024} Y. Jung, K. Kwon, J. Lee, and S. H. Ko, ``Untethered soft actuators for soft standalone robotics,'' \textit{Nature Communications}, vol. 15, 3528, 2024.
+	\bibitem{Chen2024} Z. Chen, F. Renda, A. L. Gall, L. Mocellin, M. Bernabei, T. Dangel, G. Ciuti, M. Cianchetti, and C. Stefanini, ``Data-Driven Methods Applied to Soft Robot Modeling and Control: A Review,'' \textit{IEEE Transactions on Automation Science and Engineering}, 2024.
+	\bibitem{Wang2021} L. Wang, D. Zheng, P. Harker, A. B. Patel, C. F. Guo, and X. Zhao, ``Evolutionary design of magnetic soft continuum robots,'' \textit{Proceedings of the National Academy of Sciences}, vol. 118, no. 21, e2021922118, 2021.
+	\bibitem{Han2023} L. Han, K. Peng, W. Chen, and Z. Liu, ``A Data-driven Koopman Modeling Framework With Application to Soft Robots,'' \textit{International Journal of Control, Automation and Systems}, vol. 22, no. 1, pp. 249--263, 2023.
+	\bibitem{Bruder2020} D. Bruder, X. Fu, R. B. Gillespie, C. D. Remy, and R. Vasudevan, ``Data-Driven Control of Soft Robots Using Koopman Operator Theory,'' \textit{IEEE Transactions on Robotics}, 2020.
+	\bibitem{Garg2025} S. Garg, M. Goharimanesh, S. Sajjadi, and F. Janabi-Sharifi, ``Autonomous control of soft robots using safe reinforcement learning and covariance matrix adaptation,'' \textit{Engineering Applications of Artificial Intelligence}, vol. 153, 110791, 2025.
+	\bibitem{Shih2020} B. Shih, D. Shah, J. Li, T. G. Thuruthel, Y. Park, F. Iida, Z. Bao, R. Kramer-Bottiglio, and M. T. Tolley, ``Electronic skins and machine learning for intelligent soft robots,'' \textit{Science Robotics}, vol. 5, eaaz9239, 2020.
+	\bibitem{Gao2025} Q. Gao, M. Kim, D. von Arx, E. Zhang, X. Zhang, H. Ye, C. Vogt, C. Ehmke, D. Corsino, F. Catania, N. Münzenrieder, M. Magno, G. Cantarella, B. J. Nelson, and S. Pané, ``Soft magnetic microrobots with remote sensing and communication capabilities,'' \textit{Nature Communications}, vol. 16, 428, 2025.
+	\bibitem{Won2019} S. Won, S. Kim, J. E. Park, J. Jeon, and J. J. Wie, ``On-demand orbital maneuver of multiple soft robots via hierarchical magnetomotility,'' \textit{Nature Communications}, vol. 10, 4751, 2019.
+	\bibitem{Soon2023} R. H. Soon, Z. Yin, M. A. Dogan, N. O. Dogan, M. E. Tiryaki, A. C. Karacakol, A. Aydin, P. Esmaeili-Dokht, and M. Sitti, ``Pangolin-inspired untethered magnetic robot for on-demand biomedical heating applications,'' \textit{Nature Communications}, vol. 14, 3320, 2023.
+	\bibitem{Xu2023} Z. Xu, Y. Chen, and Q. Xu, ``Spreadable Magnetic Soft Robots with On-Demand Hardening,'' \textit{Research}, vol. 6, 0262, 2023.
+\end{thebibliography}
 
 %------------------------------------------------------------
 \section{Problem Definition}
@@ -134,3 +332,384 @@ Chapter 6 discusses limitations, potential improvements, and broader
 implications of model-free MSR control.  
 Chapter 7 concludes the thesis and outlines directions for future research.
 
+
+
+\bibliographystyle{IEEEtran}
+\begin{thebibliography}{10}
+	
+		
+	\bibitem{817}
+	Y.~Kim and X.~Zhao, ``Magnetic soft materials and robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, pp. 5317--5364, 2022.
+	
+	\bibitem{1530}
+	Y.~Jung, K.~Kwon, J.~Lee, and S.~H. Ko, ``Untethered soft actuators for soft standalone robotics,'' \emph{Nature Communications}, vol. 15, p. 3489, 2024.
+	
+	\bibitem{318}
+	H.-J. Chung, A.~M. Parsons, and L.~Zheng, ``Magnetically controlled soft robotics utilizing elastomers and gels in actuation: A review,'' \emph{Advanced Intelligent Systems}, vol. 3, no. 3, p. 2000186, 2020.
+	
+	\bibitem{556}
+	B.~J. Nelson, S.~Gervasoni, P.~W. Y. Chiu, L.~Zhang, and A.~Zemmar, ``Magnetically actuated medical robots: An in vivo perspective,'' \emph{Proceedings of the IEEE}, vol. 110, no. 7, pp. 954--975, 2022.
+	
+	\bibitem{1931}
+	L.~Wang, D.~Zheng, P.~Harker, A.~B. Patel, C.~F. Guo, and X.~Zhao, ``Evolutionary design of magnetic soft continuum robots,'' \emph{Proceedings of the National Academy of Sciences}, vol. 118, no. 21, p. e2021922118, 2021.
+	
+	\bibitem{1932}
+	\emph{Ibid.}
+	
+	\bibitem{566}
+	B.~J. Nelson et al., ``Magnetically actuated medical robots: An in vivo perspective,'' \emph{Proceedings of the IEEE}, vol. 110, no. 7, p. 958, 2022.
+	
+	\bibitem{563}
+	\emph{Ibid.}, p. 956.
+	
+	\bibitem{572}
+	\emph{Ibid.}, p. 959.
+	
+	\bibitem{574}
+	\emph{Ibid.}, p. 960.
+	
+	\bibitem{1037}
+	N.~Xia, D.~Jin, and L.~Zhang, ``Magnetic soft matter toward programmable and multifunctional miniature machines,'' \emph{Accounts of Materials Research}, vol. 5, no. 2, pp. 173--183, 2024.
+	
+	\bibitem{820}
+	Y.~Kim and X.~Zhao, ``Magnetic soft materials and robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, p. 5319, 2022.
+	
+	\bibitem{564}
+	B.~J. Nelson et al., ``Magnetically actuated medical robots: An in vivo perspective,'' \emph{Proceedings of the IEEE}, vol. 110, no. 7, p. 957, 2022.
+	
+	\bibitem{570}
+	\emph{Ibid.}, p. 959.
+	
+	\bibitem{1064}
+	H.~Zhou, C.~C. Mayorga-Martinez, S.~Pané, L.~Zhang, and M.~Pumera, ``Magnetically driven micro and nanorobots,'' \emph{Chemical Reviews}, vol. 121, no. 8, pp. 4999--5041, 2021.
+	
+	\bibitem{1143}
+	\emph{Ibid.}, p. 5021.
+	
+	\bibitem{754}
+	O.~Yasa et al., ``An overview of soft robotics,'' \emph{Annual Review of Control, Robotics, and Autonomous Systems}, vol. 6, p. 19, 2023.
+	
+	\bibitem{1889}
+	J.~Zhang et al., ``Voxelated three-dimensional miniature magnetic soft machines via multimaterial heterogeneous assembly,'' \emph{Science Robotics}, vol. 6, no. 53, p. eabf0112, 2021.
+	
+	\bibitem{1149}
+	H.~Zhou et al., ``Magnetically driven micro and nanorobots,'' \emph{Chemical Reviews}, vol. 121, no. 8, p. 5023, 2021.
+	
+	\bibitem{1142}
+	\emph{Ibid.}, p. 5020.
+	
+	\bibitem{1160}
+	\emph{Ibid.}, p. 5025.
+	
+	\bibitem{1153}
+	\emph{Ibid.}, p. 5024.
+	
+	\bibitem{1162}
+	\emph{Ibid.}, p. 5025.
+	
+	\bibitem{1418}
+	R.~H. Soon et al., ``Pangolin-inspired untethered magnetic robot for on-demand biomedical heating applications,'' \emph{Nature Communications}, vol. 14, p. 3320, 2023.
+	
+	\bibitem{1438}
+	\emph{Ibid.}, p. 8.
+	
+	\bibitem{951}
+	Y.~Kim and X.~Zhao, ``Magnetic soft materials and robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, p. 5352, 2022.
+	
+	\bibitem{1626}
+	Q.~Gao et al., ``Soft magnetic microrobots with remote sensing and communication capabilities,'' \emph{Nature Communications}, vol. 16, p. 65459, 2025.
+	
+	\bibitem{1631}
+	\emph{Ibid.}, p. 2.
+	
+	\bibitem{853}
+	Y.~Kim and X.~Zhao, ``Magnetic soft materials and robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, p. 5328, 2022.
+	
+	\bibitem{948}
+	\emph{Ibid.}, p. 5352.
+	
+	\bibitem{1745}
+	Y.~Dong et al., ``Untethered small-scale magnetic soft robot with programmable magnetization and integrated multifunctional modules,'' \emph{Science Advances}, vol. 8, no. 25, p. eabn8932, 2022.
+	
+	\bibitem{1223}
+	W.~Hu, G.~Z. Lum, M.~Mastrangeli, and M.~Sitti, ``Small-scale soft-bodied robot with multimodal locomotion,'' \emph{Nature}, vol. 554, pp. 81--85, 2018.
+	
+	\bibitem{1017}
+	N.~Xia, D.~Jin, and L.~Zhang, ``Magnetic soft matter toward programmable and multifunctional miniature machines,'' \emph{Accounts of Materials Research}, vol. 5, no. 2, p. 176, 2024.
+	
+	
+	\bibitem{shen2023magnetically}
+	H.~Shen, S.~Cai, Z.~Wang, Z.~Ge, and W.~Yang, ``Magnetically driven microrobots: Recent progress and future development,'' \emph{Materials \& Design}, vol. 227, p. 111735, 2023.
+	
+	\bibitem{chung2020magnetically}
+	H.-J. Chung, A.~M. Parsons, and L.~Zheng, ``Magnetically controlled soft robotics utilizing elastomers and gels in actuation: A review,'' \emph{Advanced Intelligent Systems}, vol. 3, no. 3, p. 2000186, 2020.
+	
+	\bibitem{bruder2020data}
+	D.~Bruder, X.~Fu, R.~B. Gillespie, C.~D. Remy, and R.~Vasudevan, ``Data-driven control of soft robots using Koopman operator theory,'' \emph{IEEE Transactions on Robotics}, vol. 37, no. 3, pp. 948--961, 2021.
+	
+	\bibitem{chen2024datadriven}
+	Z.~Chen, F.~Renda, A.~Le Gall, L.~Mocellin, M.~Bernabei, T.~Dangel, G.~Ciuti, M.~Cianchetti, and C.~Stefanini, ``Data-driven methods applied to soft robot modeling and control: A review,'' \emph{IEEE Transactions on Automation Science and Engineering}, vol. 22, no. 1, 2024.
+	
+	\bibitem{garg2025autonomous}
+	S.~Garg, M.~Goharimanesh, S.~Sajjadi, and F.~Janabi-Sharifi, ``Autonomous control of soft robots using safe reinforcement learning and covariance matrix adaptation,'' \emph{Engineering Applications of Artificial Intelligence}, vol. 153, p. 110791, 2025.
+	
+	\bibitem{yasa2023overview}
+	O.~Yasa, Y.~Toshimitsu, M.~Y. Michelis, L.~S. Jones, M.~Filippi, T.~Buchner, and R.~K. Katzschmann, ``An overview of soft robotics,'' \emph{Annual Review of Control, Robotics, and Autonomous Systems}, vol. 6, pp. 1--29, 2023.
+	
+	\bibitem{hu2018small}
+	W.~Hu, G.~Z. Lum, M.~Mastrangeli, and M.~Sitti, ``Small-scale soft-bodied robot with multimodal locomotion,'' \emph{Nature}, vol. 554, pp. 81--85, 2018.
+	
+	\bibitem{jung2024untethered}
+	Y.~Jung, K.~Kwon, J.~Lee, and S.~H. Ko, ``Untethered soft actuators for soft standalone robotics,'' \emph{Nature Communications}, vol. 15, no. 3489, 2024.
+	
+	\bibitem{zhao2022stimuli}
+	Y.~Zhao, M.~Hua, Y.~Yan, S.~Wu, Y.~Alsaid, and X.~He, ``Stimuli-responsive polymers for soft robotics,'' \emph{Annual Review of Control, Robotics, and Autonomous Systems}, vol. 5, pp. 515--545, 2022.
+	
+	\bibitem{nelson2022magnetically}
+	B.~J. Nelson, S.~Gervasoni, P.~W. Y. Chiu, L.~Zhang, and A.~Zemmar, ``Magnetically actuated medical robots: An in vivo perspective,'' \emph{Proceedings of the IEEE}, vol. 110, no. 7, 2022.
+	
+	\bibitem{kim2022magnetic}
+	Y.~Kim and X.~Zhao, ``Magnetic soft materials and robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, pp. 5317--5364, 2022.
+	
+	\bibitem{xia2024magnetic}
+	N.~Xia, D.~Jin, and L.~Zhang, ``Magnetic soft matter toward programmable and multifunctional miniature machines,'' \emph{Accounts of Materials Research}, vol. 5, no. 2, pp. 173--183, 2024.
+	
+	\bibitem{alapan2020reprogrammable}
+	Y.~Alapan, A.~C. Karacakol, S.~N. Guzelhan, I.~Isik, and M.~Sitti, ``Reprogrammable shape morphing of magnetic soft machines,'' \emph{Science Advances}, vol. 6, no. 38, p. eabc6414, 2020.
+	
+	\bibitem{lum2016shape}
+	G.~Z. Lum, Z.~Ye, X.~Dong, H.~Marvi, O.~Erin, W.~Hu, and M.~Sitti, ``Shape-programmable magnetic soft matter,'' \emph{Proceedings of the National Academy of Sciences}, vol. 113, pp. E6007--E6015, 2016.
+	
+	\bibitem{dong2022untethered}
+	Y.~Dong, L.~Wang, N.~Xia, Z.~Yang, C.~Zhang, C.~Pan, D.~Jin, J.~Zhang, C.~Majidi, and L.~Zhang, ``Untethered small-scale magnetic soft robot with programmable magnetization and integrated multifunctional modules,'' \emph{Science Advances}, vol. 8, p. eabn8932, 2022.
+	
+	\bibitem{zhang2021voxelated}
+	J.~Zhang, Z.~Ren, W.~Hu, R.~H. Soon, I.~C. Yasa, Z.~Liu, and M.~Sitti, ``Voxelated three-dimensional miniature magnetic soft machines via multimaterial heterogeneous assembly,'' \emph{Science Robotics}, vol. 6, no. 53, p. eabf0112, 2021.
+	
+	\bibitem{won2019demand}
+	S.~Won, S.~Kim, J.~E. Park, J.~Jeon, and J.~J. Wie, ``On-demand orbital maneuver of multiple soft robots via hierarchical magnetomotility,'' \emph{Nature Communications}, vol. 10, p. 4751, 2019.
+	
+	\bibitem{gao2025soft}
+	Q.~Gao, M.~Kim, D.~von Arx, E.~Zhang, X.~Zhang, H.~Ye, C.~Vogt, C.~Ehmke, D.~Corsino, F.~Catania, N.~Münzenrieder, M.~Magno, G.~Cantarella, B.~J. Nelson, and S.~Pané, ``Soft magnetic microrobots with remote sensing and communication capabilities,'' \emph{Nature Communications}, vol. 16, p. 31, 2025.
+	
+	\bibitem{shih2020electronic}
+	B.~Shih, D.~Shah, J.~Li, T.~G. Thuruthel, Y.-L. Park, F.~Iida, Z.~Bao, R.~Kramer-Bottiglio, and M.~T. Tolley, ``Electronic skins and machine learning for intelligent soft robots,'' \emph{Science Robotics}, vol. 5, p. eaaz9239, 2020.
+	
+	\bibitem{han2023datadriven}
+	L.~Han, K.~Peng, W.~Chen, and Z.~Liu, ``A data-driven Koopman modeling framework with application to soft robots,'' \emph{International Journal of Control, Automation and Systems}, vol. 21, no. 5, pp. 1--13, 2023.
+	
+	\bibitem{chen2024magnetic}
+	Z.~Chen, Y.~Wang, H.~Chen, J.~Law, H.~Pu, S.~Xie, F.~Duan, Y.~Sun, N.~Liu, and J.~Yu, ``A magnetic multi-layer soft robot for on-demand targeted adhesion,'' \emph{Nature Communications}, vol. 15, p. 593, 2024.
+	
+	\bibitem{wang2021evolutionary}
+	L.~Wang, D.~Zheng, P.~Harker, A.~B. Patel, C.~F. Guo, and X.~Zhao, ``Evolutionary design of magnetic soft continuum robots,'' \emph{Proceedings of the National Academy of Sciences}, vol. 118, no. 21, p. e2021922118, 2021.
+	
+	\bibitem{rus2015design}
+	D.~Rus and M.~T. Tolley, ``Design, fabrication and control of soft robots,'' \emph{Nature}, vol. 521, no. 7553, pp. 467--475, 2015.
+	
+	\bibitem{kim2022magnetic}
+	Y.~Kim and X.~Zhao, ``Magnetic soft materials and robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, pp. 5317--5364, 2022.
+	
+	\bibitem{cianchetti2018biomedical}
+	M.~Cianchetti, C.~Laschi, A.~Menciassi, and P.~Dario, ``Biomedical applications of soft robotics,'' \emph{Nature Reviews Materials}, vol. 3, no. 6, pp. 143--153, 2018.
+	
+	\bibitem{kim2013soft}
+	S.~Kim, C.~Laschi, and B.~Trimmer, ``Soft robotics: a bioinspired evolution in robotics,'' \emph{Trends in Biotechnology}, vol. 31, no. 5, pp. 287--294, 2013.
+	
+	\bibitem{majidi2014soft}
+	C.~Majidi, ``Soft robotics: A perspective—current trends and prospects for the future,'' \emph{Soft Robotics}, vol. 1, no. 1, pp. 5--11, 2014.
+	
+	\bibitem{chung2021magnetically}
+	H.-J. Chung, A.~M. Parsons, and L.~Zheng, ``Magnetically controlled soft robotics utilizing elastomers and gels in actuation: A review,'' \emph{Advanced Intelligent Systems}, vol. 3, no. 3, p. 2000186, 2021.
+	
+	\bibitem{lee2023magnetically}
+	Y.~Lee, F.~Koehler, T.~Dillon, G.~Loke, Y.~Kim, J.~Marion, M.-J. Antonini, I.~C. Garwood, A.~Sahasrabudhe, K.~Nagao, X.~Zhao, Y.~Fink, E.~T. Roche, and P.~Anikeeva, ``Magnetically actuated fiber-based soft robots,'' \emph{Advanced Materials}, vol. 35, p. 2301916, 2023.
+	
+	\bibitem{kim2019ferromagnetic}
+	Y.~Kim, G.~A. Parada, S.~Liu, and X.~Zhao, ``Ferromagnetic soft continuum robots,'' \emph{Science Robotics}, vol. 4, no. 33, p. eaax7329, 2019.
+	
+	\bibitem{zhao2022stimuli}
+	Y.~Zhao, M.~Hua, Y.~Yan, S.~Wu, Y.~Alsaid, and X.~He, ``Stimuli-responsive polymers for soft robotics,'' \emph{Annual Review of Control, Robotics, and Autonomous Systems}, vol. 5, pp. 515--545, 2022.
+	
+	\bibitem{gao2025soft}
+	Q.~Gao, M.~Kim, D.~von Arx, E.~Zhang, X.~Zhang, H.~Ye, C.~Vogt, C.~Ehmke, D.~Corsino, F.~Catania, N.~Münzenrieder, M.~Magno, G.~Cantarella, B.~J. Nelson, and S.~Pané, ``Soft magnetic microrobots with remote sensing and communication capabilities,'' \emph{Nature Communications}, vol. 16, p. 65459, 2025.
+	
+	\bibitem{ze2020magnetic}
+	Q.~Ze, X.~Kuang, S.~Wu, J.~Wong, S.~M. Montgomery, R.~Zhang, J.~M. Kovitz, F.~Yang, H.~J. Qi, and R.~Zhao, ``Magnetic shape memory polymers with integrated multifunctional shape manipulation,'' \emph{Advanced Materials}, vol. 32, no. 11, p. 1906657, 2020.
+	
+	\bibitem{zhao2022shape}
+	R.~Zhao, H.~Dai, H.~Yao, Y.~Shi, and G.~Zhou, ``Shape programmable magnetic pixel soft robot,'' \emph{Heliyon}, vol. 8, no. 11, p. e11415, 2022.
+	
+	\bibitem{chen2024datadriven}
+	Z.~Chen, F.~Renda, A.~Le Gall, L.~Mocellin, M.~Bernabei, T.~Dangel, G.~Ciuti, M.~Cianchetti, and C.~Stefanini, ``Data-driven methods applied to soft robot modeling and control: A review,'' \emph{IEEE Transactions on Automation Science and Engineering}, 2024.
+	
+	\bibitem{bruder2020datadriven}
+	D.~Bruder, X.~Fu, R.~B. Gillespie, C.~D. Remy, and R.~Vasudevan, ``Data-driven control of soft robots using koopman operator theory,'' \emph{IEEE Transactions on Robotics}, vol. 37, no. 3, pp. 948--961, 2021.
+	
+	\bibitem{wang2021evolutionary}
+	L.~Wang, D.~Zheng, P.~Harker, A.~B. Patel, C.~F. Guo, and X.~Zhao, ``Evolutionary design of magnetic soft continuum robots,'' \emph{Proceedings of the National Academy of Sciences}, vol. 118, no. 21, p. e2021922118, 2021.
+	
+	\bibitem{hu2018small}
+	W.~Hu, G.~Z. Lum, M.~Mastrangeli, and M.~Sitti, ``Small-scale soft-bodied robot with multimodal locomotion,'' \emph{Nature}, vol. 554, pp. 81--85, 2018.
+	
+	\bibitem{han2023datadriven}
+	L.~Han, K.~Peng, W.~Chen, and Z.~Liu, ``A data-driven koopman modeling framework with application to soft robots,'' \emph{International Journal of Control, Automation and Systems}, vol. 21, no. 1, pp. 249--261, 2023.
+	
+	\bibitem{shih2020electronic}
+	B.~Shih, D.~Shah, J.~Li, T.~G. Thuruthel, Y.-L. Park, F.~Iida, Z.~Bao, R.~Kramer-Bottiglio, and M.~T. Tolley, ``Electronic skins and machine learning for intelligent soft robots,'' \emph{Science Robotics}, vol. 5, no. 41, p. eaaz9239, 2020.
+	
+	\bibitem{ilievski2011soft}
+	F.~Ilievski, A.~D. Mazzeo, R.~F. Shepherd, X.~Chen, and G.~M. Whitesides, ``Soft robotics for chemists,'' \emph{Angewandte Chemie International Edition}, vol. 50, no. 8, pp. 1890--1895, 2011.
+	
+	\bibitem{galloway2016soft}
+	K.~C. Galloway, K.~P. Becker, B.~Phillips, J.~Kirby, S.~Licht, D.~Tchernov, R.~J. Wood, and D.~F. Gruber, ``Soft robotic grippers for biological sampling on deep reefs,'' \emph{Soft Robotics}, vol. 3, no. 1, pp. 23--33, 2016.
+	
+	\bibitem{shintake2018soft}
+	J.~Shintake, V.~Cacucciolo, D.~Floreano, and H.~Shea, ``Soft robotic grippers,'' \emph{Advanced Materials}, vol. 30, no. 29, p. 1707035, 2018.
+	
+	\bibitem{jung2024untethered}
+	Y.~Jung, K.~Kwon, J.~Lee, and S.~H. Ko, ``Untethered soft actuators for soft standalone robotics,'' \emph{Nature Communications}, vol. 15, p. 3489, 2024.
+	
+	\bibitem{polygerinos2017soft}
+	P.~Polygerinos, N.~Correll, S.~A. Morin, B.~Mosadegh, C.~D. Onal, K.~Petersen, M.~Cianchetti, M.~T. Tolley, and R.~F. Shepherd, ``Soft robotics: Review of fluid-driven intrinsically soft devices; manufacturing, sensing, control, and applications in human-robot interaction,'' \emph{Advanced Engineering Materials}, vol. 19, no. 12, p. 1700016, 2017.
+	
+	\bibitem{wehner2016integrated}
+	M.~Wehner, R.~L. Truby, D.~J. Fitzgerald, B.~Mosadegh, G.~M. Whitesides, J.~A. Lewis, and R.~J. Wood, ``An integrated design and fabrication strategy for entirely soft, autonomous robots,'' \emph{Nature}, vol. 536, pp. 451--455, 2016.
+	
+	\bibitem{gupta2019soft}
+	U.~Gupta, L.~Qin, Y.~Wang, H.~Godaba, and J.~Zhu, ``Soft robots based on dielectric elastomer actuators: a review,'' \emph{Smart Materials and Structures}, vol. 28, no. 10, p. 103002, 2019.
+	
+	\bibitem{nelson2010microrobots}
+	B.~J. Nelson, I.~K. Kaliakatsos, and J.~J. Abbott, ``Microrobots for minimally invasive medicine,'' \emph{Annual Review of Biomedical Engineering}, vol. 12, pp. 55--85, 2010.
+	
+	\bibitem{zhou2021magnetically}
+	H.~Zhou, C.~C. Mayorga-Martinez, S.~Pané, L.~Zhang, and M.~Pumera, ``Magnetically driven micro and nanorobots,'' \emph{Chemical Reviews}, vol. 121, no. 8, pp. 4999--5041, 2021.
+	
+	\bibitem{xu2023spreadable}
+	Z.~Xu, Y.~Chen, and Q.~Xu, ``Spreadable magnetic soft robots with on-demand hardening,'' \emph{Research}, vol. 6, p. 0262, 2023.
+	
+	\bibitem{chen2024magnetic}
+	Z.~Chen, Y.~Wang, H.~Chen, J.~Law, H.~Pu, S.~Xie, F.~Duan, Y.~Sun, N.~Liu, and J.~Yu, ``A magnetic multi-layer soft robot for on-demand targeted adhesion,'' \emph{Nature Communications}, vol. 15, p. 44995, 2024.
+	
+	\bibitem{soon2023pangolin}
+	R.~H. Soon, Z.~Yin, M.~A. Dogan, N.~O. Dogan, M.~E. Tiryaki, A.~C. Karacakol, A.~Aydin, P.~Esmaeili-Dokht, and M.~Sitti, ``Pangolin-inspired untethered magnetic robot for on-demand biomedical heating applications,'' \emph{Nature Communications}, vol. 14, p. 3320, 2023.
+	
+	\bibitem{liu2021magnetically}
+	J.~Liu, S.~Yu, B.~Xu, Z.~Tian, H.~Zhang, K.~Liu, X.~Shi, Z.~Zhao, C.~Liu, X.~Lin, G.~Huang, A.~A. Solovev, J.~Cui, T.~Li, and Y.~Mei, ``Magnetically propelled soft microrobot navigating through constricted microchannels,'' \emph{Applied Materials Today}, vol. 25, p. 101237, 2021.
+	
+	\bibitem{xia2024magnetic}
+	N.~Xia, D.~Jin, and L.~Zhang, ``Magnetic soft matter toward programmable and multifunctional miniature machines,'' \emph{Accounts of Materials Research}, vol. 5, no. 2, pp. 173--183, 2024.
+	
+	\bibitem{shen2023magnetically}
+	H.~Shen, S.~Cai, Z.~Wang, Z.~Ge, and W.~Yang, ``Magnetically driven microrobots: Recent progress and future development,'' \emph{Materials \& Design}, vol. 227, p. 111735, 2023.
+	
+	\bibitem{zhang2021voxelated}
+	J.~Zhang, Z.~Ren, W.~Hu, R.~H. Soon, I.~C. Yasa, Z.~Liu, and M.~Sitti, ``Voxelated three-dimensional miniature magnetic soft machines via multimaterial heterogeneous assembly,'' \emph{Science Robotics}, vol. 6, no. 53, p. eabf0112, 2021.
+	
+	\bibitem{alapan2020reprogrammable}
+	Y.~Alapan, A.~C. Karacakol, S.~N. Guzelhan, I.~Isik, and M.~Sitti, ``Reprogrammable shape morphing of magnetic soft machines,'' \emph{Science Advances}, vol. 6, no. 38, p. eabc6414, 2020.
+	
+	\bibitem{liu2023responsive}
+	Y.~Liu, G.~Lin, M.~Medina-Sánchez, M.~Guix, D.~Makarov, and D.~Jin, ``Responsive magnetic nanocomposites for intelligent shape-morphing microrobots,'' \emph{ACS Nano}, vol. 17, no. 10, pp. 8899--8917, 2023.
+	
+	\bibitem{dong2022untethered}
+	Y.~Dong, L.~Wang, N.~Xia, Z.~Yang, C.~Zhang, C.~Pan, D.~Jin, J.~Zhang, C.~Majidi, and L.~Zhang, ``Untethered small-scale magnetic soft robot with programmable magnetization and integrated multifunctional modules,'' \emph{Science Advances}, vol. 8, no. 25, p. eabn8932, 2022.
+	
+	\bibitem{won2019demand}
+	S.~Won, S.~Kim, J.~E. Park, J.~Jeon, and J.~J. Wie, ``On-demand orbital maneuver of multiple soft robots via hierarchical magnetomotility,'' \emph{Nature Communications}, vol. 10, p. 4751, 2019.
+	
+	\bibitem{garg2025autonomous}
+	S.~Garg, M.~Goharimanesh, S.~Sajjadi, and F.~Janabi-Sharifi, ``Autonomous control of soft robots using safe reinforcement learning and covariance matrix adaptation,'' \emph{Engineering Applications of Artificial Intelligence}, vol. 153, p. 110791, 2025.
+	
+	\bibitem{yasa2023overview}
+	O.~Yasa, Y.~Toshimitsu, M.~Y. Michelis, L.~S. Jones, M.~Filippi, T.~Buchner, and R.~K. Katzschmann, ``An overview of soft robotics,'' \emph{Annual Review of Control, Robotics, and Autonomous Systems}, vol. 6, pp. 1--29, 2023.
+	
+	\bibitem{nelson2022magnetically}
+	B.~J. Nelson, S.~Gervasoni, P.~W. Y. Chiu, L.~Zhang, and A.~Zemmar, ``Magnetically actuated medical robots: An in vivo perspective,'' \emph{Proceedings of the IEEE}, vol. 110, no. 7, pp. 954--975, 2022.
+	
+	\bibitem{rich2018untethered}
+	S.~I. Rich, R.~J. Wood, and C.~Majidi, ``Untethered soft robotics,'' \emph{Nature Electronics}, vol. 1, pp. 102--112, 2018.
+	
+	\bibitem{hines2017soft}
+	L.~Hines, K.~Petersen, G.~Z. Lum, and M.~Sitti, ``Soft actuators for small-scale robotics,'' \emph{Advanced Materials}, vol. 29, no. 13, p. 1603483, 2017.
+	
+	\bibitem{laschi2016soft}
+	C.~Laschi, B.~Mazzolai, and M.~Cianchetti, ``Soft robotics: Technologies and systems pushing the boundaries of robot abilities,'' \emph{Science Robotics}, vol. 1, no. 1, p. eaah3690, 2016.
+	
+	\bibitem{shepherd2011multigait}
+	R.~F. Shepherd, F.~Ilievski, W.~Choi, S.~A. Morin, A.~A. Stokes, A.~D. Mazzeo, X.~Chen, M.~Wang, and G.~M. Whitesides, ``Multigait soft robot,'' \emph{Proceedings of the National Academy of Sciences}, vol. 108, no. 51, pp. 20400--20403, 2011.
+	
+	\bibitem{wallin20183d}
+	T.~J. Wallin, J.~Pikul, and R.~F. Shepherd, ``3d printing of soft robotic systems,'' \emph{Nature Reviews Materials}, vol. 3, pp. 84--100, 2018.
+	
+	\bibitem{yuk2017hydraulic}
+	H.~Yuk, S.~Lin, C.~Ma, M.~Takaffoli, N.~X. Fang, and X.~Zhao, ``Hydraulic hydrogel actuators and robots optically and sonically camouflaged in water,'' \emph{Nature Communications}, vol. 8, p. 14230, 2017.
+	
+	\bibitem{miriyev2017soft}
+	A.~Miriyev, K.~Stack, and H.~Lipson, ``Soft material for soft actuators,'' \emph{Nature Communications}, vol. 8, p. 596, 2017.
+	
+	\bibitem{acome2018hydraulically}
+	E.~Acome, S.~K. Mitchell, T.~Morrissey, M.~Emmett, C.~Benjamin, M.~King, M.~Radakovitz, and C.~Keplinger, ``Hydraulically amplified self-healing electrostatic actuators with muscle-like performance,'' \emph{Science}, vol. 359, no. 6371, pp. 61--65, 2018.
+	
+	\bibitem{hawkes2017soft}
+	E.~W. Hawkes, L.~H. Blumenschein, J.~D. Greer, and A.~M. Okamura, ``A soft robot that navigates its environment through growth,'' \emph{Science Robotics}, vol. 2, no. 8, p. eaan3028, 2017.
+	
+	\bibitem{kotikian2019untethered}
+	A.~Kotikian, C.~McMahan, E.~C. Davidson, J.~M. Muhammad, R.~D. Weeks, C.~Daraio, and J.~A. Lewis, ``Untethered soft robotic matter with passive control of shape morphing and propulsion,'' \emph{Science Robotics}, vol. 4, no. 33, p. eaax7044, 2019.
+	
+	\bibitem{lum2016shape}
+	G.~Z. Lum, Z.~Ye, X.~Dong, H.~Marvi, O.~Erin, W.~Hu, and M.~Sitti, ``Shape-programmable magnetic soft matter,'' \emph{Proceedings of the National Academy of Sciences}, vol. 113, no. 41, pp. E6007--E6015, 2016.
+	
+	\bibitem{sitti2020pros}
+	M.~Sitti and D.~S. Wiersma, ``Pros and cons: Magnetic versus optical microrobots,'' \emph{Advanced Materials}, vol. 32, no. 19, p. 1906766, 2020.
+	
+	\bibitem{abbott2020magnetic}
+	J.~J. Abbott, E.~Diller, and A.~J. Petruska, ``Magnetic methods in robotics,'' \emph{Annual Review of Control, Robotics, and Autonomous Systems}, vol. 3, pp. 57--90, 2020.
+	
+	\bibitem{1615} Y. Jung, K. Kwon, J. Lee, and S. H. Ko, ``Untethered soft actuators for soft standalone robotics,'' \emph{Nature Communications}, vol. 15, no. 3489, 2024.
+	\bibitem{1820} Y. Dong, L. Wang, N. Xia, Z. Yang, C. Zhang, C. Pan, D. Jin, J. Zhang, C. Majidi, and L. Zhang, ``Untethered small-scale magnetic soft robot with programmable magnetization and integrated multifunctional modules,'' \emph{Science Advances}, vol. 8, p. eabn8932, 2022.
+	\bibitem{1058} N. Xia, D. Jin, and L. Zhang, ``Magnetic Soft Matter toward Programmable and Multifunctional Miniature Machines,'' \emph{Accounts of Materials Research}, vol. 5, no. 2, pp. 173–183, 2024.
+	\bibitem{1969} J. Zhang, Z. Ren, W. Hu, R. H. Soon, I. C. Yasa, Z. Liu, and M. Sitti, ``Voxelated three-dimensional miniature magnetic soft machines via multimaterial heterogeneous assembly,'' \emph{Science Robotics}, vol. 6, p. eabf0112, 2021.
+	\bibitem{895} Y. Kim and X. Zhao, ``Magnetic Soft Materials and Robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, pp. 5317–5364, 2022.
+	\bibitem{1061} N. Xia, D. Jin, and L. Zhang, ``Magnetic Soft Matter toward Programmable and Multifunctional Miniature Machines,'' \emph{Accounts of Materials Research}, vol. 5, no. 2, pp. 173–183, 2024.
+	\bibitem{1364} Y. Liu, G. Lin, M. Medina-Sánchez, M. Guix, D. Makarov, and D. Jin, ``Responsive Magnetic Nanocomposites for Intelligent Shape-Morphing Microrobots,'' \emph{ACS Nano}, vol. 17, pp. 8899–8917, 2023.
+	\bibitem{597} B. J. Nelson, S. Gervasoni, P. W. Y. Chiu, L. Zhang, and A. Zemmar, ``Magnetically Actuated Medical Robots: An in vivo Perspective,'' \emph{Proceedings of the IEEE}, vol. 110, no. 7, 2022.
+	\bibitem{896} Y. Kim and X. Zhao, ``Magnetic Soft Materials and Robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, pp. 5317–5364, 2022.
+	\bibitem{1270} W. Hu, G. Z. Lum, M. Mastrangeli, and M. Sitti, ``Small-scale soft-bodied robot with multimodal locomotion,'' \emph{Nature}, vol. 554, pp. 81–85, 2018.
+	\bibitem{1319} Z. Xu, Y. Chen, and Q. Xu, ``Spreadable Magnetic Soft Robots with On-Demand Hardening,'' \emph{Research}, vol. 6, p. 0262, 2023.
+	\bibitem{1267} W. Hu, G. Z. Lum, M. Mastrangeli, and M. Sitti, ``Small-scale soft-bodied robot with multimodal locomotion,'' \emph{Nature}, vol. 554, pp. 81–85, 2018.
+	\bibitem{1554} Z. Chen, Y. Wang, H. Chen, J. Law, H. Pu, S. Xie, F. Duan, Y. Sun, N. Liu, and J. Yu, ``A magnetic multi-layer soft robot for on-demand targeted adhesion,'' \emph{Nature Communications}, vol. 15, p. 44995, 2024.
+	\bibitem{1721} Q. Gao, M. Kim, D. von Arx, E. Zhang, X. Zhang, H. Ye, C. Vogt, C. Ehmke, D. Corsino, F. Catania, N. Münzenrieder, M. Magno, G. Cantarella, B. J. Nelson, and S. Pané, ``Soft magnetic microrobots with remote sensing and communication capabilities,'' \emph{Nature Communications}, vol. 16, p. 65459, 2025.
+	\bibitem{881} Y. Kim and X. Zhao, ``Magnetic Soft Materials and Robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, pp. 5317–5364, 2022.
+	\bibitem{860} Y. Kim and X. Zhao, ``Magnetic Soft Materials and Robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, pp. 5317–5364, 2022.
+	\bibitem{865} Y. Kim and X. Zhao, ``Magnetic Soft Materials and Robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, pp. 5317–5364, 2022.
+	\bibitem{918} Y. Kim and X. Zhao, ``Magnetic Soft Materials and Robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, pp. 5317–5364, 2022.
+	\bibitem{867} Y. Kim and X. Zhao, ``Magnetic Soft Materials and Robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, pp. 5317–5364, 2022.
+	\bibitem{1422} L. Han, K. Peng, W. Chen, and Z. Liu, ``A Data-driven Koopman Modeling Framework With Application to Soft Robots,'' \emph{International Journal of Control, Automation and Systems}, vol. 21, no. 5, pp. 1–13, 2023.
+	\bibitem{1868} Y. Dong, L. Wang, N. Xia, Z. Yang, C. Zhang, C. Pan, D. Jin, J. Zhang, C. Majidi, and L. Zhang, ``Untethered small-scale magnetic soft robot with programmable magnetization and integrated multifunctional modules,'' \emph{Science Advances}, vol. 8, p. eabn8932, 2022.
+	\bibitem{1975} J. Zhang, Z. Ren, W. Hu, R. H. Soon, I. C. Yasa, Z. Liu, and M. Sitti, ``Voxelated three-dimensional miniature magnetic soft machines via multimaterial heterogeneous assembly,'' \emph{Science Robotics}, vol. 6, p. eabf0112, 2021.
+	\bibitem{1770} Y. Alapan, A. C. Karacakol, S. N. Guzelhan, I. Isik, and M. Sitti, ``Reprogrammable shape morphing of magnetic soft machines,'' \emph{Science Advances}, vol. 6, no. 38, p. eabc6414, 2020.
+	\bibitem{1294} Z. Xu, Y. Chen, and Q. Xu, ``Spreadable Magnetic Soft Robots with On-Demand Hardening,'' \emph{Research}, vol. 6, p. 0262, 2023.
+	\bibitem{1321} Z. Xu, Y. Chen, and Q. Xu, ``Spreadable Magnetic Soft Robots with On-Demand Hardening,'' \emph{Research}, vol. 6, p. 0262, 2023.
+	\bibitem{277} R. Zhao, H. Dai, H. Yao, Y. Shi, and G. Zhou, ``Shape programmable magnetic pixel soft robot,'' \emph{Heliyon}, vol. 8, p. e11415, 2022.
+	\bibitem{1612} Y. Jung, K. Kwon, J. Lee, and S. H. Ko, ``Untethered soft actuators for soft standalone robotics,'' \emph{Nature Communications}, vol. 15, no. 3489, 2024.
+	\bibitem{1269} W. Hu, G. Z. Lum, M. Mastrangeli, and M. Sitti, ``Small-scale soft-bodied robot with multimodal locomotion,'' \emph{Nature}, vol. 554, pp. 81–85, 2018.
+	\bibitem{1821} Y. Dong, L. Wang, N. Xia, Z. Yang, C. Zhang, C. Pan, D. Jin, J. Zhang, C. Majidi, and L. Zhang, ``Untethered small-scale magnetic soft robot with programmable magnetization and integrated multifunctional modules,'' \emph{Science Advances}, vol. 8, p. eabn8932, 2022.
+	\bibitem{1276} W. Hu, G. Z. Lum, M. Mastrangeli, and M. Sitti, ``Small-scale soft-bodied robot with multimodal locomotion,'' \emph{Nature}, vol. 554, pp. 81–85, 2018.
+	\bibitem{1822} Y. Dong, L. Wang, N. Xia, Z. Yang, C. Zhang, C. Pan, D. Jin, J. Zhang, C. Majidi, and L. Zhang, ``Untethered small-scale magnetic soft robot with programmable magnetization and integrated multifunctional modules,'' \emph{Science Advances}, vol. 8, p. eabn8932, 2022.
+	\bibitem{938} Y. Kim and X. Zhao, ``Magnetic Soft Materials and Robots,'' \emph{Chemical Reviews}, vol. 122, no. 5, pp. 5317–5364, 2022.
+	\bibitem{1980} J. Zhang, Z. Ren, W. Hu, R. H. Soon, I. C. Yasa, Z. Liu, and M. Sitti, ``Voxelated three-dimensional miniature magnetic soft machines via multimaterial heterogeneous assembly,'' \emph{Science Robotics}, vol. 6, p. eabf0112, 2021.
+	\bibitem{1768} Y. Alapan, A. C. Karacakol, S. N. Guzelhan, I. Isik, and M. Sitti, ``Reprogrammable shape morphing of magnetic soft machines,'' \emph{Science Advances}, vol. 6, no. 38, p. eabc6414, 2020.
+	\bibitem{1774} Y. Alapan, A. C. Karacakol, S. N. Guzelhan, I. Isik, and M. Sitti, ``Reprogrammable shape morphing of magnetic soft machines,'' \emph{Science Advances}, vol. 6, no. 38, p. eabc6414, 2020.
+	\bibitem{1514} R. H. Soon, Z. Yin, M. A. Dogan, N. O. Dogan, M. E. Tiryaki, A. C. Karacakol, A. Aydin, P. Esmaeili-Dokht, and M. Sitti, ``Pangolin-inspired untethered magnetic robot for on-demand biomedical heating applications,'' \emph{Nature Communications}, vol. 14, p. 3320, 2023.
+	\bibitem{1130} H. Zhou, C. C. Mayorga-Martinez, S. Pané, L. Zhang, and M. Pumera, ``Magnetically Driven Micro and Nanorobots,'' \emph{Chemical Reviews}, vol. 121, no. 8, pp. 4999–5041, 2021.
+	\bibitem{1722} Q. Gao, M. Kim, D. von Arx, E. Zhang, X. Zhang, H. Ye, C. Vogt, C. Ehmke, D. Corsino, F. Catania, N. Münzenrieder, M. Magno, G. Cantarella, B. J. Nelson, and S. Pané, ``Soft magnetic microrobots with remote sensing and communication capabilities,'' \emph{Nature Communications}, vol. 16, p. 65459, 2025.
+	\bibitem{1271} W. Hu, G. Z. Lum, M. Mastrangeli, and M. Sitti, ``Small-scale soft-bodied robot with multimodal locomotion,'' \emph{Nature}, vol. 554, pp. 81–85, 2018.
+	\bibitem{1273} W. Hu, G. Z. Lum, M. Mastrangeli, and M. Sitti, ``Small-scale soft-bodied robot with multimodal locomotion,'' \emph{Nature}, vol. 554, pp. 81–85, 2018.
+	\bibitem{1456} S. Won, S. Kim, J. E. Park, J. Jeon, and J. J. Wie, ``On-demand orbital maneuver of multiple soft robots via hierarchical magnetomotility,'' \emph{Nature Communications}, vol. 10, p. 4751, 2019.
+	\bibitem{1571} Z. Chen, Y. Wang, H. Chen, J. Law, H. Pu, S. Xie, F. Duan, Y. Sun, N. Liu, and J. Yu, ``A magnetic multi-layer soft robot for on-demand targeted adhesion,'' \emph{Nature Communications}, vol. 15, p. 44995, 2024.
+	\bibitem{1572} Z. Chen, Y. Wang, H. Chen, J. Law, H. Pu, S. Xie, F. Duan, Y. Sun, N. Liu, and J. Yu, ``A magnetic multi-layer soft robot for on-demand targeted adhesion,'' \emph{Nature Communications}, vol. 15, p. 44995, 2024.
+	\bibitem{1784} Y. Alapan, A. C. Karacakol, S. N. Guzelhan, I. Isik, and M. Sitti, ``Reprogrammable shape morphing of magnetic soft machines,'' \emph{Science Advances}, vol. 6, no. 38, p. eabc6414, 2020.
+	\bibitem{1613} Y. Jung, K. Kwon, J. Lee, and S. H. Ko, ``Untethered soft actuators for soft standalone robotics,'' \emph{Nature Communications}, vol. 15, no. 3489, 2024.
+	
+\end{thebibliography}

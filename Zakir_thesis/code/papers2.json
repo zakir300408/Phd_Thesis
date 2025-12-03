@@ -1,0 +1,51 @@
+[
+  {
+    "title": "Magnetically Controlled Soft Robotics Utilizing Elastomers and Gels in Actuation: A Review",
+    "authors": "H.-J. Chung et al.",
+    "journal": "Advanced Intelligent Systems",
+    "year": 2021,
+    "doi": "10.1002/aisy.202000186",
+    "tags": [
+      "magnetic soft robotics",
+      "actuation",
+      "review"
+    ]
+  },
+  {
+    "title": "Learning-Based Control for Soft Robot–Environment Interaction With Force/Position Tracking Capability",
+    "authors": "Z. Tang et al.",
+    "journal": "Soft Robotics",
+    "year": 2024,
+    "doi": "10.1089/soro.2023.0116",
+    "tags": [
+      "learning-based control",
+      "force control",
+      "soft robotics"
+    ]
+  },
+  {
+    "title": "On-Demand Orbital Maneuver of Multiple Soft Robots via Modulating Dipole–Dipole Interaction",
+    "authors": "G. Chen et al.",
+    "journal": "Nature Communications",
+    "year": 2019,
+    "doi": "10.1038/s41467-019-12679-4",
+    "tags": [
+      "magnetic soft robots",
+      "multi-robot",
+      "control"
+    ]
+  },
+  {
+    "title": "Soft Magnetic Microrobots With Remote Sensing and Communication Capabilities",
+    "authors": "Q. Gao et al.",
+    "journal": "Nature Communications",
+    "year": 2025,
+    "doi": "10.1038/s41467-025-65459-8",
+    "tags": [
+      "microrobotics",
+      "magnetic",
+      "remote sensing",
+      "communication"
+    ]
+  }
+]

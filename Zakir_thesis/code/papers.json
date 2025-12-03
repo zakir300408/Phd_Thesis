@@ -1,0 +1,244 @@
+{
+  "papers": [
+    {
+      "id": 1,
+      "title": "An Overview of Soft Robotics",
+      "authors": "O. Yasa et al.",
+      "journal": "Annual Review of Control, Robotics, and Autonomous Systems",
+      "year": 2023,
+      "doi": "10.1146/annurev-control-062322-100607"
+    },
+    {
+      "id": 2,
+      "title": "Stimuli-Responsive Polymers for Soft Robotics",
+      "authors": "R. Zhao et al.",
+      "journal": "Annual Review of Control, Robotics, and Autonomous Systems",
+      "year": 2022,
+      "doi": "10.1146/annurev-control-042920-014327"
+    },
+    {
+      "id": 3,
+      "title": "Soft Robotics in Medical Applications",
+      "authors": "Z. T. H. Tse et al.",
+      "journal": "Journal of Medical Robotics Research",
+      "year": 2018,
+      "doi": "10.1142/S2424905X18410064"
+    },
+    {
+      "id": 4,
+      "title": "Data-Driven Methods Applied to Soft Robot Modeling and Control: A Review",
+      "authors": "Z. Chen et al.",
+      "journal": "IEEE Transactions on Automation Science and Engineering",
+      "year": 2024,
+      "doi": "10.1109/TASE.2024.3377291"
+    },
+    {
+      "id": 5,
+      "title": "Electronic Skins and Machine Learning for Intelligent Soft Robots",
+      "authors": "B. Shih et al.",
+      "journal": "Science Robotics",
+      "year": 2020,
+      "doi": "10.1126/scirobotics.aaz9239"
+    },
+    {
+      "id": 6,
+      "title": "Data-Driven Control of Soft Robots Using Koopman Operator Theory",
+      "authors": "D. Bruder et al.",
+      "journal": "IEEE Transactions on Robotics",
+      "year": 2021,
+      "doi": "10.1109/TRO.2020.3038693"
+    },
+    {
+      "id": 7,
+      "title": "A Data-Driven Koopman Modeling Framework With Application to Soft Robots",
+      "authors": "L. Han et al.",
+      "journal": "International Journal of Control, Automation and Systems",
+      "year": 2025,
+      "doi": "10.1007/s12555-023-0517-1"
+    },
+    {
+      "id": 8,
+      "title": "Untethered Soft Actuators for Soft Standalone Robotics",
+      "authors": "Y. Zhao et al.",
+      "journal": "Nature Communications",
+      "year": 2024,
+      "doi": "10.1038/s41467-024-47639-0"
+    },
+    {
+      "id": 9,
+      "title": "Magnetic Soft Materials and Robots",
+      "authors": "Y. Kim et al.",
+      "journal": "Chemical Reviews",
+      "year": 2022,
+      "doi": "10.1021/acs.chemrev.1c00481"
+    },
+    {
+      "id": 10,
+      "title": "Magnetically Driven Micro and Nanorobots",
+      "authors": "H. Zhou et al.",
+      "journal": "Chemical Reviews",
+      "year": 2021,
+      "doi": "10.1021/acs.chemrev.0c01234"
+    },
+    {
+      "id": 11,
+      "title": "Engineering Magnetic Soft and Reconfigurable Robots",
+      "authors": "L. Ning et al.",
+      "journal": "Soft Robotics",
+      "year": 2024,
+      "doi": "10.1089/soro.2022.0206"
+    },
+    {
+      "id": 12,
+      "title": "Magnetically Actuated Fiber-Based Soft Robots",
+      "authors": "Y. Lee et al.",
+      "journal": "Advanced Materials",
+      "year": 2023,
+      "doi": "10.1002/adma.202301916"
+    },
+    {
+      "id": 13,
+      "title": "Voxelated Three-Dimensional Miniature Magnetic Soft Machines via Multimaterial Heterogeneous Assembly",
+      "authors": "J. Zhang et al.",
+      "journal": "Science Robotics",
+      "year": 2021,
+      "doi": "10.1126/scirobotics.abf0112"
+    },
+    {
+      "id": 14,
+      "title": "Untethered Small-Scale Magnetic Soft Robot With Programmable Magnetization and Integrated Multifunctional Modules",
+      "authors": "Y. Dong et al.",
+      "journal": "Science Advances",
+      "year": 2022,
+      "doi": "10.1126/sciadv.abn8932"
+    },
+    {
+      "id": 15,
+      "title": "Evolutionary Design of Magnetic Soft Continuum Robots",
+      "authors": "L. Wang et al.",
+      "journal": "Proceedings of the National Academy of Sciences",
+      "year": 2021,
+      "doi": "10.1073/pnas.2021922118"
+    },
+    {
+      "id": 16,
+      "title": "Magnetic Cilia Carpets With Programmable Metachronal Waves",
+      "authors": "H. Gu et al.",
+      "journal": "Nature Communications",
+      "year": 2020,
+      "doi": "10.1038/s41467-020-16458-4"
+    },
+    {
+      "id": 17,
+      "title": "Spreadable Magnetic Soft Robots With On-Demand Hardening",
+      "authors": "Z. Xu et al.",
+      "journal": "Research",
+      "year": 2023,
+      "doi": "10.34133/research.0262"
+    },
+    {
+      "id": 18,
+      "title": "Magnetic Soft Matter Toward Programmable and Multifunctional Miniature Machines",
+      "authors": "N. Xia et al.",
+      "journal": "Accounts of Materials Research",
+      "year": 2024,
+      "doi": "10.1021/accountsmr.3c00227"
+    },
+    {
+      "id": 19,
+      "title": "Design, Manufacturing and Applications of Small-Scale Magnetic Soft Robots",
+      "authors": "M. Eshaghi et al.",
+      "journal": "Extreme Mechanics Letters",
+      "year": 2021,
+      "doi": "10.1016/j.eml.2021.101268"
+    },
+    {
+      "id": 20,
+      "title": "Pangolin-Inspired Untethered Magnetic Robot for On-Demand Biomedical Heating Applications",
+      "authors": "R. H. Soon et al.",
+      "journal": "Nature Communications",
+      "year": 2023,
+      "doi": "10.1038/s41467-023-38689-x"
+    },
+    {
+      "id": 21,
+      "title": "A Magnetic Multi-Layer Soft Robot for On-Demand Targeted Adhesion",
+      "authors": "Z. Chen et al.",
+      "journal": "Nature Communications",
+      "year": 2024,
+      "doi": "10.1038/s41467-024-44995-9"
+    },
+    {
+      "id": 22,
+      "title": "Reprogrammable Shape Morphing of Magnetic Soft Machines",
+      "authors": "Y. Alapan et al.",
+      "journal": "Science Advances",
+      "year": 2020,
+      "doi": "10.1126/sciadv.abc6414"
+    },
+    {
+      "id": 23,
+      "title": "Autonomous Control of Soft Robots Using Safe Reinforcement Learning and Covariance Matrix Adaptation",
+      "authors": "Y. Yao et al.",
+      "journal": "Engineering Applications of Artificial Intelligence",
+      "year": 2025,
+      "doi": "10.1016/j.engappai.2025.110791"
+    },
+    {
+      "id": 24,
+      "title": "Magnetically Propelled Soft Microrobot Navigating Through Constricted Microchannels",
+      "authors": "J. Liu et al.",
+      "journal": "Applied Materials Today",
+      "year": 2021,
+      "doi": "10.1016/j.apmt.2021.101237"
+    },
+    {
+      "id": 25,
+      "title": "Magnetically Driven Microrobots: Recent Progress and Future Development",
+      "authors": "H. Shen et al.",
+      "journal": "Materials and Design",
+      "year": 2023,
+      "doi": "10.1016/j.matdes.2023.111735"
+    },
+    {
+      "id": 26,
+      "title": "Small-Scale Soft-Bodied Robot With Multimodal Locomotion",
+      "authors": "W. Hu et al.",
+      "journal": "Nature",
+      "year": 2018,
+      "doi": "10.1038/nature25443"
+    },
+    {
+      "id": 27,
+      "title": "Shape Programmable Magnetic Pixel Soft Robot",
+      "authors": "R. Zhao et al.",
+      "journal": "Heliyon",
+      "year": 2022,
+      "doi": "10.1016/j.heliyon.2022.e11415"
+    },
+    {
+      "id": 28,
+      "title": "Responsive Magnetic Nanocomposites for Intelligent Shape-Morphing Microrobots",
+      "authors": "Y. Liu et al.",
+      "journal": "ACS Nano",
+      "year": 2023,
+      "doi": "10.1021/acsnano.3c01609"
+    },
+    {
+      "id": 29,
+      "title": "Magnetically Actuated Medical Robots: An In Vivo Perspective",
+      "authors": "B. J. Nelson et al.",
+      "journal": "Proceedings of the IEEE",
+      "year": 2022,
+      "doi": "10.1109/JPROC.2022.3165713"
+    },
+    {
+      "id": 30,
+      "title": "Magnetic Soft Robots: Design, Actuation, and Function",
+      "authors": "H. Wang et al.",
+      "journal": "Journal of Alloys and Compounds",
+      "year": 2022,
+      "doi": "10.1016/j.jallcom.2022.166219"
+    }
+  ]
+}

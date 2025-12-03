@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.30)  30 NOV 2025 20:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.30)  4 DEC 2025 00:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -454,7 +454,98 @@ File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 end-pdftex.def
 File: l3backend-pdftex.def 2025-06-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count329
-) (main.aux)
+) (main.aux
+
+LaTeX Warning: Label `Kim2022' multiply defined.
+
+
+LaTeX Warning: Label `Zhou2021' multiply defined.
+
+
+LaTeX Warning: Label `Wang2021' multiply defined.
+
+
+LaTeX Warning: Label `Han2023' multiply defined.
+
+
+LaTeX Warning: Label `Hu2018' multiply defined.
+
+
+LaTeX Warning: Label `Xu2023' multiply defined.
+
+
+LaTeX Warning: Label `Won2019' multiply defined.
+
+
+LaTeX Warning: Label `Chen2024' multiply defined.
+
+
+LaTeX Warning: Label `Nelson2022' multiply defined.
+
+
+LaTeX Warning: Label `Xia2024' multiply defined.
+
+
+LaTeX Warning: Label `kim2022magnetic' multiply defined.
+
+
+LaTeX Warning: Label `zhao2022stimuli' multiply defined.
+
+
+LaTeX Warning: Label `gao2025soft' multiply defined.
+
+
+LaTeX Warning: Label `chen2024datadriven' multiply defined.
+
+
+LaTeX Warning: Label `wang2021evolutionary' multiply defined.
+
+
+LaTeX Warning: Label `hu2018small' multiply defined.
+
+
+LaTeX Warning: Label `han2023datadriven' multiply defined.
+
+
+LaTeX Warning: Label `shih2020electronic' multiply defined.
+
+
+LaTeX Warning: Label `jung2024untethered' multiply defined.
+
+
+LaTeX Warning: Label `chen2024magnetic' multiply defined.
+
+
+LaTeX Warning: Label `xia2024magnetic' multiply defined.
+
+
+LaTeX Warning: Label `shen2023magnetically' multiply defined.
+
+
+LaTeX Warning: Label `zhang2021voxelated' multiply defined.
+
+
+LaTeX Warning: Label `alapan2020reprogrammable' multiply defined.
+
+
+LaTeX Warning: Label `dong2022untethered' multiply defined.
+
+
+LaTeX Warning: Label `won2019demand' multiply defined.
+
+
+LaTeX Warning: Label `garg2025autonomous' multiply defined.
+
+
+LaTeX Warning: Label `yasa2023overview' multiply defined.
+
+
+LaTeX Warning: Label `nelson2022magnetically' multiply defined.
+
+
+LaTeX Warning: Label `lum2016shape' multiply defined.
+
+)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
@@ -619,104 +710,401 @@ l.1 \chapter
 ]
 Chapter 1.
 
-LaTeX Warning: Citation `ref1' on page 2 undefined on input line 9.
-
-
-LaTeX Warning: Citation `ref2' on page 2 undefined on input line 11.
-
-
-LaTeX Warning: Citation `ref3' on page 2 undefined on input line 11.
-
-
-LaTeX Warning: Citation `ref4' on page 2 undefined on input line 11.
-
-
 
 [2
 
 ]
 
-LaTeX Warning: Citation `ref5' on page 3 undefined on input line 13.
-
-
-LaTeX Warning: Citation `ref6' on page 3 undefined on input line 13.
-
-
-LaTeX Warning: Citation `ref10' on page 3 undefined on input line 13.
-
-
-LaTeX Warning: Citation `ref7' on page 3 undefined on input line 15.
-
-
-LaTeX Warning: Citation `ref8' on page 3 undefined on input line 15.
-
-
-LaTeX Warning: Citation `ref9' on page 3 undefined on input line 15.
-
-
-LaTeX Warning: Citation `ref11' on page 3 undefined on input line 15.
-
-
-LaTeX Warning: Citation `ref12' on page 3 undefined on input line 17.
-
-
-LaTeX Warning: Citation `ref14' on page 3 undefined on input line 17.
-
-
-LaTeX Warning: Citation `ref15' on page 3 undefined on input line 19.
-
-
-LaTeX Warning: Citation `ref16' on page 3 undefined on input line 19.
-
-
-LaTeX Warning: Citation `ref17' on page 3 undefined on input line 19.
-
-
-LaTeX Warning: Citation `ref18' on page 3 undefined on input line 19.
-
-
-Overfull \hbox (23.98178pt too wide) in paragraph at lines 19--20
-\T1/lmr/m/n/12 surfaces[[]] and sub-ter-ranean soft robots[[]] fur-ther il-lus-
-trate how adapt-abil-ity and environment-
+[3]
+Overfull \hbox (12.09447pt too wide) in paragraph at lines 30--31
+ []\T1/lmr/bx/n/12 Elastomers[] \T1/lmr/m/n/12 Silicone-based elas-tomers, such
+ as poly-dimethyl-silox-ane (PDMS) and Ecoflex,
  []
 
 
-LaTeX Warning: Citation `ref19' on page 3 undefined on input line 21.
 
-
-LaTeX Warning: Citation `ref20' on page 3 undefined on input line 21.
-
-
-LaTeX Warning: Citation `ref21' on page 3 undefined on input line 21.
-
-
-LaTeX Warning: Citation `ref27' on page 3 undefined on input line 23.
-
-
-LaTeX Warning: Citation `ref28' on page 3 undefined on input line 23.
-
-
-LaTeX Warning: Citation `ref29' on page 3 undefined on input line 23.
-
-
-
-[3]
-
-LaTeX Warning: Citation `ref30' on page 4 undefined on input line 25.
-
-
-
-[4]
+[4{C:/Users/Zakir-office/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm
+.enc}]
 
 [5]
-Overfull \hbox (0.61055pt too wide) in paragraph at lines 125--136
+
+[6{C:/Users/Zakir-office/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ma
+thit.enc}{C:/Users/Zakir-office/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/l
+m/lm-mathsy.enc}{C:/Users/Zakir-office/AppData/Local/Programs/MiKTeX/fonts/enc/
+dvips/lm/lm-mathex.enc}]
+
+[7]
+
+[8]
+Overfull \hbox (5.69499pt too wide) in paragraph at lines 112--113
+ []\T1/lmr/bx/n/12 Endoscopy[] \T1/lmr/m/n/12 Mag-netic soft robots are also re
+v-o-lu-tion-iz-ing gas-troin-testi-nal (GI) en-doscopy.
+ []
+
+
+
+[9]
+
+[10]
+
+[11]
+
+[12]
+
+[13]
+
+[14]
+
+[15
+
+]
+
+[16]
+
+[17]
+
+[18]
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Kim2022}
+) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.263 	\bibitem{Kim2022}
+                         Y. Kim and X. Zhao, ``Magnetic Soft Materials and R...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Zhou2021
+}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.264 	\bibitem{Zhou2021}
+                          H. Zhou, C. C. Mayorga-Martinez, S. Pané, L. Zhan...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Wang2021
+}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.265 	\bibitem{Wang2021}
+                          L. Wang, D. Zheng, P. Harker, A. B. Patel, C. F. G...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Han2023}
+) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.266 	\bibitem{Han2023}
+                         L. Han, K. Peng, W. Chen, and Z. Liu, ``A Data-driv...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Hu2018})
+ has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.267 	\bibitem{Hu2018}
+                        W. Hu, G. Z. Lum, M. Mastrangeli, and M. Sitti, ``Sm...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Xu2023})
+ has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.268 	\bibitem{Xu2023}
+                        Z. Xu, Y. Chen, and Q. Xu, ``Spreadable Magnetic Sof...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Won2019}
+) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.269 	\bibitem{Won2019}
+                         S. Won, S. Kim, J. E. Park, J. Jeon, and J. J. Wie,...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Chen2024
+}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.270 	\bibitem{Chen2024}
+                          Z. Chen, Y. Wang, H. Chen, J. Law, H. Pu, S. Xie, ...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Nelson20
+22}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.271 	\bibitem{Nelson2022}
+                            B. J. Nelson, S. Gervasoni, P. W. Y. Chiu, L. Zh...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Xia2024}
+) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.272 	\bibitem{Xia2024}
+                         N. Xia, D. Jin, and L. Zhang, ``Magnetic Soft Matte...
+
+LaTeX Warning: Citation `Yasa2023' on page 19 undefined on input line 276.
+
+
+
+[19
+
+]
+
+LaTeX Warning: Citation `Jung2024' on page 20 undefined on input line 277.
+
+
+LaTeX Warning: Citation `Jung2024' on page 20 undefined on input line 277.
+
+
+
+[20]
+
+[21]
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Kim2022}
+) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.283 	\bibitem{Kim2022}
+                         Y. Kim and X. Zhao, ``Magnetic Soft Materials and R...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Nelson20
+22}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.285 	\bibitem{Nelson2022}
+                            B. J. Nelson, S. Gervasoni, P. W. Y. Chiu, L. Zh...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Zhou2021
+}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.286 	\bibitem{Zhou2021}
+                          H. Zhou, C. C. Mayorga-Martinez, S. Pané, L. Zhan...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Chen2024
+}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.288 	\bibitem{Chen2024}
+                          Z. Chen, F. Renda, A. L. Gall, L. Mocellin, M. Ber...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Wang2021
+}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.289 	\bibitem{Wang2021}
+                          L. Wang, D. Zheng, P. Harker, A. B. Patel, C. F. G...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Han2023}
+) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.290 	\bibitem{Han2023}
+                         L. Han, K. Peng, W. Chen, and Z. Liu, ``A Data-driv...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Bruder20
+20}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.291 	\bibitem{Bruder2020}
+                            D. Bruder, X. Fu, R. B. Gillespie, C. D. Remy, a...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Garg2025
+}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.292 	\bibitem{Garg2025}
+                          S. Garg, M. Goharimanesh, S. Sajjadi, and F. Janab...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Shih2020
+}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.293 	\bibitem{Shih2020}
+                          B. Shih, D. Shah, J. Li, T. G. Thuruthel, Y. Park,...
+
+
+[22
+
+]
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Gao2025}
+) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.294 	\bibitem{Gao2025}
+                         Q. Gao, M. Kim, D. von Arx, E. Zhang, X. Zhang, H. ...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Won2019}
+) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.295 	\bibitem{Won2019}
+                         S. Won, S. Kim, J. E. Park, J. Jeon, and J. J. Wie,...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Soon2023
+}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.296 	\bibitem{Soon2023}
+                          R. H. Soon, Z. Yin, M. A. Dogan, N. O. Dogan, M. E...
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.Xu2023})
+ has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.297 	\bibitem{Xu2023}
+                        Z. Xu, Y. Chen, and Q. Xu, ``Spreadable Magnetic Sof...
+
+Overfull \hbox (0.61055pt too wide) in paragraph at lines 323--334
 \T1/lmr/m/n/12 robots, and state-of-the-art con-trol strate-gies. Chap-ter 3 in
 -tro-duces the pro-posed learning-
  []
 
-)
 
-[6] (main.aux)
+
+[23]
+
+[24]
+
+[25
+
+]
+
+[26]
+
+[27]
+
+[28]
+pdfTeX warning (ext4): destination with the same identifier (name{cite.kim2022m
+agnetic}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.510 	\bibitem{kim2022magnetic}
+                                
+pdfTeX warning (ext4): destination with the same identifier (name{cite.zhao2022
+stimuli}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.531 	\bibitem{zhao2022stimuli}
+                                
+pdfTeX warning (ext4): destination with the same identifier (name{cite.gao2025s
+oft}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.534 	\bibitem{gao2025soft}
+                            
+
+[29]
+pdfTeX warning (ext4): destination with the same identifier (name{cite.chen2024
+datadriven}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.543 	\bibitem{chen2024datadriven}
+                                   
+pdfTeX warning (ext4): destination with the same identifier (name{cite.wang2021
+evolutionary}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.549 	\bibitem{wang2021evolutionary}
+                                     
+pdfTeX warning (ext4): destination with the same identifier (name{cite.hu2018sm
+all}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.552 	\bibitem{hu2018small}
+                            
+pdfTeX warning (ext4): destination with the same identifier (name{cite.han2023d
+atadriven}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.555 	\bibitem{han2023datadriven}
+                                  
+pdfTeX warning (ext4): destination with the same identifier (name{cite.shih2020
+electronic}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.558 	\bibitem{shih2020electronic}
+                                   
+pdfTeX warning (ext4): destination with the same identifier (name{cite.jung2024
+untethered}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.570 	\bibitem{jung2024untethered}
+                                   
+
+[30]
+pdfTeX warning (ext4): destination with the same identifier (name{cite.chen2024
+magnetic}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.591 	\bibitem{chen2024magnetic}
+                                 
+pdfTeX warning (ext4): destination with the same identifier (name{cite.xia2024m
+agnetic}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.600 	\bibitem{xia2024magnetic}
+                                
+pdfTeX warning (ext4): destination with the same identifier (name{cite.shen2023
+magnetically}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.603 	\bibitem{shen2023magnetically}
+                                     
+
+[31]
+pdfTeX warning (ext4): destination with the same identifier (name{cite.zhang202
+1voxelated}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.606 	\bibitem{zhang2021voxelated}
+                                   
+pdfTeX warning (ext4): destination with the same identifier (name{cite.alapan20
+20reprogrammable}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.609 	\bibitem{alapan2020reprogrammable}
+                                         
+pdfTeX warning (ext4): destination with the same identifier (name{cite.dong2022
+untethered}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.615 	\bibitem{dong2022untethered}
+                                   
+pdfTeX warning (ext4): destination with the same identifier (name{cite.won2019d
+emand}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.618 	\bibitem{won2019demand}
+                              
+pdfTeX warning (ext4): destination with the same identifier (name{cite.garg2025
+autonomous}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.621 	\bibitem{garg2025autonomous}
+                                   
+pdfTeX warning (ext4): destination with the same identifier (name{cite.yasa2023
+overview}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.624 	\bibitem{yasa2023overview}
+                                 
+pdfTeX warning (ext4): destination with the same identifier (name{cite.nelson20
+22magnetically}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.627 	\bibitem{nelson2022magnetically}
+                                       
+
+[32]
+pdfTeX warning (ext4): destination with the same identifier (name{cite.lum2016s
+hape}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.660 	\bibitem{lum2016shape}
+                             
+
+[33]
+
+[34]
+
+[35]
+
+[36])
+
+[37] (main.aux)
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-07-19>
@@ -725,24 +1113,45 @@ L3 programming layer <2025-07-19>
 
 LaTeX Warning: There were undefined references.
 
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 4E7B7BD1B5C782D92B6C6C008A20376A;3265.
+
+LaTeX Warning: There were multiply-defined labels.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: 3C5D20643B689FA950EA81349B5F0069;3397
+(rerunfilecheck)             After:  7B13C2F24DD42DA83837E3BE277319C6;3095.
  ) 
 Here is how much of TeX's memory you used:
- 14645 strings out of 468149
- 287723 string characters out of 5427693
- 659259 words of memory out of 5000000
- 43044 multiletter control sequences out of 15000+600000
- 679231 words of font info for 82 fonts, out of 8000000 for 9000
+ 15060 strings out of 468149
+ 292772 string characters out of 5427693
+ 667462 words of memory out of 5000000
+ 43217 multiletter control sequences out of 15000+600000
+ 694295 words of font info for 92 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,6n,80p,960b,1046s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/Zakir-office/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lm
-bx12.pfb><C:/Users/Zakir-office/AppData/Local/Programs/MiKTeX/fonts/type1/publi
-c/lm/lmr12.pfb><C:/Users/Zakir-office/AppData/Local/Programs/MiKTeX/fonts/type1
-/public/lm/lmr17.pfb>
-Output written on main.pdf (7 pages, 118563 bytes).
+ 75i,6n,80p,1415b,1147s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{subsection.1.2.4} has been referenced but does not 
+exist, replaced by a fixed one
+
+<C:/Users/Zakir-office/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx
+12.pfb><C:/Users/Zakir-office/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+lm/lmex10.pfb><C:/Users/Zakir-office/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/lm/lmmi12.pfb><C:/Users/Zakir-office/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/lm/lmmi8.pfb><C:/Users/Zakir-office/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/lm/lmmib10.pfb><C:/Users/Zakir-office/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Zakir-office/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/Zakir-office/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Zakir-office/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Zakir-offi
+ce/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Zak
+ir-office/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb>
+Output written on main.pdf (38 pages, 347427 bytes).
 PDF statistics:
- 137 PDF objects out of 1000 (max. 8388607)
- 26 named destinations out of 1000 (max. 500000)
+ 789 PDF objects out of 1000 (max. 8388607)
+ 256 named destinations out of 1000 (max. 500000)
  121 words of extra memory for PDF output out of 10000 (max. 10000000)
 
